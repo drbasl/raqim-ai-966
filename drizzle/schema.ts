@@ -1,4 +1,4 @@
-import { integer, pgEnum, pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
+import { integer, pgEnum, pgTable, text, timestamp, varchar, index } from "drizzle-orm/pg-core";
 
 /**
  * Core user table backing auth flow.
@@ -24,7 +24,9 @@ export const users = pgTable("users", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().notNull(),
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
-});
+}, (table) => ({
+  emailIdx: index("users_email_idx").on(table.email),
+}));
 
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
@@ -34,7 +36,7 @@ export type InsertUser = typeof users.$inferInsert;
  */
 export const savedPrompts = pgTable("savedPrompts", {
   id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
-  userId: integer("userId").notNull(),
+  userId: integer("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
   title: varchar("title", { length: 255 }).notNull(),
   basePrompt: text("basePrompt").notNull(),
   enhancedPrompt: text("enhancedPrompt").notNull(),
@@ -47,7 +49,10 @@ export const savedPrompts = pgTable("savedPrompts", {
   viewCount: integer("viewCount").default(0).notNull(), // Number of views on public link
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("savedPrompts_userId_idx").on(table.userId),
+  shareTokenIdx: index("savedPrompts_shareToken_idx").on(table.shareToken),
+}));
 
 export type SavedPrompt = typeof savedPrompts.$inferSelect;
 export type InsertSavedPrompt = typeof savedPrompts.$inferInsert;
@@ -65,10 +70,13 @@ export const popularPrompts = pgTable("popularPrompts", {
   rating: integer("rating").default(0).notNull(), // Average rating * 10 (e.g., 45 = 4.5 stars)
   usageCount: integer("usageCount").default(0).notNull(),
   likesCount: integer("likesCount").default(0).notNull(),
-  createdBy: integer("createdBy").notNull(),
+  createdBy: integer("createdBy").notNull().references(() => users.id, { onDelete: "cascade" }),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  categoryIdx: index("popularPrompts_category_idx").on(table.category),
+  createdByIdx: index("popularPrompts_createdBy_idx").on(table.createdBy),
+}));
 
 export type PopularPrompt = typeof popularPrompts.$inferSelect;
 export type InsertPopularPrompt = typeof popularPrompts.$inferInsert;
@@ -78,11 +86,14 @@ export type InsertPopularPrompt = typeof popularPrompts.$inferInsert;
  */
 export const promptRatings = pgTable("promptRatings", {
   id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
-  promptId: integer("promptId").notNull(),
-  userId: integer("userId").notNull(),
+  promptId: integer("promptId").notNull().references(() => popularPrompts.id, { onDelete: "cascade" }),
+  userId: integer("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
   rating: integer("rating").notNull(), // 1-5 stars
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  promptIdIdx: index("promptRatings_promptId_idx").on(table.promptId),
+  userIdIdx: index("promptRatings_userId_idx").on(table.userId),
+}));
 
 export type PromptRating = typeof promptRatings.$inferSelect;
 export type InsertPromptRating = typeof promptRatings.$inferInsert;
@@ -92,13 +103,16 @@ export type InsertPromptRating = typeof promptRatings.$inferInsert;
  */
 export const activityLog = pgTable("activityLog", {
   id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
-  userId: integer("userId").notNull(),
+  userId: integer("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
   action: varchar("action", { length: 50 }).notNull(), // generate, save, delete, update, favorite
   entityType: varchar("entityType", { length: 50 }).notNull(), // prompt, template, etc.
   entityId: integer("entityId"), // ID of the related entity
   details: text("details"), // JSON with additional info
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("activityLog_userId_idx").on(table.userId),
+  createdAtIdx: index("activityLog_createdAt_idx").on(table.createdAt),
+}));
 
 export type ActivityLog = typeof activityLog.$inferSelect;
 export type InsertActivityLog = typeof activityLog.$inferInsert;
@@ -107,7 +121,7 @@ export type InsertActivityLog = typeof activityLog.$inferInsert;
  */
 export const worksheets = pgTable("worksheets", {
   id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
-  userId: integer("userId").notNull(),
+  userId: integer("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
   title: varchar("title", { length: 255 }).notNull(),
   generationMethod: varchar("generationMethod", { length: 50 }).notNull(), // text, file, title
   questionType: varchar("questionType", { length: 50 }).notNull(), // multiple_choice, short_answer, essay, true_false, fill_blank, mixed
@@ -121,7 +135,9 @@ export const worksheets = pgTable("worksheets", {
   sourceText: text("sourceText"), // Original text if method is 'text'
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("worksheets_userId_idx").on(table.userId),
+}));
 
 export type Worksheet = typeof worksheets.$inferSelect;
 export type InsertWorksheet = typeof worksheets.$inferInsert;
@@ -132,12 +148,15 @@ export type InsertWorksheet = typeof worksheets.$inferInsert;
 export const templateRatings = pgTable("templateRatings", {
   id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
   templateId: varchar("templateId", { length: 100 }).notNull(), // template.id from TemplateLibrary
-  userId: integer("userId").notNull(),
+  userId: integer("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
   rating: integer("rating").notNull(), // 1-5 stars
   comment: text("comment"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  templateIdIdx: index("templateRatings_templateId_idx").on(table.templateId),
+  userIdIdx: index("templateRatings_userId_idx").on(table.userId),
+}));
 
 export type TemplateRating = typeof templateRatings.$inferSelect;
 export type InsertTemplateRating = typeof templateRatings.$inferInsert;
@@ -152,7 +171,9 @@ export const templateUsage = pgTable("templateUsage", {
   lastUsedAt: timestamp("lastUsedAt").defaultNow().notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  templateIdIdx: index("templateUsage_templateId_idx").on(table.templateId),
+}));
 
 export type TemplateUsage = typeof templateUsage.$inferSelect;
 export type InsertTemplateUsage = typeof templateUsage.$inferInsert;
