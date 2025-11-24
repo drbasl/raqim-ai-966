@@ -11,12 +11,16 @@ Raqim AI 966 is a comprehensive web application that helps users generate, analy
 
 ## Recent Changes (November 24, 2025)
 - Migrated from MySQL to PostgreSQL for Replit compatibility
-- Converted all database schemas from MySQL to PostgreSQL
+- Converted all database schemas from MySQL to PostgreSQL with proper foreign keys and indexes
 - Updated Drizzle ORM configuration for PostgreSQL
 - Configured server to run on port 5000 with host 0.0.0.0
 - Set up Vite with proper host configuration for Replit proxy
 - Integrated DeepSeek LLM API for AI prompt generation
 - Removed missing wouter patch dependency
+- Fixed production build and deployment configuration
+- Added build verification script to ensure all files are generated correctly
+- Updated static file serving to correctly locate built files in production
+- Configured NODE_ENV separately for development and production environments
 
 ## Environment Variables
 ### Required
@@ -58,12 +62,19 @@ pnpm start      # Start production server
 
 ## Deployment
 - Configured for Replit autoscale deployment
-- Build command: `pnpm build`
+- Build command: `pnpm build` (includes automatic verification)
 - Run command: `node dist/index.js`
-- Frontend served on port 5000
+- Build output: `dist/public/` (frontend) and `dist/index.js` (bundled server)
+- Production server serves static files from `dist/public/`
+- Health checks verify `index.html` exists after build
+- PORT and NODE_ENV must be set in production environment
 
 ## Architecture Notes
 - Server runs on 0.0.0.0:5000 for Replit compatibility
 - Vite dev server configured with `allowedHosts: true`
 - Database connection uses lazy initialization for tooling compatibility
+- Production build uses esbuild to bundle server into single `dist/index.js` file
+- Static files served from `dist/public/` in production mode
+- Build verification script automatically checks for required files
+- Database schema includes foreign keys and indexes for data integrity and performance
 - Some Manus-specific features disabled (Data API, Voice Transcription, Storage, Image Generation)

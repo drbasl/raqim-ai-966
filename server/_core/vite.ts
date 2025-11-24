@@ -48,13 +48,15 @@ export async function setupVite(app: Express, server: Server) {
 }
 
 export function serveStatic(app: Express) {
-  // In production, the server runs from dist/index.js, so we need to go up one level to find dist/public
+  // In production, the server runs from dist/index.js (esbuild bundles everything into a single file)
+  // So import.meta.dirname will be the 'dist' directory itself
   const distPath =
     process.env.NODE_ENV === "development"
       ? path.resolve(import.meta.dirname, "../..", "dist", "public")
-      : path.resolve(import.meta.dirname, "..", "public");
+      : path.resolve(import.meta.dirname, "public");
   
   console.log(`Serving static files from: ${distPath}`);
+  console.log(`Current directory (__dirname): ${import.meta.dirname}`);
   
   if (!fs.existsSync(distPath)) {
     console.error(
