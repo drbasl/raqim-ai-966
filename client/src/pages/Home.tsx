@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Sparkles, Send, Moon, Sun, Menu, Wand2, LayoutGrid, Target, ArrowLeft, Library, FileText, BookOpen, Users, TrendingUp, ClipboardList } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { Sparkles, Send, Moon, Sun, Menu, Wand2, LayoutGrid, Target, ArrowLeft, Library, FileText, BookOpen, Users, TrendingUp, ClipboardList, ImageIcon } from "lucide-react";
 import PromptGenerator from "@/components/PromptGenerator";
 import TemplateLibrary, { Template } from "@/components/TemplateLibrary";
 import SpecializedTemplates from "@/components/SpecializedTemplates";
@@ -330,6 +331,57 @@ export default function Home() {
               <h3 className="font-semibold text-xs md:text-sm mb-1 line-clamp-1">البرومبتات الشعبية</h3>
               <p className="text-[10px] md:text-xs text-muted-foreground">الأكثر استخداماً</p>
             </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Image Prompt Generator Section */}
+      <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-muted/20 to-background">
+        <div className="container px-4 sm:px-6">
+          <div className="max-w-3xl mx-auto">
+            {/* Header */}
+            <div className="text-center mb-6 sm:mb-8">
+              <div className="flex items-center justify-center gap-2 mb-3 sm:mb-4">
+                <ImageIcon className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">
+                  توليد أوامر الصور المجاني
+                </h2>
+              </div>
+              <p className="text-muted-foreground text-sm sm:text-base">
+                حول أفكارك إلى أوامر صور احترافية للذكاء الاصطناعي
+              </p>
+            </div>
+
+            {/* Image Generator Card */}
+            <div className="bg-card border border-border/50 rounded-xl p-4 sm:p-6 md:p-8">
+              {/* Description */}
+              <p className="text-muted-foreground text-xs sm:text-sm mb-4 leading-relaxed">
+                هل تريغب في تحويل أفكارك إلى وصف دقيق ومفصل لصورة مذهلة؟ بقوة AI، نحتك القوة الكاملة لاستخلال إمكانيات توليد الصور.
+              </p>
+
+              {/* Input Area */}
+              <div className="space-y-3">
+                <Textarea
+                  placeholder="صف الصورة التي تريد إنشاؤها..."
+                  className="resize-none text-xs sm:text-sm min-h-32 sm:min-h-40"
+                  maxLength={500}
+                />
+                <div className="text-right text-xs text-muted-foreground">
+                  <span id="char-count">0</span>/500
+                </div>
+              </div>
+
+              {/* Generate Button */}
+              <Button className="w-full mt-4 gap-2 h-9 sm:h-10 text-xs sm:text-sm">
+                <ImageIcon className="w-4 h-4" />
+                توليد أمر الصورة
+              </Button>
+
+              {/* Info */}
+              <p className="text-[10px] sm:text-xs text-muted-foreground mt-3 text-center">
+                ✨ تحسين الصورة بتقنيات الذكاء الاصطناعي
+              </p>
+            </div>
           </div>
         </div>
       </section>
