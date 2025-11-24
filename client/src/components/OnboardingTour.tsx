@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { X, ArrowLeft, Sparkles, Pencil, Palette, Zap, Check } from 'lucide-react';
+import { X, ArrowLeft, Sparkles, Wand2, BookOpen, ImageIcon, ClipboardList, Check } from 'lucide-react';
 
 interface TourStep {
   id: number;
@@ -25,33 +25,41 @@ interface TooltipPosition {
 const TOUR_STEPS: TourStep[] = [
   {
     id: 1,
-    title: "اكتب وصف الصورة",
-    description: "صف الصورة اللي تبيها بالتفصيل",
-    icon: <Pencil className="w-6 h-6 text-white" />,
-    target: "prompt-input",
+    title: "مولد الأفكار الذكي 🧠",
+    description: "أنشئ صيغ احترافية لأفكارك مع ذكاء اصطناعي متقدم - حول أفكارك لأفكار احترافية",
+    icon: <Wand2 className="w-6 h-6 text-white" />,
+    target: "generator",
     position: "bottom"
   },
   {
     id: 2,
-    title: "اختر النمط والجودة",
-    description: "اختر النمط المناسب ومستوى الجودة",
-    icon: <Palette className="w-6 h-6 text-white" />,
-    target: "style-selector",
+    title: "برومبتات الصور الإبداعية 🎨",
+    description: "صمم صور احترافية باستخدام وصفات ذكية - توليد براومبتات عالية الجودة للصور الاحترافية",
+    icon: <ImageIcon className="w-6 h-6 text-white" />,
+    target: "image-generator",
     position: "bottom"
   },
   {
     id: 3,
-    title: "اضغط توليد",
-    description: "والحين اضغط على زر 'ولّد الآن'",
-    icon: <Zap className="w-6 h-6 text-white" />,
-    target: "generate-button",
-    position: "top"
+    title: "أوراق العمل الممنهجة 📚",
+    description: "إنشاء أوراق عمل تعليمية احترافية - استخدمها مع طلابك أو فريقك مباشرة",
+    icon: <BookOpen className="w-6 h-6 text-white" />,
+    target: null,
+    position: "center"
   },
   {
     id: 4,
-    title: "جاهز! 🎉",
-    description: "سهلة صح؟ ابدأ الآن وجرّب",
-    icon: <Check className="w-6 h-6 text-white" />,
+    title: "مكتبة الأفكار الخاصة بك 💾",
+    description: "احفظ أفضل أفكارك وأشاركها مع الآخرين - بناء مكتبتك الشخصية من الأفكار المميزة",
+    icon: <ClipboardList className="w-6 h-6 text-white" />,
+    target: null,
+    position: "center"
+  },
+  {
+    id: 5,
+    title: "جاهز للاستكشاف! ✨",
+    description: "استمتع بكل المميزات - ولّد، صمم، علّم، وشارك أفكارك الرائعة",
+    icon: <Sparkles className="w-6 h-6 text-white" />,
     target: null,
     position: "center"
   }
@@ -147,6 +155,10 @@ export default function OnboardingTour({ onComplete }: { onComplete?: () => void
     } else {
       completeTour();
     }
+  };
+
+  const handleSkip = () => {
+    skipTour();
   };
 
   const skipTour = () => {
@@ -267,23 +279,31 @@ export default function OnboardingTour({ onComplete }: { onComplete?: () => void
               ))}
             </div>
 
-            {/* Button */}
-            <button
-              onClick={handleNext}
-              className="w-full px-4 py-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-xl font-bold transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
-            >
-              {currentStep === TOUR_STEPS.length - 1 ? (
-                <>
-                  <Sparkles className="w-5 h-5" />
-                  فهمت، ابدأ
-                </>
-              ) : (
-                <>
-                  فهمت، التالي
-                  <ArrowLeft className="w-5 h-5" />
-                </>
-              )}
-            </button>
+            {/* Buttons */}
+            <div className="flex gap-2">
+              <button
+                onClick={handleSkip}
+                className="px-4 py-3 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-white rounded-xl font-semibold transition-all flex-1"
+              >
+                تخطي
+              </button>
+              <button
+                onClick={handleNext}
+                className="flex-1 px-4 py-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-xl font-bold transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+              >
+                {currentStep === TOUR_STEPS.length - 1 ? (
+                  <>
+                    ابدأ الآن
+                    <Sparkles className="w-5 h-5" />
+                  </>
+                ) : (
+                  <>
+                    التالي
+                    <ArrowLeft className="w-5 h-5" />
+                  </>
+                )}
+              </button>
+            </div>
 
             {/* Counter */}
             <p className="text-center mt-3 text-xs text-gray-400 dark:text-gray-500">
