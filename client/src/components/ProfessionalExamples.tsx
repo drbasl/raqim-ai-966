@@ -371,7 +371,7 @@ export default function ProfessionalExamples() {
             أمثلة سريعة
           </h2>
           <p className="text-gray-600 text-base">
-            برومبتات احترافية جاهزة من خبراء متخصصين
+            قوالب احترافية مُعدّة بعناية - اختصر طريقك للنتائج المثالية
           </p>
         </div>
 
