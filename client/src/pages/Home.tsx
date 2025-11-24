@@ -81,6 +81,9 @@ export default function Home() {
               <a href="#generator" className="text-sm hover:text-primary transition-colors">
                 {t('nav.generator')}
               </a>
+              <a href="#image-generator" className="text-sm hover:text-primary transition-colors">
+                توليد أوامر الصور المجاني
+              </a>
               <a href="/worksheets" className="text-sm hover:text-primary transition-colors">
                 {t('nav.worksheets')}
               </a>
@@ -114,6 +117,9 @@ export default function Home() {
                   <nav className="flex flex-col gap-4 mt-8">
                     <a href="#generator" className="text-base hover:text-primary transition-colors py-2">
                       {t('nav.generator')}
+                    </a>
+                    <a href="#image-generator" className="text-base hover:text-primary transition-colors py-2">
+                      توليد أوامر الصور المجاني
                     </a>
                     <a href="/worksheets" className="text-base hover:text-primary transition-colors py-2">
                       {t('nav.worksheets')}
@@ -336,7 +342,7 @@ export default function Home() {
       </section>
 
       {/* Image Prompt Generator Section */}
-      <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-muted/20 to-background">
+      <section id="image-generator" className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-muted/20 to-background">
         <div className="container px-4 sm:px-6">
           <div className="max-w-3xl mx-auto">
             {/* Header */}
