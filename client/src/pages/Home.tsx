@@ -83,9 +83,6 @@ export default function Home() {
               <a href="#how-it-works" className="text-sm hover:text-primary transition-colors">
                 كيف يعمل؟
               </a>
-              <a href="/analyzer" className="text-sm hover:text-primary transition-colors">
-                {t('nav.analyzer')}
-              </a>
               <a href="/worksheets" className="text-sm hover:text-primary transition-colors">
                 {t('nav.worksheets')}
               </a>
@@ -122,9 +119,6 @@ export default function Home() {
                     </a>
                     <a href="#how-it-works" className="text-base hover:text-primary transition-colors py-2">
                       كيف يعمل؟
-                    </a>
-                    <a href="/analyzer" className="text-base hover:text-primary transition-colors py-2">
-                      {t('nav.analyzer')}
                     </a>
                     <a href="/worksheets" className="text-base hover:text-primary transition-colors py-2">
                       {t('nav.worksheets')}

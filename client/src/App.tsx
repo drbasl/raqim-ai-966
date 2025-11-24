@@ -11,7 +11,6 @@ import { TourGuide } from "./components/TourGuide";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import Library from "./pages/Library";
-import Analyzer from "./pages/Analyzer";
 import MyLibrary from "./pages/MyLibrary";
 import Profile from "./pages/Profile";
 import History from "./pages/History";
@@ -30,7 +29,6 @@ function Router() {
       <Route path="/professional-prompts" component={ProfessionalPrompts} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/library" component={Library} />
-      <Route path="/analyzer" component={Analyzer} />
       <Route path={"/my-library"} component={MyLibrary} />
       <Route path="/profile" component={Profile} />
       <Route path="/history" component={History} />

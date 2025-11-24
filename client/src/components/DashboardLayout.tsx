@@ -32,7 +32,6 @@ const menuItems = [
   { icon: Library, label: "البرومبتات الاحترافية", path: "/professional-prompts" },
   { icon: FileText, label: "مولد أوراق العمل", path: "/worksheets" },
   { icon: ClipboardList, label: "قوالب أوراق العمل", path: "/worksheet-templates" },
-  { icon: TrendingUp, label: "محلل البرومبتات", path: "/analyzer" },
   { icon: BookOpen, label: "مكتبة القوالب", path: "/templates" },
   { icon: Users, label: "البرومبتات الشعبية", path: "/popular" },
 ];

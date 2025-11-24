@@ -1,4 +1,4 @@
-import { Home, BarChart3, BookOpen, Zap, Settings } from "lucide-react";
+import { Home, BookOpen, TrendingUp, Settings, Sparkles } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { Button } from "./ui/button";
 
@@ -7,9 +7,9 @@ export default function MobileBottomNav() {
 
   const navItems = [
     { icon: Home, label: "الرئيسية", href: "/" },
-    { icon: Zap, label: "المحلل", href: "/analyzer" },
+    { icon: Sparkles, label: "قوالب", href: "/templates" },
     { icon: BookOpen, label: "أوراق العمل", href: "/worksheets" },
-    { icon: BarChart3, label: "شعبي", href: "/popular" },
+    { icon: TrendingUp, label: "شعبي", href: "/popular" },
     { icon: Settings, label: "المزيد", href: "/my-library" },
   ];
 
