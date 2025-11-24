@@ -477,13 +477,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Professional Examples Section */}
-      <section id="professional-examples" className="py-16 bg-muted/30">
-        <div className="container">
-          <ProfessionalExamples />
-        </div>
-      </section>
-
       {/* Social Proof Section - Combined */}
       <section id="social-proof" className="py-16 bg-white dark:bg-slate-950">
         <div className="container">
@@ -498,6 +491,13 @@ export default function Home() {
 
           {/* Testimonials */}
           <Testimonials />
+        </div>
+      </section>
+
+      {/* Professional Examples Section */}
+      <section id="professional-examples" className="py-16 bg-muted/30">
+        <div className="container">
+          <ProfessionalExamples />
         </div>
       </section>
 
