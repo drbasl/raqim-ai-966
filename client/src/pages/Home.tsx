@@ -292,21 +292,6 @@ export default function Home() {
               <p className="text-[10px] md:text-xs text-muted-foreground">أوراق تعليمية</p>
             </a>
 
-            {/* من نحن */}
-            <button
-              onClick={() => {
-                const element = document.getElementById('about');
-                element?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="group p-3 md:p-4 rounded-xl border border-border/50 bg-card hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300 text-center"
-            >
-              <div className="w-10 h-10 md:w-12 md:h-12 mx-auto mb-2 md:mb-3 rounded-xl bg-gradient-to-br from-red-500/20 to-pink-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                <Heart className="w-5 h-5 md:w-6 md:h-6 text-red-500" />
-              </div>
-              <h3 className="font-semibold text-xs md:text-sm mb-1 line-clamp-1">من نحن</h3>
-              <p className="text-[10px] md:text-xs text-muted-foreground">تعرف علينا</p>
-            </button>
-
             {/* قوالب أوراق العمل */}
             <a
               href="/worksheet-templates"
@@ -516,6 +501,32 @@ export default function Home() {
             <div className="scale-75 md:scale-100 origin-top">
               <Testimonials />
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* About Us Button Section - at the end */}
+      <section className="py-12 bg-gradient-to-b from-background to-muted/30">
+        <div className="container px-3 md:px-4">
+          <div className="flex items-center justify-center">
+            <button
+              onClick={() => {
+                const element = document.getElementById('about');
+                element?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="group p-6 md:p-8 rounded-2xl border-2 border-dashed border-primary/30 hover:border-primary/60 bg-gradient-to-br from-primary/5 to-primary/10 hover:from-primary/10 hover:to-primary/15 transition-all duration-300 text-center max-w-md"
+            >
+              <div className="w-16 h-16 md:w-20 md:h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-red-500/20 to-pink-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <Heart className="w-8 h-8 md:w-10 md:h-10 text-red-500" />
+              </div>
+              <h3 className="font-bold text-lg md:text-xl mb-2 text-foreground">من نحن؟</h3>
+              <p className="text-sm md:text-base text-muted-foreground mb-4">
+                تعرف على رقيم AI 966 ورؤيتنا لتطوير صناعة البرومبتات في العالم العربي
+              </p>
+              <div className="text-xs md:text-sm text-primary font-semibold">
+                اضغط لتعرف أكثر ↓
+              </div>
+            </button>
           </div>
         </div>
       </section>
