@@ -8,7 +8,6 @@ import TemplateLibrary, { Template } from "@/components/TemplateLibrary";
 import SpecializedTemplates from "@/components/SpecializedTemplates";
 import FAQ from "@/components/FAQ";
 import Testimonials from "@/components/Testimonials";
-import LiveStats from "@/components/LiveStats";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useOnboardingTour } from "@/components/OnboardingTour";
 import { trpc } from "@/lib/trpc";
@@ -416,13 +415,8 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Live Stats */}
-          <LiveStats />
-
           {/* Testimonials */}
-          <div className="mt-12">
-            <Testimonials />
-          </div>
+          <Testimonials />
         </div>
       </section>
 
