@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
-import { Sparkles, Send, Moon, Sun, Menu, Wand2, LayoutGrid, Target, ArrowLeft, Library, FileText, BookOpen, Users, TrendingUp, ClipboardList, ImageIcon } from "lucide-react";
+import { Sparkles, Send, Moon, Sun, Menu, Wand2, LayoutGrid, Target, ArrowLeft, Library, FileText, BookOpen, Users, TrendingUp, ClipboardList, ImageIcon, Heart } from "lucide-react";
 import PromptGenerator from "@/components/PromptGenerator";
 import TemplateLibrary, { Template } from "@/components/TemplateLibrary";
 import SpecializedTemplates from "@/components/SpecializedTemplates";
@@ -291,6 +291,21 @@ export default function Home() {
               <h3 className="font-semibold text-xs md:text-sm mb-1 line-clamp-1">مولد أوراق العمل</h3>
               <p className="text-[10px] md:text-xs text-muted-foreground">أوراق تعليمية</p>
             </a>
+
+            {/* من نحن */}
+            <button
+              onClick={() => {
+                const element = document.getElementById('about');
+                element?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="group p-3 md:p-4 rounded-xl border border-border/50 bg-card hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300 text-center"
+            >
+              <div className="w-10 h-10 md:w-12 md:h-12 mx-auto mb-2 md:mb-3 rounded-xl bg-gradient-to-br from-red-500/20 to-pink-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <Heart className="w-5 h-5 md:w-6 md:h-6 text-red-500" />
+              </div>
+              <h3 className="font-semibold text-xs md:text-sm mb-1 line-clamp-1">من نحن</h3>
+              <p className="text-[10px] md:text-xs text-muted-foreground">تعرف علينا</p>
+            </button>
 
             {/* قوالب أوراق العمل */}
             <a
