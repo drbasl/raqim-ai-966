@@ -215,7 +215,7 @@ export default function ImagePromptGenerator() {
               <p className="font-semibold mb-1">💡 كيفية الاستخدام:</p>
               <ul className="list-disc list-inside space-y-1">
                 <li>انسخ البرومبت أعلاه</li>
-                <li>الصقه في Midjourney أو DALL-E أو Nano Banana Pro وضع ملصق موزه</li>
+                <li>الصقه في Midjourney أو DALL-E أو Nano Banana Pro</li>
                 <li>استمتع برسومات احترافية! 🎨</li>
               </ul>
             </div>
