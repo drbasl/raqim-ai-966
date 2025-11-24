@@ -313,10 +313,10 @@ export function RestartTourButton() {
   return (
     <button
       onClick={restartTour}
-      className="fixed bottom-6 left-6 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-full shadow-lg flex items-center gap-2 text-sm font-medium transition-all hover:scale-105 z-40"
+      className="fixed bottom-6 left-6 p-2 bg-primary/20 hover:bg-primary/40 text-primary hover:text-primary-foreground rounded-full backdrop-blur-sm transition-all duration-300 hover:scale-110 z-40 opacity-40 hover:opacity-100"
+      title="شرح سريع"
     >
       <Sparkles className="w-4 h-4" />
-      <span className="hidden sm:inline">شرح سريع</span>
     </button>
   );
 }
