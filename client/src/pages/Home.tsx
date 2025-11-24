@@ -10,6 +10,7 @@ import SpecializedTemplates from "@/components/SpecializedTemplates";
 import ImagePromptGenerator from "@/components/ImagePromptGenerator";
 import FAQ from "@/components/FAQ";
 import Testimonials from "@/components/Testimonials";
+import ProfessionalExamples from "@/components/ProfessionalExamples";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useOnboardingTour } from "@/components/OnboardingTour";
 import { trpc } from "@/lib/trpc";
@@ -476,8 +477,15 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Professional Examples Section */}
+      <section id="professional-examples" className="py-16 bg-muted/30">
+        <div className="container">
+          <ProfessionalExamples />
+        </div>
+      </section>
+
       {/* Social Proof Section - Combined */}
-      <section id="social-proof" className="py-16 bg-muted/30">
+      <section id="social-proof" className="py-16 bg-white dark:bg-slate-950">
         <div className="container">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
