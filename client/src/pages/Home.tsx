@@ -477,23 +477,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Social Proof Section - Combined */}
-      <section id="social-proof" className="py-16 bg-white dark:bg-slate-950">
-        <div className="container">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              موثوق من آلاف المستخدمين
-            </h2>
-            <p className="text-muted-foreground text-lg">
-              انضم إلى مجتمع رقيم AI واستفد من تجارب الآخرين
-            </p>
-          </div>
-
-          {/* Testimonials */}
-          <Testimonials />
-        </div>
-      </section>
-
       {/* FAQ Section */}
       <section id="faq" className="py-16">
         <div className="container max-w-4xl">
@@ -512,6 +495,25 @@ export default function Home() {
       <section id="professional-examples" className="py-16 bg-muted/30">
         <div className="container">
           <ProfessionalExamples />
+        </div>
+      </section>
+
+      {/* Testimonials - Compact */}
+      <section className="py-8 bg-gradient-to-b from-background to-muted/20">
+        <div className="container">
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-6">
+              <h3 className="text-lg md:text-xl font-bold mb-1">
+                ✨ موثوق من آلاف المستخدمين
+              </h3>
+              <p className="text-xs md:text-sm text-muted-foreground">
+                انضم إلى مجتمع رقيم AI واستفد من تجارب الآخرين
+              </p>
+            </div>
+            <div className="scale-75 md:scale-100 origin-top">
+              <Testimonials />
+            </div>
+          </div>
         </div>
       </section>
 
