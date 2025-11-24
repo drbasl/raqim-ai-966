@@ -1,24 +1,28 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { integer, pgEnum, pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
 
 /**
  * Core user table backing auth flow.
  * Extend this file with additional tables as your product grows.
  * Columns use camelCase to match both database fields and generated types.
  */
-export const users = mysqlTable("users", {
+
+// Define enum for user role
+export const roleEnum = pgEnum("role", ["user", "admin"]);
+
+export const users = pgTable("users", {
   /**
    * Surrogate primary key. Auto-incremented numeric value managed by the database.
    * Use this for relations between tables.
    */
-  id: int("id").autoincrement().primaryKey(),
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
   /** Manus OAuth identifier (openId) returned from the OAuth callback. Unique per user. */
   openId: varchar("openId", { length: 64 }).notNull().unique(),
   name: text("name"),
   email: varchar("email", { length: 320 }),
   loginMethod: varchar("loginMethod", { length: 64 }),
-  role: mysqlEnum("role", ["user", "admin"]).default("user").notNull(),
+  role: roleEnum("role").default("user").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
 });
 
@@ -28,21 +32,21 @@ export type InsertUser = typeof users.$inferInsert;
 /**
  * Saved prompts table - stores user's personal prompt library
  */
-export const savedPrompts = mysqlTable("savedPrompts", {
-  id: int("id").autoincrement().primaryKey(),
-  userId: int("userId").notNull(),
+export const savedPrompts = pgTable("savedPrompts", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  userId: integer("userId").notNull(),
   title: varchar("title", { length: 255 }).notNull(),
   basePrompt: text("basePrompt").notNull(),
   enhancedPrompt: text("enhancedPrompt").notNull(),
   usageType: varchar("usageType", { length: 50 }).notNull(),
   tags: text("tags"), // JSON array of tags
-  isFavorite: int("isFavorite").default(0).notNull(), // 0 = false, 1 = true
+  isFavorite: integer("isFavorite").default(0).notNull(), // 0 = false, 1 = true
   shareToken: varchar("shareToken", { length: 64 }).unique(), // Unique token for sharing
-  isPublic: int("isPublic").default(0).notNull(), // 0 = private, 1 = public
-  shareCount: int("shareCount").default(0).notNull(), // Number of times shared
-  viewCount: int("viewCount").default(0).notNull(), // Number of views on public link
+  isPublic: integer("isPublic").default(0).notNull(), // 0 = private, 1 = public
+  shareCount: integer("shareCount").default(0).notNull(), // Number of times shared
+  viewCount: integer("viewCount").default(0).notNull(), // Number of views on public link
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
 });
 
 export type SavedPrompt = typeof savedPrompts.$inferSelect;
@@ -51,19 +55,19 @@ export type InsertSavedPrompt = typeof savedPrompts.$inferInsert;
 /**
  * Popular prompts table - community shared prompts with ratings
  */
-export const popularPrompts = mysqlTable("popularPrompts", {
-  id: int("id").autoincrement().primaryKey(),
+export const popularPrompts = pgTable("popularPrompts", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
   title: varchar("title", { length: 255 }).notNull(),
   description: text("description"),
   prompt: text("prompt").notNull(),
   usageType: varchar("usageType", { length: 50 }).notNull(),
   category: varchar("category", { length: 50 }).notNull(),
-  rating: int("rating").default(0).notNull(), // Average rating * 10 (e.g., 45 = 4.5 stars)
-  usageCount: int("usageCount").default(0).notNull(),
-  likesCount: int("likesCount").default(0).notNull(),
-  createdBy: int("createdBy").notNull(),
+  rating: integer("rating").default(0).notNull(), // Average rating * 10 (e.g., 45 = 4.5 stars)
+  usageCount: integer("usageCount").default(0).notNull(),
+  likesCount: integer("likesCount").default(0).notNull(),
+  createdBy: integer("createdBy").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
 });
 
 export type PopularPrompt = typeof popularPrompts.$inferSelect;
@@ -72,11 +76,11 @@ export type InsertPopularPrompt = typeof popularPrompts.$inferInsert;
 /**
  * Prompt ratings table - stores user ratings for popular prompts
  */
-export const promptRatings = mysqlTable("promptRatings", {
-  id: int("id").autoincrement().primaryKey(),
-  promptId: int("promptId").notNull(),
-  userId: int("userId").notNull(),
-  rating: int("rating").notNull(), // 1-5 stars
+export const promptRatings = pgTable("promptRatings", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  promptId: integer("promptId").notNull(),
+  userId: integer("userId").notNull(),
+  rating: integer("rating").notNull(), // 1-5 stars
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
@@ -86,12 +90,12 @@ export type InsertPromptRating = typeof promptRatings.$inferInsert;
 /**
  * Activity log table - tracks all user activities
  */
-export const activityLog = mysqlTable("activityLog", {
-  id: int("id").autoincrement().primaryKey(),
-  userId: int("userId").notNull(),
+export const activityLog = pgTable("activityLog", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  userId: integer("userId").notNull(),
   action: varchar("action", { length: 50 }).notNull(), // generate, save, delete, update, favorite
   entityType: varchar("entityType", { length: 50 }).notNull(), // prompt, template, etc.
-  entityId: int("entityId"), // ID of the related entity
+  entityId: integer("entityId"), // ID of the related entity
   details: text("details"), // JSON with additional info
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
@@ -101,13 +105,13 @@ export type InsertActivityLog = typeof activityLog.$inferInsert;
 /**
  * Worksheets table - stores generated educational worksheets
  */
-export const worksheets = mysqlTable("worksheets", {
-  id: int("id").autoincrement().primaryKey(),
-  userId: int("userId").notNull(),
+export const worksheets = pgTable("worksheets", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  userId: integer("userId").notNull(),
   title: varchar("title", { length: 255 }).notNull(),
   generationMethod: varchar("generationMethod", { length: 50 }).notNull(), // text, file, title
   questionType: varchar("questionType", { length: 50 }).notNull(), // multiple_choice, short_answer, essay, true_false, fill_blank, mixed
-  questionCount: int("questionCount").notNull(),
+  questionCount: integer("questionCount").notNull(),
   language: varchar("language", { length: 50 }).notNull(),
   gradeLevel: varchar("gradeLevel", { length: 50 }).notNull(),
   lessonTitle: varchar("lessonTitle", { length: 255 }).notNull(),
@@ -116,7 +120,7 @@ export const worksheets = mysqlTable("worksheets", {
   content: text("content").notNull(), // Generated worksheet content
   sourceText: text("sourceText"), // Original text if method is 'text'
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
 });
 
 export type Worksheet = typeof worksheets.$inferSelect;
@@ -125,14 +129,14 @@ export type InsertWorksheet = typeof worksheets.$inferInsert;
 /**
  * Template ratings table - stores user ratings for templates
  */
-export const templateRatings = mysqlTable("templateRatings", {
-  id: int("id").autoincrement().primaryKey(),
+export const templateRatings = pgTable("templateRatings", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
   templateId: varchar("templateId", { length: 100 }).notNull(), // template.id from TemplateLibrary
-  userId: int("userId").notNull(),
-  rating: int("rating").notNull(), // 1-5 stars
+  userId: integer("userId").notNull(),
+  rating: integer("rating").notNull(), // 1-5 stars
   comment: text("comment"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
 });
 
 export type TemplateRating = typeof templateRatings.$inferSelect;
@@ -141,13 +145,13 @@ export type InsertTemplateRating = typeof templateRatings.$inferInsert;
 /**
  * Template usage table - tracks template usage count
  */
-export const templateUsage = mysqlTable("templateUsage", {
-  id: int("id").autoincrement().primaryKey(),
+export const templateUsage = pgTable("templateUsage", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
   templateId: varchar("templateId", { length: 100 }).notNull().unique(), // template.id from TemplateLibrary
-  usageCount: int("usageCount").default(0).notNull(),
+  usageCount: integer("usageCount").default(0).notNull(),
   lastUsedAt: timestamp("lastUsedAt").defaultNow().notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
 });
 
 export type TemplateUsage = typeof templateUsage.$inferSelect;
