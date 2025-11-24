@@ -48,14 +48,27 @@ export async function setupVite(app: Express, server: Server) {
 }
 
 export function serveStatic(app: Express) {
+  // In production, the server runs from dist/index.js, so we need to go up one level to find dist/public
   const distPath =
     process.env.NODE_ENV === "development"
       ? path.resolve(import.meta.dirname, "../..", "dist", "public")
-      : path.resolve(import.meta.dirname, "public");
+      : path.resolve(import.meta.dirname, "..", "public");
+  
+  console.log(`Serving static files from: ${distPath}`);
+  
   if (!fs.existsSync(distPath)) {
     console.error(
       `Could not find the build directory: ${distPath}, make sure to build the client first`
     );
+    const indexPath = path.resolve(distPath, "index.html");
+    console.error(`Expected index.html at: ${indexPath}`);
+  } else {
+    const indexPath = path.resolve(distPath, "index.html");
+    if (fs.existsSync(indexPath)) {
+      console.log(`✓ Found index.html at: ${indexPath}`);
+    } else {
+      console.error(`✗ index.html not found at: ${indexPath}`);
+    }
   }
 
   app.use(express.static(distPath));
