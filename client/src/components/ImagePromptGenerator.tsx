@@ -30,13 +30,7 @@ const qualities: QualityButton[] = [
   { id: "standard", label: "قياسية", icon: "💫" },
 ];
 
-const quickExamples = [
-  "قطة بيضاء تلعب بالكرة",
-  "منظر طبيعي جبلي",
-  "وجه امرأة جميلة",
-  "مدينة حديثة في الليل",
-  "زهور في حديقة",
-];
+const quickExamples: string[] = [];
 
 export default function ImagePromptGenerator() {
   const [description, setDescription] = useState("");
