@@ -11,8 +11,8 @@ import ImagePromptGenerator from "@/components/ImagePromptGenerator";
 import FAQ from "@/components/FAQ";
 import Testimonials from "@/components/Testimonials";
 import ProfessionalExamples from "@/components/ProfessionalExamples";
+import OnboardingTourModal, { RestartTourButton } from "@/components/OnboardingTourModal";
 import { useTheme } from "@/contexts/ThemeContext";
-import { useOnboardingTour } from "@/components/OnboardingTour";
 import { trpc } from "@/lib/trpc";
 import LanguageToggle from "@/components/LanguageToggle";
 import { useTranslation } from 'react-i18next';
@@ -24,9 +24,7 @@ export default function Home() {
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
   const [generatorKey, setGeneratorKey] = useState(0);
   const [activeTab, setActiveTab] = useState("generator");
-
-  // تفعيل الجولة التعريفية
-  useOnboardingTour();
+  const [tourCompleted, setTourCompleted] = useState(false);
 
   const scrollToGenerator = () => {
     const element = document.getElementById('generator');
@@ -70,6 +68,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground pb-20 md:pb-0">
+      {/* Onboarding Tour */}
+      <OnboardingTourModal onComplete={() => setTourCompleted(true)} />
+      <RestartTourButton />
       {/* Header */}
       <header className="border-b border-border/50 backdrop-blur-sm sticky top-0 z-50 bg-background/80">
         <div className="container">
