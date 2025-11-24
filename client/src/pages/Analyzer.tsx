@@ -57,36 +57,36 @@ export default function Analyzer() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-4 md:space-y-6 px-1 md:px-0">
+      <div className="space-y-3 sm:space-y-4 md:space-y-6 px-1 md:px-0 pb-20 md:pb-0">
         {/* Header */}
         <div>
-          <h1 className="text-xl md:text-2xl lg:text-3xl font-bold">محلل البرومبتات الذكي</h1>
-          <p className="text-muted-foreground mt-1 text-sm md:text-base">
+          <h1 className="text-base sm:text-xl md:text-2xl lg:text-3xl font-bold">محلل البرومبتات الذكي</h1>
+          <p className="text-muted-foreground mt-1 text-xs sm:text-sm md:text-base">
             احصل على تحليل شامل واقتراحات لتحسين برومبتاتك
           </p>
         </div>
 
         {/* Input Section */}
         <Card>
-          <CardHeader className="pb-3 md:pb-6">
-            <CardTitle className="flex items-center gap-2 text-base md:text-lg">
-              <Sparkles className="w-4 h-4 md:w-5 md:h-5" />
+          <CardHeader className="pb-2 sm:pb-3 md:pb-6 p-3 sm:p-4 md:p-6">
+            <CardTitle className="flex items-center gap-2 text-sm sm:text-base md:text-lg">
+              <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5" />
               أدخل البرومبت للتحليل
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-3 md:space-y-4">
+          <CardContent className="space-y-2 sm:space-y-3 md:space-y-4 p-3 sm:p-4 md:p-6">
             <Textarea
-              placeholder="اكتب أو الصق البرومبت الذي تريد تحليله هنا..."
+              placeholder="اكتب أو الصق البرومبت هنا..."
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
-              rows={5}
-              className="resize-none text-sm md:text-base"
+              rows={4}
+              className="resize-none text-xs sm:text-sm md:text-base"
             />
             <Button
               onClick={handleAnalyze}
               disabled={analyzeMutation.isPending || !prompt.trim()}
-              size="lg"
-              className="w-full text-sm md:text-base h-10 md:h-11"
+              size="sm"
+              className="w-full text-xs sm:text-sm md:text-base h-8 sm:h-9 md:h-10"
             >
               {analyzeMutation.isPending ? (
                 <>
@@ -105,14 +105,14 @@ export default function Analyzer() {
 
         {/* Analysis Results */}
         {analysis && (
-          <div className="space-y-4 md:space-y-6 animate-in fade-in duration-500">
+          <div className="space-y-3 sm:space-y-4 md:space-y-6 animate-in fade-in duration-500">
             {/* Score Card */}
             <Card>
-              <CardContent className="pt-4 md:pt-6">
-                <div className="text-center space-y-3 md:space-y-4">
-                  <div className="inline-flex items-center justify-center w-20 h-20 md:w-24 md:h-24 rounded-full bg-primary/10">
+              <CardContent className="pt-3 sm:pt-4 md:pt-6 p-3 sm:p-4 md:p-6">
+                <div className="text-center space-y-2 sm:space-y-3 md:space-y-4">
+                  <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full bg-primary/10">
                     <span
-                      className={`text-3xl md:text-4xl font-bold ${getScoreColor(
+                      className={`text-2xl sm:text-3xl md:text-4xl font-bold ${getScoreColor(
                         analysis.score
                       )}`}
                     >
@@ -120,7 +120,7 @@ export default function Analyzer() {
                     </span>
                   </div>
                   <div>
-                    <h3 className="text-xl md:text-2xl font-bold">
+                    <h3 className="text-base sm:text-xl md:text-2xl font-bold">
                       {getScoreLabel(analysis.score)}
                     </h3>
                     <p className="text-muted-foreground text-sm md:text-base">

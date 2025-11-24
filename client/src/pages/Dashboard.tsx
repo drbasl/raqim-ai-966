@@ -21,26 +21,26 @@ export default function Dashboard() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-8">
+      <div className="space-y-4 sm:space-y-6 md:space-y-8 pb-20 md:pb-0">
         {/* Header */}
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col gap-3 sm:gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <h1 className="text-3xl font-bold">لوحة التحكم</h1>
-            <p className="text-muted-foreground mt-1">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">لوحة التحكم</h1>
+            <p className="text-muted-foreground mt-1 text-xs sm:text-sm md:text-base">
               مرحباً بك في لوحة التحكم الخاصة بك
             </p>
           </div>
-          <Button asChild size="lg">
+          <Button asChild size="sm" className="text-xs sm:text-sm md:text-base h-9 sm:h-10 md:h-11">
             <Link href="/">
-              <Plus className="w-5 h-5 ml-2" />
-              إنشاء برومبت جديد
+              <Plus className="w-4 h-4 sm:w-5 sm:h-5 ml-1" />
+              جديد
             </Link>
           </Button>
         </div>
 
         {/* Stats Cards */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
-          <Card>
+        <div className="grid gap-2 sm:gap-3 md:gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+          <Card className="p-2 sm:p-3 md:p-4">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
                 إجمالي البرومبتات

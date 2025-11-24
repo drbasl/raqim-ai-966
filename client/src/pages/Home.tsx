@@ -14,6 +14,7 @@ import { useOnboardingTour } from "@/components/OnboardingTour";
 import { trpc } from "@/lib/trpc";
 import LanguageToggle from "@/components/LanguageToggle";
 import { useTranslation } from 'react-i18next';
+import MobileBottomNav from "@/components/MobileBottomNav";
 
 export default function Home() {
   const { t } = useTranslation();
@@ -66,7 +67,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground pb-20 md:pb-0">
       {/* Header */}
       <header className="border-b border-border/50 backdrop-blur-sm sticky top-0 z-50 bg-background/80">
         <div className="container">
@@ -435,6 +436,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-border/50 py-8 bg-muted/20">
         <div className="container">
+        <MobileBottomNav />
           <div className="text-center space-y-6">
             {/* Logo */}
             <div className="flex items-center justify-center gap-2">
