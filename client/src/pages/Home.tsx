@@ -80,9 +80,6 @@ export default function Home() {
               <a href="#generator" className="text-sm hover:text-primary transition-colors">
                 {t('nav.generator')}
               </a>
-              <a href="#how-it-works" className="text-sm hover:text-primary transition-colors">
-                كيف يعمل؟
-              </a>
               <a href="/worksheets" className="text-sm hover:text-primary transition-colors">
                 {t('nav.worksheets')}
               </a>
@@ -116,9 +113,6 @@ export default function Home() {
                   <nav className="flex flex-col gap-4 mt-8">
                     <a href="#generator" className="text-base hover:text-primary transition-colors py-2">
                       {t('nav.generator')}
-                    </a>
-                    <a href="#how-it-works" className="text-base hover:text-primary transition-colors py-2">
-                      كيف يعمل؟
                     </a>
                     <a href="/worksheets" className="text-base hover:text-primary transition-colors py-2">
                       {t('nav.worksheets')}
