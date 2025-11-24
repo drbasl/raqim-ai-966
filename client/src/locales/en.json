@@ -1,0 +1,143 @@
+{
+  "common": {
+    "appName": "Raqim AI 966",
+    "appDescription": "Smart Prompt Generator",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "copy": "Copy",
+    "share": "Share",
+    "export": "Export",
+    "download": "Download"
+  },
+  "nav": {
+    "home": "Home",
+    "generator": "Prompt Generator",
+    "templates": "Template Library",
+    "popular": "Popular Prompts",
+    "examples": "Live Examples",
+    "analyzer": "Prompt Analyzer",
+    "worksheets": "Worksheet Generator",
+    "dashboard": "Dashboard",
+    "library": "My Library"
+  },
+  "hero": {
+    "title": "Enhance Your Prompts with AI",
+    "subtitle": "Transform your simple ideas into professional and detailed prompts using advanced AI techniques",
+    "cta": "Start Free Now",
+    "learnMore": "Learn More"
+  },
+  "generator": {
+    "title": "Smart Prompt Generator",
+    "inputLabel": "Base Prompt",
+    "inputPlaceholder": "Write your request here... Example: Write me an article about artificial intelligence",
+    "usageType": "Usage Type",
+    "options": "Additional Options",
+    "humanTone": "Natural Human Tone",
+    "examples": "Add Examples",
+    "keyPoints": "Key Points",
+    "complexity": "Complexity Level",
+    "engaging": "Engaging Content",
+    "generate": "Generate Enhanced Prompt Now",
+    "generating": "Generating...",
+    "regenerate": "Regenerate",
+    "result": "Suggested Final Prompt",
+    "original": "Original Prompt",
+    "enhanced": "Enhanced Prompt",
+    "copySuccess": "Prompt copied!",
+    "saveSuccess": "Prompt saved to your library!",
+    "shareWebsite": "Share Website"
+  },
+  "templates": {
+    "title": "Ready-Made Template Library",
+    "subtitle": "Choose from a variety of ready-made templates to speed up your prompt creation process",
+    "useTemplate": "Use This Template",
+    "rating": "Rating",
+    "usedTimes": "Used {{count}} times",
+    "rateTemplate": "Rate Template",
+    "editRating": "Edit Rating",
+    "yourRating": "Your Rating",
+    "comment": "Your Comment (optional)",
+    "submitRating": "Submit Rating",
+    "updateRating": "Update Rating",
+    "ratingSuccess": "Rating added successfully! 🌟",
+    "categories": {
+      "all": "All",
+      "educational": "Educational",
+      "practical": "Practical",
+      "creative": "Creative",
+      "general": "General"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome",
+    "stats": {
+      "totalPrompts": "Total Prompts",
+      "favorites": "Favorites",
+      "categories": "Categories",
+      "thisMonth": "This Month",
+      "shares": "Shares"
+    },
+    "recentPrompts": "Recent Prompts",
+    "noPrompts": "No saved prompts yet",
+    "viewAll": "View All"
+  },
+  "library": {
+    "title": "My Library",
+    "filters": {
+      "all": "All",
+      "favorites": "Favorites Only",
+      "search": "Search..."
+    },
+    "empty": "No saved prompts",
+    "deleteConfirm": "Are you sure you want to delete this prompt?",
+    "deleteSuccess": "Prompt deleted successfully"
+  },
+  "share": {
+    "title": "Share Raqim AI 966",
+    "subtitle": "Share the platform with your friends and colleagues",
+    "linkLabel": "Website Link:",
+    "shareVia": "Share via:",
+    "whatsapp": "WhatsApp",
+    "twitter": "Twitter",
+    "telegram": "Telegram",
+    "copySuccess": "Website link copied! 🔗",
+    "shareText": "🔥 Discover Raqim AI 966 - Smart Prompt Generator!\n\nEnhance your prompts and get better results from AI\n\n"
+  },
+  "export": {
+    "title": "Export",
+    "pdf": "Export PDF",
+    "word": "Export Word",
+    "markdown": "Export Markdown",
+    "text": "Export Plain Text",
+    "pdfSuccess": "Prompt exported as PDF! 📄",
+    "wordSuccess": "Prompt exported as Word! 📝",
+    "markdownSuccess": "Prompt exported as Markdown! 📋",
+    "textSuccess": "Prompt exported as text! 📄",
+    "error": "Error during export"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "loginRequired": "Login required to use this feature"
+  },
+  "usageTypes": {
+    "social": "Tweets / Social Media",
+    "code": "Code & Programming",
+    "education": "Education & Study",
+    "crypto": "Crypto & Trading",
+    "article": "Article Writing / Long Content",
+    "exam": "Exam Questions / Review"
+  },
+  "complexity": {
+    "simple": "Simple",
+    "medium": "Medium",
+    "advanced": "Advanced"
+  }
+}

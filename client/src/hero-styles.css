@@ -1,0 +1,297 @@
+/* ═══════════════════════════════════════════════════════════
+ * Hero Section Styles - رقيم AI 966
+ * Based on hero-final-simple.html with Dark Mode support
+ * ═══════════════════════════════════════════════════════════ */
+
+.hero-new {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    
+    /* الخلفية مع تدرجات خفيفة - تتكيف مع Light/Dark Mode */
+    background: 
+        radial-gradient(circle at 20% 30%, var(--primary) / 0.05 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, var(--secondary) / 0.03 0%, transparent 50%),
+        var(--background);
+}
+
+/* النمط الهندسي الخفيف في الخلفية */
+.hero-new::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 35px,
+            var(--border) 35px,
+            var(--border) 70px
+        );
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+/* الأشكال الزخرفية */
+.decorative-shape {
+    position: absolute;
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    opacity: 0.05;
+    z-index: 0;
+}
+
+.shape-1 {
+    width: 400px;
+    height: 400px;
+    background: var(--primary);
+    top: 10%;
+    right: 10%;
+    animation: morph 15s ease-in-out infinite;
+}
+
+.shape-2 {
+    width: 300px;
+    height: 300px;
+    background: var(--accent);
+    bottom: 20%;
+    left: 15%;
+    animation: morph 18s ease-in-out infinite reverse;
+}
+
+@keyframes morph {
+    0%, 100% {
+        border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    }
+    50% {
+        border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+    }
+}
+
+.hero-content-new {
+    max-width: 900px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════
+ * Logo Badge
+ * ═══════════════════════════════════════════════════════════ */
+.logo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--card);
+    padding: 0.5rem 1.25rem;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+    border: 2px solid var(--border);
+}
+
+.logo-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--primary), var(--brand-indigo-light));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-foreground);
+    font-weight: 800;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 12px var(--primary) / 0.3;
+}
+
+.logo-text {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--foreground);
+}
+
+.version {
+    color: var(--accent);
+    font-size: 0.85rem;
+}
+
+/* ═══════════════════════════════════════════════════════════
+ * Typography
+ * ═══════════════════════════════════════════════════════════ */
+.hero-new h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    color: var(--foreground);
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+}
+
+.hero-new h1 .highlight {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.subtitle-new {
+    font-size: 1.8rem;
+    color: var(--primary);
+    font-weight: 600;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.description-new {
+    font-size: 1.2rem;
+    color: var(--muted-foreground);
+    max-width: 700px;
+    margin: 0 auto 3rem;
+    line-height: 1.8;
+}
+
+/* ═══════════════════════════════════════════════════════════
+ * Buttons
+ * ═══════════════════════════════════════════════════════════ */
+.cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-new {
+    padding: 1rem 2.5rem;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Tajawal', sans-serif;
+}
+
+.btn-primary-new {
+    background: linear-gradient(135deg, var(--primary), var(--brand-indigo-light));
+    color: var(--primary-foreground);
+    box-shadow: 0 10px 25px var(--primary) / 0.3;
+}
+
+.btn-primary-new:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px var(--primary) / 0.4;
+}
+
+.btn-secondary-new {
+    background: var(--card);
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.btn-secondary-new:hover {
+    background: var(--muted);
+    transform: translateY(-2px);
+}
+
+/* ═══════════════════════════════════════════════════════════
+ * Features Preview Badges
+ * ═══════════════════════════════════════════════════════════ */
+.features-preview {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 3rem;
+    flex-wrap: wrap;
+}
+
+.feature-badge {
+    background: var(--card);
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    font-size: 0.95rem;
+    color: var(--card-foreground);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid var(--border);
+}
+
+.feature-badge .icon {
+    font-size: 1.2rem;
+}
+
+/* ═══════════════════════════════════════════════════════════
+ * Responsive
+ * ═══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .hero-new {
+        padding: 2rem 1rem;
+    }
+
+    .hero-new h1 {
+        font-size: 2.5rem;
+    }
+
+    .subtitle-new {
+        font-size: 1.3rem;
+    }
+
+    .description-new {
+        font-size: 1rem;
+    }
+
+    .cta-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn-new {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .logo-badge {
+        flex-direction: column;
+        padding: 1rem;
+    }
+
+    .features-preview {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .feature-badge {
+        justify-content: center;
+    }
+
+    .decorative-shape {
+        display: none;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════
+ * Accessibility
+ * ═══════════════════════════════════════════════════════════ */
+.btn-new:focus {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .btn-new,
+    .decorative-shape {
+        animation: none;
+        transition: none;
+    }
+}

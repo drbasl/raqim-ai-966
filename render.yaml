@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: raqim-ai
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: LLM_API_URL
+        value: https://api.deepseek.com
+      - key: LLM_API_KEY
+        sync: false
+      - key: DEEPSEEK_MODEL
+        value: deepseek-chat
+      - key: PORT
+        value: 10000
