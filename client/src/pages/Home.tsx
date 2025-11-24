@@ -342,13 +342,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Image Prompt Generator Section */}
-      <section id="image-generator" className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-emerald-50/30 dark:from-slate-900/30 to-background">
-        <div className="container">
-          <ImagePromptGenerator />
-        </div>
-      </section>
-
       {/* About Us Section */}
       <section id="about" className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-background to-muted/20">
         <div className="container px-4 sm:px-6">
@@ -504,6 +497,13 @@ export default function Home() {
       <section id="faq" className="py-16">
         <div className="container max-w-4xl">
           <FAQ />
+        </div>
+      </section>
+
+      {/* Image Prompt Generator Section */}
+      <section id="image-generator" className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-emerald-50/30 dark:from-slate-900/30 to-background">
+        <div className="container">
+          <ImagePromptGenerator />
         </div>
       </section>
 
