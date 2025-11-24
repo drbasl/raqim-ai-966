@@ -1,33 +1,18 @@
-import { useState, useEffect, useRef } from 'react';
+📁 نسخة مختصرة ومبسطة
+components/OnboardingTour.jsx
+jsximport { useState, useEffect, useRef } from 'react';
 import { X, ArrowLeft, Sparkles, Pencil, Palette, Zap, Check } from 'lucide-react';
 
-interface TourStep {
-  id: number;
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-  target: string | null;
-  position: 'bottom' | 'top' | 'center';
-}
+// ═══════════════════════════════════════════════════════════
+// الخطوات - مختصرة وواضحة
+// ═══════════════════════════════════════════════════════════
 
-interface TargetRect {
-  top: number;
-  left: number;
-  width: number;
-  height: number;
-}
-
-interface TooltipPosition {
-  top: number;
-  left: number;
-}
-
-const TOUR_STEPS: TourStep[] = [
+const TOUR_STEPS = [
   {
     id: 1,
     title: "اكتب وصف الصورة",
     description: "صف الصورة اللي تبيها بالتفصيل",
-    icon: <Pencil className="w-6 h-6 text-white" />,
+    icon: Pencil,
     target: "prompt-input",
     position: "bottom"
   },
@@ -35,7 +20,7 @@ const TOUR_STEPS: TourStep[] = [
     id: 2,
     title: "اختر النمط والجودة",
     description: "اختر النمط المناسب ومستوى الجودة",
-    icon: <Palette className="w-6 h-6 text-white" />,
+    icon: Palette,
     target: "style-selector",
     position: "bottom"
   },
@@ -43,7 +28,7 @@ const TOUR_STEPS: TourStep[] = [
     id: 3,
     title: "اضغط توليد",
     description: "والحين اضغط على زر 'ولّد الآن'",
-    icon: <Zap className="w-6 h-6 text-white" />,
+    icon: Zap,
     target: "generate-button",
     position: "top"
   },
@@ -51,18 +36,18 @@ const TOUR_STEPS: TourStep[] = [
     id: 4,
     title: "جاهز! 🎉",
     description: "سهلة صح؟ ابدأ الآن وجرّب",
-    icon: <Check className="w-6 h-6 text-white" />,
+    icon: Check,
     target: null,
     position: "center"
   }
 ];
 
-export default function OnboardingTour({ onComplete }: { onComplete?: () => void }) {
+export default function OnboardingTour({ onComplete }) {
   const [currentStep, setCurrentStep] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
-  const [targetRect, setTargetRect] = useState<TargetRect | null>(null);
-  const [tooltipPosition, setTooltipPosition] = useState<TooltipPosition>({ top: 0, left: 0 });
-  const tooltipRef = useRef<HTMLDivElement>(null);
+  const [targetRect, setTargetRect] = useState(null);
+  const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
+  const tooltipRef = useRef(null);
 
   useEffect(() => {
     const hasSeenTour = localStorage.getItem('raqim-tour-completed');
@@ -103,14 +88,14 @@ export default function OnboardingTour({ onComplete }: { onComplete?: () => void
     }
   }, [currentStep, isVisible]);
 
-  const calculateTooltipPosition = (rect: DOMRect, position: string) => {
+  const calculateTooltipPosition = (rect, position) => {
     const tooltip = tooltipRef.current;
     if (!tooltip) return;
 
     const tooltipRect = tooltip.getBoundingClientRect();
     const padding = 20;
 
-    let top = 0, left = 0;
+    let top, left;
 
     switch (position) {
       case 'bottom':
@@ -139,6 +124,7 @@ export default function OnboardingTour({ onComplete }: { onComplete?: () => void
   };
 
   const currentStepData = TOUR_STEPS[currentStep];
+  const Icon = currentStepData?.icon;
   const isCenter = !currentStepData.target;
 
   const handleNext = () => {
@@ -195,7 +181,7 @@ export default function OnboardingTour({ onComplete }: { onComplete?: () => void
         </svg>
       </div>
 
-      {/* Spotlight Border */}
+      {/* Border المضيء */}
       {targetRect && (
         <div
           className="fixed z-[9999] pointer-events-none transition-all duration-300"
@@ -225,21 +211,21 @@ export default function OnboardingTour({ onComplete }: { onComplete?: () => void
             : {}
         }
       >
-        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-80 animate-slideUp">
+        <div className="bg-white rounded-2xl shadow-2xl w-80 animate-slideUp">
           
           {/* Header */}
           <div className="p-4 pb-3 flex items-center gap-3">
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0">
-              {currentStepData.icon}
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+              {Icon && <Icon className="w-6 h-6 text-white" />}
             </div>
             <div className="flex-1">
-              <h3 className="text-lg font-bold text-gray-800 dark:text-white">
+              <h3 className="text-lg font-bold text-gray-800">
                 {currentStepData.title}
               </h3>
             </div>
             <button
               onClick={skipTour}
-              className="p-1 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-full transition-colors flex-shrink-0"
+              className="p-1 hover:bg-gray-100 rounded-full transition-colors"
             >
               <X className="w-5 h-5 text-gray-400" />
             </button>
@@ -247,7 +233,7 @@ export default function OnboardingTour({ onComplete }: { onComplete?: () => void
 
           {/* Content */}
           <div className="px-4 pb-4">
-            <p className="text-gray-600 dark:text-gray-300 text-base mb-4">
+            <p className="text-gray-600 text-base mb-4">
               {currentStepData.description}
             </p>
 
@@ -261,7 +247,7 @@ export default function OnboardingTour({ onComplete }: { onComplete?: () => void
                       ? 'w-8 bg-gradient-to-r from-blue-500 to-purple-600'
                       : index < currentStep
                       ? 'w-2 bg-green-500'
-                      : 'w-2 bg-gray-300 dark:bg-gray-600'
+                      : 'w-2 bg-gray-300'
                   }`}
                 />
               ))}
@@ -286,7 +272,7 @@ export default function OnboardingTour({ onComplete }: { onComplete?: () => void
             </button>
 
             {/* Counter */}
-            <p className="text-center mt-3 text-xs text-gray-400 dark:text-gray-500">
+            <p className="text-center mt-3 text-xs text-gray-400">
               {currentStep + 1} من {TOUR_STEPS.length}
             </p>
           </div>
@@ -294,15 +280,19 @@ export default function OnboardingTour({ onComplete }: { onComplete?: () => void
 
         {/* Arrow */}
         {targetRect && currentStepData.position === 'bottom' && (
-          <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[12px] border-b-white dark:border-b-slate-800 drop-shadow-lg" />
+          <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[12px] border-b-white drop-shadow-lg" />
         )}
         {targetRect && currentStepData.position === 'top' && (
-          <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-t-[12px] border-t-white dark:border-t-slate-800 drop-shadow-lg" />
+          <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-t-[12px] border-t-white drop-shadow-lg" />
         )}
       </div>
     </>
   );
 }
+
+// ═══════════════════════════════════════════════════════════
+// زر إعادة الجولة
+// ═══════════════════════════════════════════════════════════
 
 export function RestartTourButton() {
   const restartTour = () => {
@@ -320,3 +310,17 @@ export function RestartTourButton() {
     </button>
   );
 }
+
+🎯 التحسينات:
+✅ 4 خطوات بس بدل 7-8
+✅ نصوص قصيرة وواضحة
+✅ لهجة سعودية سهلة
+✅ زر واحد للتقدم
+✅ بدون زر "رجوع" للتبسيط
+✅ رموز بسيطة وواضحة
+
+📝 نصائح استخدام:
+jsx// في صفحتك:
+<textarea id="prompt-input" /> // الخطوة 1
+<div id="style-selector" />    // الخطوة 2
+<button id="generate-button" /> // الخطوة 3
