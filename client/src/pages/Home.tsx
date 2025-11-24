@@ -304,18 +304,6 @@ export default function Home() {
               <p className="text-[10px] md:text-xs text-muted-foreground">30+ قالب</p>
             </a>
 
-            {/* محلل البرومبتات */}
-            <a
-              href="/analyzer"
-              className="group p-3 md:p-4 rounded-xl border border-border/50 bg-card hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300 text-center"
-            >
-              <div className="w-10 h-10 md:w-12 md:h-12 mx-auto mb-2 md:mb-3 rounded-xl bg-gradient-to-br from-orange-500/20 to-amber-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                <TrendingUp className="w-5 h-5 md:w-6 md:h-6 text-orange-500" />
-              </div>
-              <h3 className="font-semibold text-xs md:text-sm mb-1 line-clamp-1">محلل البرومبتات</h3>
-              <p className="text-[10px] md:text-xs text-muted-foreground">حلل وحسّن</p>
-            </a>
-
             {/* مكتبة القوالب */}
             <a
               href="/templates"
