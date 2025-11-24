@@ -171,58 +171,58 @@ export default function Home() {
           </div>
 
           {/* العنوان الرئيسي */}
-          <h1 style={{ fontSize: '2.1rem', fontWeight: 800, lineHeight: 1.2, textAlign: 'center', marginBottom: '0.5rem' }}>
+          <h1 style={{ fontSize: 'clamp(1.5rem, 5vw, 2.1rem)', fontWeight: 800, lineHeight: 1.2, textAlign: 'center', marginBottom: '0.5rem' }}>
             حوّل أفكارك إلى <span className="highlight">برومبتات احترافية</span>
           </h1>
 
           {/* الوصف المختصر */}
-          <p className="description-new">
+          <p className="description-new text-sm md:text-base">
             أداة ذكية تساعدك على إنشاء برومبتات فعّالة لـ ChatGPT و Claude و Gemini وغيرها
           </p>
 
           {/* إحصائية سريعة */}
-          <div className="flex items-center justify-center gap-6 my-6 text-sm text-muted-foreground">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 my-6 text-xs sm:text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
-              <span className="text-2xl font-bold text-primary">+10K</span>
+              <span className="text-lg sm:text-2xl font-bold text-primary">+10K</span>
               <span>برومبت تم إنشاؤه</span>
             </div>
-            <div className="w-px h-8 bg-border"></div>
+            <div className="hidden sm:block w-px h-8 bg-border"></div>
             <div className="flex items-center gap-2">
-              <span className="text-2xl font-bold text-primary">100%</span>
+              <span className="text-lg sm:text-2xl font-bold text-primary">100%</span>
               <span>مجاني</span>
             </div>
           </div>
 
           {/* زر CTA واحد قوي */}
           <div className="cta-buttons">
-            <button onClick={scrollToGenerator} className="btn-new btn-primary-new text-lg px-8 py-4">
-              <Sparkles className="w-5 h-5" />
+            <button onClick={scrollToGenerator} className="btn-new btn-primary-new text-sm sm:text-lg px-4 sm:px-8 py-2 sm:py-4">
+              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>ابدأ الآن مجاناً</span>
-              <ArrowLeft className="w-5 h-5" />
+              <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </div>
 
           {/* شارات المزايا */}
-          <div className="features-preview features-badges mt-8">
-            <div className="feature-badge">
-              <span className="icon">🎯</span>
+          <div className="features-preview features-badges mt-4 sm:mt-8 gap-2 sm:gap-3">
+            <div className="feature-badge text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2">
+              <span className="icon text-base sm:text-lg">🎯</span>
               <span>نتائج احترافية</span>
             </div>
-            <div className="feature-badge">
-              <span className="icon">🇸🇦</span>
+            <div className="feature-badge text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2">
+              <span className="icon text-base sm:text-lg">🇸🇦</span>
               <span>100% سعودي</span>
             </div>
-            <div className="feature-badge">
-              <span className="icon">⚡</span>
+            <div className="feature-badge text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2">
+              <span className="icon text-base sm:text-lg">⚡</span>
               <span>سريع ودقيق</span>
             </div>
           </div>
           {/* أدوات الذكاء الاصطناعي */}
-          <div className="ai-tools-bar" style={{ marginTop: '2.5rem', marginBottom: '1.5rem' }}>
-            <div style={{ textAlign: 'center', color: '#a8a8a8', fontSize: '1.1rem', marginBottom: '0.7rem', fontWeight: 500 }}>
+          <div className="ai-tools-bar" style={{ marginTop: 'clamp(1rem, 5vw, 2.5rem)', marginBottom: '1.5rem' }}>
+            <div style={{ textAlign: 'center', color: '#a8a8a8', fontSize: 'clamp(0.875rem, 3vw, 1.1rem)', marginBottom: '0.7rem', fontWeight: 500 }}>
               صمم برومبتات احترافية لأدوات الذكاء الاصطناعي
             </div>
-            <div style={{ display: 'flex', gap: '1.2rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: 'clamp(0.5rem, 2vw, 1.2rem)', justifyContent: 'center', flexWrap: 'wrap' }}>
               {[
                 { label: 'HUMAIN', icon: '🤖' },
                 { label: 'Claude', icon: '🧠' },
@@ -235,13 +235,13 @@ export default function Home() {
                     background: 'var(--ai-btn-bg, #fff)',
                     borderRadius: '12px',
                     boxShadow: '0 1px 6px #0001',
-                    padding: '0.7rem 1.5rem',
+                    padding: 'clamp(0.4rem, 2vw, 0.7rem) clamp(0.8rem, 3vw, 1.5rem)',
                     display: 'flex',
                     alignItems: 'center',
                     fontWeight: 600,
-                    fontSize: '1.1rem',
+                    fontSize: 'clamp(0.75rem, 2.5vw, 1.1rem)',
                     border: '1px solid #eee',
-                    minWidth: 120,
+                    minWidth: 'clamp(80px, 20vw, 120px)',
                     justifyContent: 'center',
                     color: 'var(--ai-btn-color, #222)',
                     transition: 'background 0.2s, color 0.2s',
@@ -249,7 +249,7 @@ export default function Home() {
                   }}
                   className="ai-tool-btn"
                 >
-                  <span style={{ fontSize: '1.3rem', marginInlineEnd: '0.3rem' }}>{icon}</span>
+                  <span style={{ fontSize: 'clamp(1rem, 3vw, 1.3rem)', marginInlineEnd: '0.3rem' }}>{icon}</span>
                   {label}
                 </div>
               ))}
