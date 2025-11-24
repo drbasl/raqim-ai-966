@@ -22,6 +22,11 @@ export default function Home() {
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
   const [generatorKey, setGeneratorKey] = useState(0);
   const [activeTab, setActiveTab] = useState("generator");
+  
+  // Image prompt generator state
+  const [imagePromptInput, setImagePromptInput] = useState("");
+  const [imagePromptOutput, setImagePromptOutput] = useState("");
+  const [isGeneratingImagePrompt, setIsGeneratingImagePrompt] = useState(false);
 
   // تفعيل الجولة التعريفية
   useOnboardingTour();
@@ -30,6 +35,32 @@ export default function Home() {
     const element = document.getElementById('generator');
     element?.scrollIntoView({ behavior: 'smooth' });
     setActiveTab("generator");
+  };
+
+  const handleGenerateImagePrompt = async () => {
+    if (!imagePromptInput.trim()) return;
+    
+    setIsGeneratingImagePrompt(true);
+    try {
+      const response = await fetch('/api/trpc/imagePrompt.generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ input: imagePromptInput })
+      });
+      
+      if (!response.ok) throw new Error('Failed to generate');
+      const data = await response.json();
+      setImagePromptOutput(data.result || '');
+    } catch (error) {
+      console.error('Error:', error);
+      setImagePromptOutput('حدث خطأ، حاول مجدداً');
+    } finally {
+      setIsGeneratingImagePrompt(false);
+    }
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(imagePromptOutput);
   };
 
   // Increment usage mutation
@@ -82,7 +113,7 @@ export default function Home() {
                 {t('nav.generator')}
               </a>
               <a href="#image-generator" className="text-sm hover:text-primary transition-colors">
-                توليد أوامر الصور المجاني
+                برومبتات الصور
               </a>
               <a href="/worksheets" className="text-sm hover:text-primary transition-colors">
                 {t('nav.worksheets')}
@@ -119,7 +150,7 @@ export default function Home() {
                       {t('nav.generator')}
                     </a>
                     <a href="#image-generator" className="text-base hover:text-primary transition-colors py-2">
-                      توليد أوامر الصور المجاني
+                      برومبتات الصور
                     </a>
                     <a href="/worksheets" className="text-base hover:text-primary transition-colors py-2">
                       {t('nav.worksheets')}
@@ -350,43 +381,74 @@ export default function Home() {
               <div className="flex items-center justify-center gap-2 mb-3 sm:mb-4">
                 <ImageIcon className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">
-                  توليد أوامر الصور المجاني
+                  برومبتات الصور
                 </h2>
               </div>
               <p className="text-muted-foreground text-sm sm:text-base">
-                حول أفكارك إلى أوامر صور احترافية للذكاء الاصطناعي
+                حول وصفك البسيط إلى برومبت احترافي للذكاء الاصطناعي
               </p>
             </div>
 
             {/* Image Generator Card */}
             <div className="bg-card border border-border/50 rounded-xl p-4 sm:p-6 md:p-8">
-              {/* Description */}
-              <p className="text-muted-foreground text-xs sm:text-sm mb-4 leading-relaxed">
-                هل تريغب في تحويل أفكارك إلى وصف دقيق ومفصل لصورة مذهلة؟ بقوة AI، نحتك القوة الكاملة لاستخلال إمكانيات توليد الصور.
-              </p>
+              {/* Example */}
+              <div className="bg-muted/30 border border-border/30 rounded-lg p-3 sm:p-4 mb-6 text-[11px] sm:text-xs leading-relaxed">
+                <p className="font-semibold text-foreground mb-2">📌 مثال:</p>
+                <p className="text-muted-foreground mb-2">
+                  <strong>إدخالك:</strong> "قطة تلعب بالكرة"
+                </p>
+                <p className="text-muted-foreground text-[10px] sm:text-xs">
+                  <strong>مخرجات رقيم:</strong> "A hyperrealistic photo of a fluffy orange cat playfully batting a red ball, golden hour lighting, shallow depth of field, Canon EOS R5, 85mm f/1.4"
+                </p>
+              </div>
 
               {/* Input Area */}
-              <div className="space-y-3">
+              <div className="space-y-3 mb-4">
+                <label className="text-xs font-semibold">اكتب وصفك البسيط</label>
                 <Textarea
-                  placeholder="صف الصورة التي تريد إنشاؤها..."
-                  className="resize-none text-xs sm:text-sm min-h-32 sm:min-h-40"
-                  maxLength={500}
+                  value={imagePromptInput}
+                  onChange={(e) => setImagePromptInput(e.target.value)}
+                  placeholder="مثال: قطة تلعب بالكرة في الحديقة"
+                  className="resize-none text-xs sm:text-sm min-h-24 sm:min-h-28"
+                  maxLength={300}
                 />
                 <div className="text-right text-xs text-muted-foreground">
-                  <span id="char-count">0</span>/500
+                  {imagePromptInput.length}/300
                 </div>
               </div>
 
               {/* Generate Button */}
-              <Button className="w-full mt-4 gap-2 h-9 sm:h-10 text-xs sm:text-sm">
-                <ImageIcon className="w-4 h-4" />
-                توليد أمر الصورة
+              <Button 
+                onClick={handleGenerateImagePrompt}
+                disabled={!imagePromptInput.trim() || isGeneratingImagePrompt}
+                className="w-full gap-2 h-9 sm:h-10 text-xs sm:text-sm mb-4"
+              >
+                <Sparkles className="w-4 h-4" />
+                {isGeneratingImagePrompt ? "جاري التوليد..." : "توليد البرومبت احترافي"}
               </Button>
 
-              {/* Info */}
-              <p className="text-[10px] sm:text-xs text-muted-foreground mt-3 text-center">
-                ✨ تحسين الصورة بتقنيات الذكاء الاصطناعي
-              </p>
+              {/* Output Area */}
+              {imagePromptOutput && (
+                <div className="space-y-3 p-4 bg-muted/20 border border-primary/20 rounded-lg">
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="text-xs font-semibold">البرومبت المولد:</label>
+                    <Button
+                      onClick={copyToClipboard}
+                      variant="ghost"
+                      size="sm"
+                      className="h-7 text-xs"
+                    >
+                      📋 نسخ
+                    </Button>
+                  </div>
+                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed bg-background rounded p-3 border border-border/30">
+                    {imagePromptOutput}
+                  </p>
+                  <p className="text-[10px] text-muted-foreground text-center">
+                    ✨ استخدمه مع Midjourney أو DALL-E أو Stable Diffusion
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>
