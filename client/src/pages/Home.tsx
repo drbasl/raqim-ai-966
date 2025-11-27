@@ -16,6 +16,7 @@ import { trpc } from "@/lib/trpc";
 import LanguageToggle from "@/components/LanguageToggle";
 import { useTranslation } from 'react-i18next';
 import MobileBottomNav from "@/components/MobileBottomNav";
+import { toast } from "sonner";
 
 export default function Home() {
   const { t } = useTranslation();
@@ -37,6 +38,14 @@ export default function Home() {
     setSelectedTemplate(template);
     setActiveTab("generator");
     scrollToGenerator();
+    
+    // Copy template to clipboard
+    navigator.clipboard.writeText(template.basePrompt).then(() => {
+      toast.success(`✅ تم نسخ القالب "${template.title}" إلى الحافظة!`);
+    }).catch(() => {
+      toast.error("❌ فشل نسخ القالب");
+    });
+    
     // Increment usage count
     incrementUsageMutation.mutate({ templateId: template.id });
   };
