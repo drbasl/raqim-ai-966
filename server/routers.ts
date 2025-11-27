@@ -633,44 +633,39 @@ ${input.sourceText ? `\n\nالنص المصدر:\n${input.sourceText}` : ""}
       .input(z.object({ prompt: z.string().min(10).max(500) }))
       .mutation(async ({ input }) => {
         try {
-          // Try using Gemini AI integration (nano banana)
-          const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'x-goog-api-key': process.env.GEMINI_API_KEY || '',
+          // Using Replit's Gemini AI integration - no API key needed!
+          const { GoogleGenAI, Modality } = await import('@google/genai');
+          
+          const ai = new GoogleGenAI({
+            apiKey: process.env.AI_INTEGRATIONS_GEMINI_API_KEY || 'dummy',
+            httpOptions: {
+              apiVersion: '',
+              baseUrl: process.env.AI_INTEGRATIONS_GEMINI_BASE_URL,
             },
-            body: JSON.stringify({
-              contents: [
-                {
-                  parts: [
-                    {
-                      text: input.prompt,
-                    },
-                  ],
-                },
-              ],
-              generationConfig: {
-                temperature: 0.9,
-                topP: 0.95,
-              },
-            }),
           });
 
-          if (!response.ok) {
-            throw new Error(`API error: ${response.statusText}`);
-          }
+          const response = await ai.models.generateContent({
+            model: 'gemini-2.5-flash-image',
+            contents: [{ role: 'user', parts: [{ text: input.prompt }] }],
+            config: {
+              responseModalities: [Modality.TEXT, Modality.IMAGE],
+            },
+          });
 
-          const data = await response.json();
+          const candidate = response.candidates?.[0];
+          const imagePart = candidate?.content?.parts?.find((part: any) => part.inlineData);
           
-          if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
-            return {
-              imageUrl: data.candidates[0].content.parts[0].text,
-              success: true,
-            };
+          if (!imagePart?.inlineData?.data) {
+            throw new Error('لم يتم توليد صورة');
           }
 
-          throw new Error('No image data in response');
+          const mimeType = imagePart.inlineData.mimeType || 'image/png';
+          const imageUrl = `data:${mimeType};base64,${imagePart.inlineData.data}`;
+          
+          return {
+            imageUrl,
+            success: true,
+          };
         } catch (error) {
           console.error('Image generation error:', error);
           throw new Error('فشل توليد الصورة. يرجى المحاولة مرة أخرى.');
