@@ -18,9 +18,11 @@ import {
   Lightbulb,
   Rocket,
   Layers,
-  Flame
+  Flame,
+  Copy
 } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 import TemplateRating from "./TemplateRating";
 
 interface Template {
@@ -541,6 +543,15 @@ const popularTemplateIds = [
 export default function TemplateLibrary({ onSelectTemplate, compact = false }: TemplateLibraryProps) {
   const [activeCategory, setActiveCategory] = useState<TemplateCategory>("الكل");
 
+  const handleCopyTemplate = (template: Template, e: React.MouseEvent) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(template.basePrompt).then(() => {
+      toast.success(`✅ تم نسخ القالب "${template.title}"`);
+    }).catch(() => {
+      toast.error("❌ فشل نسخ القالب");
+    });
+  };
+
   const filteredTemplates = activeCategory === "الكل" 
     ? templates 
     : activeCategory === "الشائعة"
@@ -607,17 +618,26 @@ export default function TemplateLibrary({ onSelectTemplate, compact = false }: T
                 </p>
               </div>
 
-              <Button
-                variant="outline"
-                size="sm"
-                className="w-full border-primary/30 hover:bg-primary/10 group-hover:border-primary/50"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onSelectTemplate(template);
-                }}
-              >
-                استخدم هذا القالب
-              </Button>
+              <div className="flex gap-2">
+                <Button
+                  variant="default"
+                  size="sm"
+                  className="flex-1"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onSelectTemplate(template);
+                  }}
+                >
+                  استخدم الآن
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={(e) => handleCopyTemplate(template, e)}
+                >
+                  <Copy className="w-4 h-4" />
+                </Button>
+              </div>
 
               {/* نظام التقييم وعداد الاستخدام */}
               <div onClick={(e) => e.stopPropagation()}>
