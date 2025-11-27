@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+  <ShortName>رقيم AI 966</ShortName>
+  <Description>ابحث عن برومبتات واستخدم أداة مولد البرومبتات</Description>
+  <Url type="text/html" template="https://raqim966.com/?q={searchTerms}"/>
+</OpenSearchDescription>

@@ -6,8 +6,18 @@
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/svg+xml" href="/raqim-logo-animated.svg" />
     <link rel="icon" type="image/png" href="/raqim-logo-animated.svg" />
     <link rel="apple-touch-icon" href="/raqim-logo-animated.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
+    
+    <!-- Performance & Core Web Vitals -->
+    <meta name="theme-color" content="#006C35" />
+    <link rel="search" type="application/opensearchdescription+xml" title="رقيم AI 966" href="/opensearch.xml" />
     
     <!-- Primary Meta Tags -->
     <title>رقيم AI 966 - مولد البرومبتات بالذكاء الاصطناعي | أداة احترافية لإنشاء البرومبتات</title>
@@ -82,12 +92,40 @@
   </head>
 
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Initial Loading State - SSR Fallback -->
+      <div style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+        <div style="text-align: center; padding: 20px;">
+          <div style="width: 60px; height: 60px; margin: 0 auto 20px; animation: spin 2s linear infinite;">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="10" stroke="#2563eb" stroke-width="2" opacity="0.3"/>
+              <path d="M12 2a10 10 0 0 1 10 10" stroke="#2563eb" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h1 style="color: #1e3a8a; font-size: 24px; margin-bottom: 10px; font-family: 'Tajawal', sans-serif;">رقيم AI 966</h1>
+          <p style="color: #64748b; font-size: 14px; font-family: 'Tajawal', sans-serif;">جاري التحميل...</p>
+        </div>
+      </div>
+      <style>
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+      </style>
+    </div>
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="/raqim-logo-animated.svg" as="image" type="image/svg+xml" />
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" as="style" />
+    
+    <!-- Resource Hints -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Main App Script -->
     <script type="module" src="/src/main.tsx"></script>
-    <script
-      defer
-      src="%VITE_ANALYTICS_ENDPOINT%/umami"
-      data-website-id="%VITE_ANALYTICS_WEBSITE_ID%"></script>
+    
+    <!-- Analytics - Non-blocking -->
+    <script async src="%VITE_ANALYTICS_ENDPOINT%/umami" data-website-id="%VITE_ANALYTICS_WEBSITE_ID%"></script>
   </body>
 
 </html>

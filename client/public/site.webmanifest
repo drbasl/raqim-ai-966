@@ -1,0 +1,27 @@
+{
+  "name": "رقيم AI 966 - مولد البرومبتات بالذكاء الاصطناعي",
+  "short_name": "رقيم AI 966",
+  "description": "أنشئ برومبتات احترافية للذكاء الاصطناعي بسهولة",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#006C35",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/raqim-logo-animated.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+  "categories": ["productivity", "utilities"]
+}

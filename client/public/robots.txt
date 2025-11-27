@@ -1,15 +1,15 @@
-# robots.txt for رقيم AI 966
-
-# Allow all search engines
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /api
 
-# Sitemap location
 Sitemap: https://raqim966.com/sitemap.xml
-
-# Crawl-delay (optional, helps prevent server overload)
 Crawl-delay: 1
 
-# Disallow specific paths
-Disallow: /api/
-Disallow: /admin/
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
