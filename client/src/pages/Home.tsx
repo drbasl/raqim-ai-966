@@ -36,6 +36,7 @@ export default function Home() {
 
   const handleTemplateSelect = (template: Template) => {
     setSelectedTemplate(template);
+    setGeneratorKey(prev => prev + 1); // Force re-render of PromptGenerator
     setActiveTab("generator");
     scrollToGenerator();
     
