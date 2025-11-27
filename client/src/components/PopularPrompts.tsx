@@ -123,7 +123,6 @@ export default function PopularPrompts({ onUsePrompt }: PopularPromptsProps) {
     useMutation.mutate({ id });
     if (onUsePrompt) {
       onUsePrompt(prompt);
-      // Scroll to generator
       const generator = document.getElementById("generator");
       generator?.scrollIntoView({ behavior: "smooth" });
     }
@@ -133,14 +132,12 @@ export default function PopularPrompts({ onUsePrompt }: PopularPromptsProps) {
     likeMutation.mutate({ id });
   };
 
-  // تصفية البرومبتات المحلية
   const filteredPopularData = activeCategory === "الكل" 
     ? popularPromptsData 
     : popularPromptsData.filter(p => p.category === activeCategory);
 
   return (
     <div className="space-y-8">
-      {/* فلاتر التصنيفات */}
       <div className="flex flex-wrap gap-2 justify-center">
         {categories.map((cat) => (
           <Button
@@ -154,7 +151,6 @@ export default function PopularPrompts({ onUsePrompt }: PopularPromptsProps) {
         ))}
       </div>
 
-      {/* البرومبتات الشهيرة */}
       <div>
         <h2 className="text-2xl font-bold mb-6 text-center">البرومبتات الشائعة في المجتمع</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -164,7 +160,6 @@ export default function PopularPrompts({ onUsePrompt }: PopularPromptsProps) {
               className="p-6 bg-card/50 border-primary/20 hover:border-primary/40 transition-all hover:shadow-lg group"
             >
               <div className="space-y-4">
-                {/* Header مع Icon */}
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
@@ -183,7 +178,6 @@ export default function PopularPrompts({ onUsePrompt }: PopularPromptsProps) {
                   </div>
                 </div>
 
-                {/* Stats */}
                 <div className="flex items-center gap-4 text-xs text-muted-foreground">
                   <div className="flex items-center gap-1">
                     <Eye className="w-3.5 h-3.5" />
@@ -198,14 +192,12 @@ export default function PopularPrompts({ onUsePrompt }: PopularPromptsProps) {
                   </div>
                 </div>
 
-                {/* Preview */}
                 <div className="bg-muted/30 p-3 rounded-lg">
                   <p className="text-sm text-muted-foreground line-clamp-3">
                     {item.prompt}
                   </p>
                 </div>
 
-                {/* Actions */}
                 <div className="flex gap-2 pt-2">
                   <Button
                     variant="default"
@@ -237,7 +229,6 @@ export default function PopularPrompts({ onUsePrompt }: PopularPromptsProps) {
         </div>
       </div>
 
-      {/* البرومبتات من قاعدة البيانات (إن وجدت) */}
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[...Array(4)].map((_, i) => (
@@ -253,79 +244,78 @@ export default function PopularPrompts({ onUsePrompt }: PopularPromptsProps) {
           <h2 className="text-2xl font-bold mb-6 text-center">برومبتات مميزة من المستخدمين</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {prompts.map((prompt) => (
-        <Card
-          key={prompt.id}
-          className="p-6 bg-card/50 border-primary/20 hover:border-primary/40 transition-all hover:shadow-lg group"
-        >
-          <div className="space-y-4">
-            {/* Header */}
-            <div className="flex items-start justify-between gap-3">
-              <div className="flex-1">
-                <h3 className="text-lg font-bold mb-1 group-hover:text-primary transition-colors">
-                  {prompt.title}
-                </h3>
-                <p className="text-sm text-muted-foreground line-clamp-2">
-                  {prompt.description}
-                </p>
-              </div>
-              <div className="flex items-center gap-1 text-primary">
-                <Star className="w-4 h-4 fill-current" />
-                <span className="text-sm font-bold">{(prompt.rating / 10).toFixed(1)}</span>
-              </div>
-            </div>
-
-            {/* Stats */}
-            <div className="flex items-center gap-4 text-xs text-muted-foreground">
-              <div className="flex items-center gap-1">
-                <Eye className="w-3.5 h-3.5" />
-                <span>{prompt.usageCount.toLocaleString()}</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Heart className="w-3.5 h-3.5" />
-                <span>{prompt.likesCount.toLocaleString()}</span>
-              </div>
-              <div className="px-2 py-0.5 rounded-full bg-primary/20 text-primary">
-                {prompt.category}
-              </div>
-            </div>
-
-            {/* Preview */}
-            <div className="bg-muted/30 p-3 rounded-lg">
-              <p className="text-sm text-muted-foreground line-clamp-3">
-                {prompt.prompt}
-              </p>
-            </div>
-
-            {/* Actions */}
-            <div className="flex gap-2 pt-2">
-              <Button
-                variant="default"
-                size="sm"
-                className="flex-1"
-                onClick={() => handleUse(prompt.id, prompt.prompt)}
+              <Card
+                key={prompt.id}
+                className="p-6 bg-card/50 border-primary/20 hover:border-primary/40 transition-all hover:shadow-lg group"
               >
-                <TrendingUp className="ml-2 w-4 h-4" />
-                استخدم الآن
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handleCopy(prompt.prompt)}
-              >
-                <Copy className="w-4 h-4" />
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handleLike(prompt.id)}
-                disabled={likeMutation.isPending}
-              >
-                <Heart className="w-4 h-4" />
-              </Button>
-            </div>
+                <div className="space-y-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold mb-1 group-hover:text-primary transition-colors">
+                        {prompt.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground line-clamp-2">
+                        {prompt.description}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-1 text-primary">
+                      <Star className="w-4 h-4 fill-current" />
+                      <span className="text-sm font-bold">{(prompt.rating / 10).toFixed(1)}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                    <div className="flex items-center gap-1">
+                      <Eye className="w-3.5 h-3.5" />
+                      <span>{prompt.usageCount.toLocaleString()}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Heart className="w-3.5 h-3.5" />
+                      <span>{prompt.likesCount.toLocaleString()}</span>
+                    </div>
+                    <div className="px-2 py-0.5 rounded-full bg-primary/20 text-primary">
+                      {prompt.category}
+                    </div>
+                  </div>
+
+                  <div className="bg-muted/30 p-3 rounded-lg">
+                    <p className="text-sm text-muted-foreground line-clamp-3">
+                      {prompt.prompt}
+                    </p>
+                  </div>
+
+                  <div className="flex gap-2 pt-2">
+                    <Button
+                      variant="default"
+                      size="sm"
+                      className="flex-1"
+                      onClick={() => handleUse(prompt.id, prompt.prompt)}
+                    >
+                      <TrendingUp className="ml-2 w-4 h-4" />
+                      استخدم الآن
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleCopy(prompt.prompt)}
+                    >
+                      <Copy className="w-4 h-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleLike(prompt.id)}
+                      disabled={likeMutation.isPending}
+                    >
+                      <Heart className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+            ))}
           </div>
-        </Card>
-      ))}
+        </div>
+      )}
     </div>
   );
 }
