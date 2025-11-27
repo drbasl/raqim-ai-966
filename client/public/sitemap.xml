@@ -4,29 +4,42 @@
   
   <!-- Homepage -->
   <url>
-    <loc>https://raqim-ai-966.manus.space/</loc>
-    <lastmod>2025-01-18</lastmod>
+    <loc>https://raqim966.com/</loc>
+    <lastmod>2025-11-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://raqim-ai-966.manus.space/" />
+  </url>
+  
+  <!-- Generator -->
+  <url>
+    <loc>https://raqim966.com/</loc>
+    <lastmod>2025-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Prompt Library -->
+  <url>
+    <loc>https://raqim966.com/library</loc>
+    <lastmod>2025-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
   </url>
   
   <!-- Worksheets Generator -->
   <url>
-    <loc>https://raqim-ai-966.manus.space/worksheets</loc>
-    <lastmod>2025-01-18</lastmod>
+    <loc>https://raqim966.com/worksheets</loc>
+    <lastmod>2025-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://raqim-ai-966.manus.space/worksheets" />
   </url>
   
-  <!-- 404 Page -->
+  <!-- Image Prompt Generator -->
   <url>
-    <loc>https://raqim-ai-966.manus.space/404</loc>
-    <lastmod>2025-01-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://raqim-ai-966.manus.space/404" />
+    <loc>https://raqim966.com/</loc>
+    <lastmod>2025-11-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
 
 </urlset>

@@ -5,11 +5,11 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://raqim-ai-966.manus.space/sitemap.xml
+Sitemap: https://raqim966.com/sitemap.xml
 
 # Crawl-delay (optional, helps prevent server overload)
 Crawl-delay: 1
 
-# Disallow specific paths (if needed in future)
-# Disallow: /api/
-# Disallow: /admin/
+# Disallow specific paths
+Disallow: /api/
+Disallow: /admin/
