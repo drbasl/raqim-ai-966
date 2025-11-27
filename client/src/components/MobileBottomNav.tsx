@@ -1,4 +1,4 @@
-import { Home, BookOpen, TrendingUp, Settings, Sparkles } from "lucide-react";
+import { Home, BookOpen, TrendingUp, Sparkles } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { Button } from "./ui/button";
 
@@ -10,7 +10,6 @@ export default function MobileBottomNav() {
     { icon: Sparkles, label: "قوالب", href: "/templates" },
     { icon: BookOpen, label: "أوراق العمل", href: "/worksheets" },
     { icon: TrendingUp, label: "شعبي", href: "/popular" },
-    { icon: Settings, label: "المزيد", href: "/my-library" },
   ];
 
   return (
