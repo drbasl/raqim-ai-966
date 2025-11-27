@@ -4,6 +4,7 @@ import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { z } from "zod";
 import { invokeLLM } from "./_core/llm";
+import { hybridLLM, TaskType, Priority } from "./_core/llm-hybrid";
 import * as db from "./db";
 
 export const appRouter = router({
@@ -441,6 +442,218 @@ ${input.sourceText ? `\n\nالنص المصدر:\n${input.sourceText}` : ""}
         return { success: true };
       }),
   }),
+
+  llm: router({
+    generatePrompt: publicProcedure
+      .input(z.object({
+        userInput: z.string().min(10),
+        usageType: z.enum(["social", "code", "education", "crypto", "article", "exam"]),
+        options: z.object({
+          tone: z.string().optional(),
+          examples: z.boolean().optional(),
+          keyPoints: z.boolean().optional(),
+          complexity: z.enum(["بسيط", "متوسط", "متقدم"]).optional(),
+          engaging: z.boolean().optional(),
+        }).optional(),
+        llmOptions: z.object({
+          priority: z.enum(['speed', 'quality', 'cost', 'balanced']).optional(),
+        }).optional()
+      }))
+      .mutation(async ({ input }) => {
+        const { userInput, usageType, options, llmOptions } = input;
+        const systemPrompt = buildSystemPromptForHybrid(userInput, usageType, options);
+        const priority: Priority = (llmOptions?.priority || 'balanced') as Priority;
+        
+        console.log(`🚀 توليد برومبت هجين - الأولوية: ${priority}`);
+        
+        const response = await hybridLLM.sendRequest({
+          prompt: systemPrompt,
+          taskType: 'generate_prompt',
+          priority,
+          maxTokens: getMaxTokensByLength(options?.complexity),
+        });
+        
+        if (!response.success) {
+          throw new Error(`فشل التوليد: ${response.error}`);
+        }
+        
+        return {
+          generatedPrompt: response.content,
+          metadata: {
+            provider: response.provider,
+            model: response.model,
+            tokensUsed: response.tokensUsed,
+            cost: response.cost,
+            responseTime: response.responseTime
+          }
+        };
+      }),
+
+    analyzePrompt: publicProcedure
+      .input(z.object({
+        prompt: z.string().min(20),
+        llmOptions: z.object({
+          priority: z.enum(['speed', 'quality', 'cost', 'balanced']).optional(),
+        }).optional()
+      }))
+      .mutation(async ({ input }) => {
+        const { prompt, llmOptions } = input;
+        const priority: Priority = (llmOptions?.priority || 'quality') as Priority;
+        
+        const analysisPrompt = `أنت خبير تحليل برومبتات. حلل البرومبت التالي:
+"${prompt}"
+
+قدم:
+1. التقييم من 1-10
+2. نقاط القوة
+3. نقاط الضعف
+4. اقتراحات التحسين`;
+
+        const response = await hybridLLM.sendRequest({
+          prompt: analysisPrompt,
+          taskType: 'analyze_prompt',
+          priority,
+          maxTokens: 2000,
+          temperature: 0.3
+        });
+        
+        if (!response.success) {
+          throw new Error('فشل التحليل');
+        }
+        
+        return {
+          analysis: response.content,
+          metadata: {
+            provider: response.provider,
+            model: response.model,
+            tokensUsed: response.tokensUsed,
+            cost: response.cost,
+            responseTime: response.responseTime
+          }
+        };
+      }),
+
+    getLLMStats: publicProcedure
+      .query(() => {
+        const stats = hybridLLM.getUsageStats();
+        const available = hybridLLM.getAvailableProviders();
+        const totals = Object.values(stats).reduce(
+          (acc, curr) => ({
+            requests: acc.requests + curr.requests,
+            tokens: acc.tokens + curr.tokens,
+            cost: acc.cost + curr.cost
+          }),
+          { requests: 0, tokens: 0, cost: 0 }
+        );
+        
+        return {
+          byProvider: stats,
+          totals,
+          availableProviders: available.map(p => ({
+            provider: p.provider,
+            model: p.config.model,
+            enabled: p.config.enabled
+          }))
+        };
+      }),
+
+    testProviders: publicProcedure
+      .input(z.object({
+        prompt: z.string(),
+      }))
+      .mutation(async ({ input }) => {
+        const { prompt } = input;
+        const available = hybridLLM.getAvailableProviders();
+        
+        const results = await Promise.allSettled(
+          available.map(p =>
+            hybridLLM.sendRequest({
+              prompt,
+              taskType: 'general',
+              preferredProvider: p.provider as any,
+              maxTokens: 500
+            })
+          )
+        );
+        
+        const comparison = results.map((result, index) => {
+          if (result.status === 'fulfilled') {
+            const response = result.value;
+            return {
+              provider: available[index].provider,
+              success: response.success,
+              responseTime: response.responseTime,
+              tokensUsed: response.tokensUsed,
+              cost: response.cost,
+              model: response.model
+            };
+          }
+          return {
+            provider: available[index].provider,
+            success: false,
+            error: 'Failed'
+          };
+        });
+        
+        return { comparison };
+      }),
+
+    translateText: publicProcedure
+      .input(z.object({
+        text: z.string(),
+        targetLanguage: z.enum(['ar', 'en']),
+      }))
+      .mutation(async ({ input }) => {
+        const { text, targetLanguage } = input;
+        const translatePrompt = `ترجم النص إلى ${targetLanguage === 'ar' ? 'العربية' : 'الإنجليزية'}:\n\n${text}`;
+        
+        const response = await hybridLLM.sendRequest({
+          prompt: translatePrompt,
+          taskType: 'translate',
+          priority: 'quality',
+          maxTokens: 2000
+        });
+        
+        if (!response.success) {
+          throw new Error('فشلت الترجمة');
+        }
+        
+        return {
+          translatedText: response.content,
+          metadata: {
+            provider: response.provider,
+            tokensUsed: response.tokensUsed
+          }
+        };
+      }),
+  }),
 });
+
+function buildSystemPromptForHybrid(userInput: string, usageType: string, options?: any): string {
+  const usageTypeMap: Record<string, string> = {
+    social: 'محتوى السوشيال ميديا',
+    code: 'البرمجة والأكواد',
+    education: 'التعليم والشرح',
+    crypto: 'تحليل العملات الرقمية',
+    article: 'كتابة المقالات',
+    exam: 'الأسئلة والاختبارات'
+  };
+  
+  let prompt = `أنت خبير في ${usageTypeMap[usageType]}. حسّن البرومبت التالي:\n"${userInput}"\n`;
+  
+  if (options?.examples) prompt += '\nأضف أمثلة عملية.';
+  if (options?.keyPoints) prompt += '\nاستخدم نقاط رئيسية منظمة.';
+  if (options?.engaging) prompt += '\nاجعل الأسلوب جذاباً ومحفزاً.';
+  
+  return prompt;
+}
+
+function getMaxTokensByLength(complexity?: string): number {
+  switch (complexity) {
+    case 'بسيط': return 500;
+    case 'متقدم': return 3000;
+    default: return 1500;
+  }
+}
 
 export type AppRouter = typeof appRouter;
