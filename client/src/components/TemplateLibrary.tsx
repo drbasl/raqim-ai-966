@@ -17,7 +17,8 @@ import {
   Video,
   Lightbulb,
   Rocket,
-  Layers
+  Layers,
+  Flame
 } from "lucide-react";
 import { useState } from "react";
 import TemplateRating from "./TemplateRating";
@@ -29,6 +30,7 @@ interface Template {
   icon: React.ReactNode;
   usageType: "social" | "code" | "education" | "crypto" | "article" | "exam";
   basePrompt: string;
+  isPopular?: boolean;
   options: {
     humanTone: boolean;
     examples: boolean;
@@ -46,6 +48,7 @@ const templates: Template[] = [
     icon: <GraduationCap className="w-6 h-6" />,
     usageType: "education",
     basePrompt: "اشرح مفهوم الجاذبية للطلاب في المرحلة المتوسطة بطريقة سهلة ومبسطة",
+    isPopular: true,
     options: {
       humanTone: true,
       examples: true,
@@ -76,6 +79,7 @@ const templates: Template[] = [
     icon: <MessageSquare className="w-6 h-6" />,
     usageType: "social",
     basePrompt: "اكتب منشور تحفيزي عن أهمية التعلم المستمر وتطوير الذات",
+    isPopular: true,
     options: {
       humanTone: true,
       examples: false,
@@ -122,6 +126,7 @@ const templates: Template[] = [
     icon: <Target className="w-6 h-6" />,
     usageType: "article",
     basePrompt: "أعد خطة تسويقية رقمية متكاملة لمشروع [الوصف] في السوق السعودي تتضمن الأهداف، الجمهور، القنوات، والميزانية",
+    isPopular: true,
     options: {
       humanTone: true,
       examples: true,
@@ -167,6 +172,7 @@ const templates: Template[] = [
     icon: <Calendar className="w-6 h-6" />,
     usageType: "article",
     basePrompt: "أنشئ تقويم محتوى لـ [العلامة التجارية] لمدة شهر يتضمن مناسبات سعودية (رمضان، اليوم الوطني، موسم الرياض)",
+    isPopular: true,
     options: {
       humanTone: true,
       examples: true,
@@ -243,6 +249,7 @@ const templates: Template[] = [
     icon: <MessageSquare className="w-6 h-6" />,
     usageType: "social",
     basePrompt: "اكتب 5 نصوص إعلانية لـ [المنتج/الخدمة] على [المنصة] بأسلوب جذاب ومقنع",
+    isPopular: true,
     options: {
       humanTone: true,
       examples: true,
@@ -365,6 +372,7 @@ const templates: Template[] = [
     icon: <MessageSquare className="w-6 h-6" />,
     usageType: "article",
     basePrompt: "اكتب رسالة دعم احترافية بالعربية لعميل يشتكي من [المشكلة] في [المنتج/الخدمة] بأسلوب ودي وحل فعال",
+    isPopular: true,
     options: {
       humanTone: true,
       examples: true,
@@ -440,6 +448,7 @@ const templates: Template[] = [
     icon: <Lightbulb className="w-6 h-6" />,
     usageType: "article",
     basePrompt: "اكتب قصة ملهمة لـ [العلامة التجارية] السعودية تتضمن البداية، التحديات، والحلم مع ربط عاطفي قوي",
+    isPopular: true,
     options: {
       humanTone: true,
       examples: true,
@@ -485,7 +494,7 @@ interface TemplateLibraryProps {
   compact?: boolean;
 }
 
-type TemplateCategory = "الكل" | "تعليمي" | "عملي" | "إبداعي" | "عام";
+type TemplateCategory = "الكل" | "تعليمي" | "عملي" | "إبداعي" | "عام" | "الشائعة";
 
 const categoryMap: Record<string, TemplateCategory> = {
   "student-explanation": "عام",
@@ -519,14 +528,27 @@ const categoryMap: Record<string, TemplateCategory> = {
   "vision-2030": "تعليمي",
 };
 
+const popularTemplateIds = [
+  "student-explanation",
+  "social-post",
+  "marketing-plan",
+  "content-calendar",
+  "ad-copy",
+  "customer-service",
+  "brand-story",
+];
+
 export default function TemplateLibrary({ onSelectTemplate, compact = false }: TemplateLibraryProps) {
   const [activeCategory, setActiveCategory] = useState<TemplateCategory>("الكل");
 
   const filteredTemplates = activeCategory === "الكل" 
     ? templates 
+    : activeCategory === "الشائعة"
+    ? templates.filter(t => popularTemplateIds.includes(t.id))
     : templates.filter(t => categoryMap[t.id] === activeCategory);
 
-  const categories: { id: TemplateCategory; label: string; count: number }[] = [
+  const categories: { id: TemplateCategory; label: string; count: number; icon?: React.ReactNode }[] = [
+    { id: "الشائعة", label: "🔥 الشائعة", count: templates.filter(t => popularTemplateIds.includes(t.id)).length, icon: <Flame className="w-4 h-4 text-orange-500" /> },
     { id: "الكل", label: "الكل", count: templates.length },
     { id: "تعليمي", label: "تعليمي", count: templates.filter(t => categoryMap[t.id] === "تعليمي").length },
     { id: "عملي", label: "عملي", count: templates.filter(t => categoryMap[t.id] === "عملي").length },
@@ -544,9 +566,10 @@ export default function TemplateLibrary({ onSelectTemplate, compact = false }: T
               variant={activeCategory === category.id ? "default" : "outline"}
               size="sm"
               onClick={() => setActiveCategory(category.id)}
-              className="gap-2"
+              className={`gap-2 ${category.id === "الشائعة" ? "border-orange-500/50 hover:bg-orange-500/10" : ""}`}
             >
               {category.id === "الكل" && <Layers className="w-4 h-4" />}
+              {category.id === "الشائعة" && <Flame className="w-4 h-4 text-orange-500" />}
               {category.label}
               <span className="text-xs opacity-70">({category.count})</span>
             </Button>
@@ -557,9 +580,19 @@ export default function TemplateLibrary({ onSelectTemplate, compact = false }: T
         {filteredTemplates.map((template) => (
           <Card
             key={template.id}
-            className="p-6 bg-card/50 border-primary/20 hover:border-primary/40 transition-all hover:shadow-lg hover:shadow-primary/10 cursor-pointer group"
+            className={`p-6 bg-card/50 transition-all hover:shadow-lg cursor-pointer group relative ${
+              popularTemplateIds.includes(template.id)
+                ? "border-orange-500/30 hover:border-orange-500/60 hover:shadow-orange-500/10"
+                : "border-primary/20 hover:border-primary/40 hover:shadow-primary/10"
+            }`}
             onClick={() => onSelectTemplate(template)}
           >
+            {popularTemplateIds.includes(template.id) && (
+              <div className="absolute top-3 right-3 bg-orange-500/20 text-orange-600 px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+                <Flame className="w-3 h-3" /> شائع
+              </div>
+            )}
+          
             <div className="space-y-4">
               <div className="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center text-primary group-hover:bg-primary/30 transition-colors">
                 {template.icon}
