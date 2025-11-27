@@ -9,7 +9,7 @@ import { Link } from "wouter";
 import { getLoginUrl } from "@/const";
 
 export default function MyLibrary() {
-  const { user, loading: authLoading } = useAuth();
+  const { user } = useAuth();
   const [exportFormat, setExportFormat] = useState<"json" | "txt">("json");
 
   const { data: prompts, isLoading, refetch } = trpc.savedPrompts.list.useQuery();
@@ -52,7 +52,7 @@ export default function MyLibrary() {
     toast.success("تم نسخ البرومبت");
   };
 
-  if (authLoading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />

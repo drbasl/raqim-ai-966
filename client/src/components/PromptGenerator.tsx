@@ -17,6 +17,7 @@ import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import ExportMenu from "./ExportMenu";
 import ShareWebsiteButton from "./ShareWebsiteButton";
+import ShareButtons from "./ShareButtons";
 import { useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 
