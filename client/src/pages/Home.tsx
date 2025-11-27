@@ -505,28 +505,81 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About Us Button Section - at the end */}
-      <section className="py-12 bg-gradient-to-b from-background to-muted/30">
-        <div className="container px-3 md:px-4">
-          <div className="flex items-center justify-center">
-            <button
-              onClick={() => {
-                const element = document.getElementById('about');
-                element?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="group p-6 md:p-8 rounded-2xl border-2 border-dashed border-primary/30 hover:border-primary/60 bg-gradient-to-br from-primary/5 to-primary/10 hover:from-primary/10 hover:to-primary/15 transition-all duration-300 text-center max-w-md"
-            >
-              <div className="w-16 h-16 md:w-20 md:h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-red-500/20 to-pink-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                <Heart className="w-8 h-8 md:w-10 md:h-10 text-red-500" />
-              </div>
-              <h3 className="font-bold text-lg md:text-xl mb-2 text-foreground">من نحن؟</h3>
-              <p className="text-sm md:text-base text-muted-foreground mb-4">
-                تعرف على رقيم AI 966 ورؤيتنا لتطوير صناعة البرومبتات في العالم العربي
+      {/* About Us Section - at the end */}
+      <section className="py-16 sm:py-20 md:py-24 bg-gradient-to-b from-background via-primary/5 to-muted/30">
+        <div className="container px-4 sm:px-6">
+          <div className="max-w-4xl mx-auto">
+            {/* Header */}
+            <div className="text-center mb-10 sm:mb-12 md:mb-14">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-5">
+                🇸🇦 من المملكة... للعالم العربي
+              </h2>
+              <p className="text-xl sm:text-2xl md:text-3xl font-semibold text-primary">
+                نحول أفكارك إلى برومبتات احترافية
               </p>
-              <div className="text-xs md:text-sm text-primary font-semibold">
-                اضغط لتعرف أكثر ↓
+            </div>
+
+            {/* Main Content */}
+            <div className="space-y-6 sm:space-y-7 md:space-y-8 text-base sm:text-lg md:text-lg leading-relaxed">
+              {/* Intro */}
+              <p className="text-muted-foreground">
+                <span className="font-semibold text-foreground">رقيم AI 966</span> هي منصة سعودية متخصصة في هندسة البرومبتات والذكاء الاصطناعي.
+              </p>
+
+              {/* Story */}
+              <div className="bg-card/50 border border-primary/20 rounded-xl p-6 sm:p-7 md:p-8">
+                <p className="text-muted-foreground text-lg sm:text-xl">
+                  ولدت الفكرة من تحدٍ بسيط: كيف نجعل التعامل مع الذكاء الاصطناعي سهلاً، احترافياً، وفعالاً لكل مستخدم عربي؟
+                </p>
               </div>
-            </button>
+
+              {/* What We Do */}
+              <div>
+                <p className="font-bold text-foreground mb-4 text-lg">اليوم، نخدم آلاف المستخدمين في:</p>
+                <ul className="space-y-3 text-muted-foreground">
+                  <li className="flex gap-3 items-start text-base sm:text-lg">
+                    <span className="text-primary font-bold text-xl mt-0.5">✓</span>
+                    <span>إنشاء برومبتات احترافية خلال ثوانٍ</span>
+                  </li>
+                  <li className="flex gap-3 items-start text-base sm:text-lg">
+                    <span className="text-primary font-bold text-xl mt-0.5">✓</span>
+                    <span>تحليل وتحسين جودة البرومبتات</span>
+                  </li>
+                  <li className="flex gap-3 items-start text-base sm:text-lg">
+                    <span className="text-primary font-bold text-xl mt-0.5">✓</span>
+                    <span>الوصول لمكتبة قوالب جاهزة ومتجددة</span>
+                  </li>
+                  <li className="flex gap-3 items-start text-base sm:text-lg">
+                    <span className="text-primary font-bold text-xl mt-0.5">✓</span>
+                    <span>التعلم من أوراق العمل التعليمية</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Mission */}
+              <div className="bg-gradient-to-r from-primary/10 to-primary/5 rounded-xl p-6 sm:p-7 md:p-8 border border-primary/30 space-y-3">
+                <p className="text-foreground font-bold text-lg sm:text-xl">رقيم 966 ليست مجرد أداة...</p>
+                <p className="text-muted-foreground text-lg sm:text-lg">
+                  إنها شريكك في رحلتك مع الذكاء الاصطناعي.
+                </p>
+              </div>
+
+              {/* Vision & Values */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
+                <div className="bg-card border border-border/50 rounded-xl p-5 sm:p-6 md:p-7 text-center">
+                  <p className="font-bold text-foreground text-lg sm:text-xl mb-3">🎯 رؤيتنا</p>
+                  <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                    أن نكون المرجع العربي الأول في هندسة البرومبتات
+                  </p>
+                </div>
+                <div className="bg-card border border-border/50 rounded-xl p-5 sm:p-6 md:p-7 text-center">
+                  <p className="font-bold text-foreground text-lg sm:text-xl mb-3">💚 مبدأنا</p>
+                  <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                    مجاني 100% وسيبقى كذلك
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
