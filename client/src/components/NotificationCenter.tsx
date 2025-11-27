@@ -1,4 +1,5 @@
-import { useNotification } from '@/hooks/useNotification';
+import { useContext } from 'react';
+import { NotificationContext } from '@/contexts/NotificationContext';
 import { Bell, X, CheckCircle, AlertCircle, Info, XCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -17,7 +18,10 @@ const iconMap = {
 };
 
 export default function NotificationCenter() {
-  const { notifications, removeNotification, clearAll } = useNotification();
+  const context = useContext(NotificationContext);
+  if (!context) return null;
+
+  const { notifications, removeNotification, clearAll } = context;
 
   if (notifications.length === 0) return null;
 
@@ -59,7 +63,10 @@ export default function NotificationCenter() {
 }
 
 export function NotificationBell() {
-  const { notifications } = useNotification();
+  const context = useContext(NotificationContext);
+  if (!context) return null;
+
+  const { notifications } = context;
   const unreadCount = notifications.length;
 
   return (
