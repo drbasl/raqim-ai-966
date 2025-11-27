@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Sparkles, Copy, Check } from "lucide-react";
+import { Sparkles, Copy, Check, Share2 } from "lucide-react";
+import { toast } from "sonner";
 
 type StyleType = "realistic" | "artistic" | "anime";
 type QualityType = "ultra" | "high" | "standard";
@@ -74,7 +75,29 @@ export default function ImagePromptGenerator() {
   const copyPrompt = () => {
     navigator.clipboard.writeText(generatedPrompt);
     setCopied(true);
+    toast.success("تم نسخ البرومبت بنجاح! ✅");
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const sharePrompt = async () => {
+    const currentUrl = typeof window !== 'undefined' ? window.location.href : 'https://raqim966.com';
+    const shareText = `شاهد هذا البرومبت الرائع من رقيم AI 966:\n\n"${description}"\n\n${currentUrl}`;
+    
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "برومبت صورة",
+          text: generatedPrompt,
+          url: currentUrl,
+        });
+      } catch (err) {
+        console.log('المشاركة ملغاة');
+      }
+    } else {
+      // Fallback: copy to clipboard
+      await navigator.clipboard.writeText(shareText);
+      toast.success("تم نسخ البرومبت للمشاركة!");
+    }
   };
 
   const handleQuickExample = (example: string) => {
@@ -203,6 +226,16 @@ export default function ImagePromptGenerator() {
               <p className="text-slate-700 dark:text-slate-200 text-xs md:text-sm leading-relaxed font-mono">
                 {generatedPrompt}
               </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2">
+              <Button
+                onClick={sharePrompt}
+                className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-medium text-sm"
+              >
+                <Share2 className="w-4 h-4 ml-2" />
+                مشاركة
+              </Button>
             </div>
 
             <div className="text-xs md:text-sm text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-800 p-3 rounded-lg border border-slate-200/50 dark:border-slate-700">

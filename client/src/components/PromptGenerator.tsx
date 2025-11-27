@@ -434,6 +434,13 @@ export default function PromptGenerator({
                   size="sm"
                   className="w-full border-primary/30 hover:bg-primary/10"
                 />
+                
+                {/* Share Prompt Button */}
+                <ShareButtons 
+                  promptId={1}
+                  promptTitle={basePrompt.slice(0, 50)}
+                  promptText={generateMutation.data.enhancedPrompt}
+                />
               </div>
             </div>
           </div>
