@@ -505,89 +505,86 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About Us Section - at the end */}
-      <section className="py-16 sm:py-20 md:py-24 bg-gradient-to-b from-background via-primary/5 to-muted/30">
-        <div className="container px-4 sm:px-6">
-          <div className="max-w-4xl mx-auto">
+      {/* Footer */}
+      <footer className="border-t border-border/50 py-12 bg-muted/20">
+        <div className="container">
+          <MobileBottomNav />
+          
+          {/* About Us Section - at the end of page */}
+          <div className="max-w-4xl mx-auto mb-12 pb-12 border-b border-border/30">
             {/* Header */}
-            <div className="text-center mb-10 sm:mb-12 md:mb-14">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-5">
+            <div className="text-center mb-8 sm:mb-10">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">
                 🇸🇦 من المملكة... للعالم العربي
               </h2>
-              <p className="text-xl sm:text-2xl md:text-3xl font-semibold text-primary">
+              <p className="text-lg sm:text-xl font-semibold text-primary">
                 نحول أفكارك إلى برومبتات احترافية
               </p>
             </div>
 
             {/* Main Content */}
-            <div className="space-y-6 sm:space-y-7 md:space-y-8 text-base sm:text-lg md:text-lg leading-relaxed">
+            <div className="space-y-4 sm:space-y-5 text-sm sm:text-base leading-relaxed">
               {/* Intro */}
               <p className="text-muted-foreground">
                 <span className="font-semibold text-foreground">رقيم AI 966</span> هي منصة سعودية متخصصة في هندسة البرومبتات والذكاء الاصطناعي.
               </p>
 
               {/* Story */}
-              <div className="bg-card/50 border border-primary/20 rounded-xl p-6 sm:p-7 md:p-8">
-                <p className="text-muted-foreground text-lg sm:text-xl">
+              <div className="bg-card/50 border border-primary/20 rounded-lg p-4">
+                <p className="text-muted-foreground">
                   ولدت الفكرة من تحدٍ بسيط: كيف نجعل التعامل مع الذكاء الاصطناعي سهلاً، احترافياً، وفعالاً لكل مستخدم عربي؟
                 </p>
               </div>
 
               {/* What We Do */}
               <div>
-                <p className="font-bold text-foreground mb-4 text-lg">اليوم، نخدم آلاف المستخدمين في:</p>
-                <ul className="space-y-3 text-muted-foreground">
-                  <li className="flex gap-3 items-start text-base sm:text-lg">
-                    <span className="text-primary font-bold text-xl mt-0.5">✓</span>
+                <p className="font-bold text-foreground mb-3">اليوم، نخدم آلاف المستخدمين في:</p>
+                <ul className="space-y-2 text-muted-foreground">
+                  <li className="flex gap-2 items-start">
+                    <span className="text-primary font-bold mt-0.5">✓</span>
                     <span>إنشاء برومبتات احترافية خلال ثوانٍ</span>
                   </li>
-                  <li className="flex gap-3 items-start text-base sm:text-lg">
-                    <span className="text-primary font-bold text-xl mt-0.5">✓</span>
+                  <li className="flex gap-2 items-start">
+                    <span className="text-primary font-bold mt-0.5">✓</span>
                     <span>تحليل وتحسين جودة البرومبتات</span>
                   </li>
-                  <li className="flex gap-3 items-start text-base sm:text-lg">
-                    <span className="text-primary font-bold text-xl mt-0.5">✓</span>
+                  <li className="flex gap-2 items-start">
+                    <span className="text-primary font-bold mt-0.5">✓</span>
                     <span>الوصول لمكتبة قوالب جاهزة ومتجددة</span>
                   </li>
-                  <li className="flex gap-3 items-start text-base sm:text-lg">
-                    <span className="text-primary font-bold text-xl mt-0.5">✓</span>
+                  <li className="flex gap-2 items-start">
+                    <span className="text-primary font-bold mt-0.5">✓</span>
                     <span>التعلم من أوراق العمل التعليمية</span>
                   </li>
                 </ul>
               </div>
 
               {/* Mission */}
-              <div className="bg-gradient-to-r from-primary/10 to-primary/5 rounded-xl p-6 sm:p-7 md:p-8 border border-primary/30 space-y-3">
-                <p className="text-foreground font-bold text-lg sm:text-xl">رقيم 966 ليست مجرد أداة...</p>
-                <p className="text-muted-foreground text-lg sm:text-lg">
+              <div className="bg-gradient-to-r from-primary/10 to-primary/5 rounded-lg p-4 border border-primary/30 space-y-2">
+                <p className="text-foreground font-bold">رقيم 966 ليست مجرد أداة...</p>
+                <p className="text-muted-foreground">
                   إنها شريكك في رحلتك مع الذكاء الاصطناعي.
                 </p>
               </div>
 
               {/* Vision & Values */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
-                <div className="bg-card border border-border/50 rounded-xl p-5 sm:p-6 md:p-7 text-center">
-                  <p className="font-bold text-foreground text-lg sm:text-xl mb-3">🎯 رؤيتنا</p>
-                  <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="bg-card border border-border/50 rounded-lg p-4 text-center">
+                  <p className="font-bold text-foreground mb-2">🎯 رؤيتنا</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground">
                     أن نكون المرجع العربي الأول في هندسة البرومبتات
                   </p>
                 </div>
-                <div className="bg-card border border-border/50 rounded-xl p-5 sm:p-6 md:p-7 text-center">
-                  <p className="font-bold text-foreground text-lg sm:text-xl mb-3">💚 مبدأنا</p>
-                  <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                <div className="bg-card border border-border/50 rounded-lg p-4 text-center">
+                  <p className="font-bold text-foreground mb-2">💚 مبدأنا</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground">
                     مجاني 100% وسيبقى كذلك
                   </p>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Footer */}
-      <footer className="border-t border-border/50 py-8 bg-muted/20">
-        <div className="container">
-        <MobileBottomNav />
           <div className="text-center space-y-6">
             {/* Logo */}
             <div className="flex items-center justify-center gap-2">
