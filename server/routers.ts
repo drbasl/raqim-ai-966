@@ -627,6 +627,56 @@ ${input.sourceText ? `\n\nالنص المصدر:\n${input.sourceText}` : ""}
         };
       }),
   }),
+
+  images: router({
+    generateNanoBanana: publicProcedure
+      .input(z.object({ prompt: z.string().min(10).max(500) }))
+      .mutation(async ({ input }) => {
+        try {
+          // Try using Gemini AI integration (nano banana)
+          const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-goog-api-key': process.env.GEMINI_API_KEY || '',
+            },
+            body: JSON.stringify({
+              contents: [
+                {
+                  parts: [
+                    {
+                      text: input.prompt,
+                    },
+                  ],
+                },
+              ],
+              generationConfig: {
+                temperature: 0.9,
+                topP: 0.95,
+              },
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error(`API error: ${response.statusText}`);
+          }
+
+          const data = await response.json();
+          
+          if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
+            return {
+              imageUrl: data.candidates[0].content.parts[0].text,
+              success: true,
+            };
+          }
+
+          throw new Error('No image data in response');
+        } catch (error) {
+          console.error('Image generation error:', error);
+          throw new Error('فشل توليد الصورة. يرجى المحاولة مرة أخرى.');
+        }
+      }),
+  }),
 });
 
 function buildSystemPromptForHybrid(userInput: string, usageType: string, options?: any): string {
