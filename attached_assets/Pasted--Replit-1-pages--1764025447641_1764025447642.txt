@@ -1,0 +1,184 @@
+📝 الخطوات في Replit:
+1️⃣ أنشئ مجلد pages إذا مو موجود
+في قائمة الملفات على اليسار، اضغط على أيقونة + بجانب Files
+اسم المجلد: pages
+2️⃣ أنشئ ملف جديد داخل pages
+اسم الملف: about.jsx
+أو إذا تستخدم App Router:
+اسم المجلد: app/about
+اسم الملف: page.jsx
+3️⃣ انسخ والصق الكود التالي:
+jsximport { Heart, Sparkles, Target, Zap, Globe, BookOpen } from 'lucide-react';
+
+export default function About() {
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      
+      {/* Hero Section */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 pt-20 pb-16">
+        <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
+          
+          <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-sm mb-6">
+            <span className="text-2xl">🇸🇦</span>
+            <span className="text-green-700 font-semibold">من المملكة... للعالم العربي</span>
+          </div>
+
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+            نحوّل أفكارك إلى برومبتات احترافية
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-blue-600"> خلال ثوانٍ</span>
+          </h1>
+
+          <p className="text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto mb-6">
+            رقيم AI 966 منصة سعودية رائدة في هندسة البرومبتات.
+          </p>
+
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg inline-block">
+            <p className="text-lg text-gray-700 font-medium">
+              انطلقنا من سؤال واحد: كيف نجعل الذكاء الاصطناعي سهلاً لكل مستخدم عربي؟
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section className="py-16 px-4">
+        <div className="max-w-6xl mx-auto">
+          
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-800 mb-3">ما نقدمه لك</h2>
+            <div className="w-24 h-1 bg-gradient-to-r from-green-500 to-blue-500 mx-auto rounded-full" />
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            
+            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+              <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center mb-4 shadow-lg">
+                <Zap className="w-7 h-7 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-800 mb-2">
+                توليد برومبتات احترافية في ثوانٍ
+              </h3>
+              <p className="text-gray-600">
+                احصل على برومبتات مُحسّنة وجاهزة للاستخدام مباشرة
+              </p>
+            </div>
+
+            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+              <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center mb-4 shadow-lg">
+                <Sparkles className="w-7 h-7 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-800 mb-2">
+                تحسين وتطوير جودة نتائجك
+              </h3>
+              <p className="text-gray-600">
+                نساعدك في الوصول لأفضل النتائج من أدوات الذكاء الاصطناعي
+              </p>
+            </div>
+
+            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+              <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center mb-4 shadow-lg">
+                <Globe className="w-7 h-7 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-800 mb-2">
+                مكتبة قوالب جاهزة ومتجددة
+              </h3>
+              <p className="text-gray-600">
+                آلاف القوالب المتخصصة لمختلف المجالات والاستخدامات
+              </p>
+            </div>
+
+            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+              <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-red-600 rounded-xl flex items-center justify-center mb-4 shadow-lg">
+                <BookOpen className="w-7 h-7 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-800 mb-2">
+                موارد تعليمية عربية شاملة
+              </h3>
+              <p className="text-gray-600">
+                تعلّم من أوراق العمل والدورات المجانية بالعربية
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Vision & Commitment */}
+      <section className="py-16 px-4 bg-gradient-to-br from-green-50 to-blue-50">
+        <div className="max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-8">
+            
+            <div className="bg-white rounded-2xl p-8 shadow-lg text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                <Target className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-800 mb-3">🎯 رؤيتنا</h3>
+              <p className="text-lg text-gray-700 font-medium">
+                المرجع العربي الأول في هندسة البرومبتات
+              </p>
+            </div>
+
+            <div className="bg-white rounded-2xl p-8 shadow-lg text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                <Heart className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-800 mb-3">💚 التزامنا</h3>
+              <p className="text-lg text-gray-700 font-medium">
+                مجاني 100% - اليوم وغداً وإلى الأبد
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Final Statement */}
+      <section className="py-16 px-4">
+        <div className="max-w-3xl mx-auto text-center">
+          <div className="bg-gradient-to-br from-green-500 via-blue-500 to-purple-600 rounded-3xl p-1 shadow-2xl">
+            <div className="bg-white rounded-[22px] p-10">
+              <Sparkles className="w-12 h-12 text-purple-600 mx-auto mb-4" />
+              <h2 className="text-3xl font-bold text-gray-800 mb-4">
+                رقيم 966 ليست مجرد أداة
+              </h2>
+              <p className="text-2xl text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-blue-600 to-purple-600 font-bold">
+                إنها شريكك في إتقان فن الذكاء الاصطناعي 🚀
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  );
+}
+4️⃣ أضف الرابط في الـ Header/Navigation
+ابحث عن ملف الـ navigation (عادة في components/Header.jsx أو components/Navbar.jsx)
+أضف هذا الكود:
+jsximport Link from 'next/link';
+import { Heart } from 'lucide-react';
+
+// داخل الروابط:
+<Link href="/about" className="flex items-center gap-2 hover:text-green-600">
+  <Heart className="w-5 h-5" />
+  من نحن
+</Link>
+```
+
+### **5️⃣ احفظ الملفات**
+
+اضغط `Ctrl + S` أو `Cmd + S`
+
+### **6️⃣ اضغط Republish**
+
+في أعلى Replit، اضغط زر **"Republish"**
+
+---
+
+## 🎯 **الملخص السريع:**
+```
+1. أنشئ: pages/about.jsx
+2. الصق الكود أعلاه
+3. أضف رابط في الـ navigation
+4. احفظ (Ctrl+S)
+5. Republish
