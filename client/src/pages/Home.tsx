@@ -7,7 +7,6 @@ import { Sparkles, Send, Moon, Sun, Menu, Wand2, LayoutGrid, Target, ArrowLeft, 
 import PromptGenerator from "@/components/PromptGenerator";
 import TemplateLibrary, { Template } from "@/components/TemplateLibrary";
 import SpecializedTemplates from "@/components/SpecializedTemplates";
-import ImagePromptGenerator from "@/components/ImagePromptGenerator";
 import FAQ from "@/components/FAQ";
 import ProfessionalExamples from "@/components/ProfessionalExamples";
 import OnboardingTour, { RestartTourButton } from "@/components/OnboardingTour";
@@ -454,13 +453,6 @@ export default function Home() {
       <section id="faq" className="py-16">
         <div className="container max-w-4xl">
           <FAQ />
-        </div>
-      </section>
-
-      {/* Image Prompt Generator Section */}
-      <section id="image-generator" className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-emerald-50/30 dark:from-slate-900/30 to-background">
-        <div className="container">
-          <ImagePromptGenerator />
         </div>
       </section>
 
