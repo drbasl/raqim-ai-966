@@ -153,6 +153,53 @@ export default function Home() {
         </div>
       </header>
 
+      {/* Navigation Tabs */}
+      <nav className="border-b border-border/30 bg-background/50 backdrop-blur-sm sticky top-16 z-40">
+        <div className="container">
+          <div className="flex items-center gap-1 md:gap-2 overflow-x-auto scrollbar-hide">
+            <Button 
+              variant="ghost" 
+              className="text-sm md:text-base rounded-none border-b-2 border-b-primary px-3 md:px-6 py-2 md:py-3 whitespace-nowrap"
+              onClick={scrollToGenerator}
+            >
+              مولّد البرومبتات
+            </Button>
+            <a href="#image-generator">
+              <Button 
+                variant="ghost"
+                className="text-sm md:text-base rounded-none border-b-2 border-b-transparent hover:border-b-primary/50 px-3 md:px-6 py-2 md:py-3 whitespace-nowrap"
+              >
+                برومبتات الصور
+              </Button>
+            </a>
+            <a href="/templates">
+              <Button 
+                variant="ghost"
+                className="text-sm md:text-base rounded-none border-b-2 border-b-transparent hover:border-b-primary/50 px-3 md:px-6 py-2 md:py-3 whitespace-nowrap"
+              >
+                كيف يعمل؟
+              </Button>
+            </a>
+            <a href="/templates">
+              <Button 
+                variant="ghost"
+                className="text-sm md:text-base rounded-none border-b-2 border-b-transparent hover:border-b-primary/50 px-3 md:px-6 py-2 md:py-3 whitespace-nowrap"
+              >
+                محلل البرومبتات
+              </Button>
+            </a>
+            <a href="/templates">
+              <Button 
+                variant="ghost"
+                className="text-sm md:text-base rounded-none border-b-2 border-b-transparent hover:border-b-primary/50 px-3 md:px-6 py-2 md:py-3 whitespace-nowrap"
+              >
+                مولد أوراق العمل
+              </Button>
+            </a>
+          </div>
+        </div>
+      </nav>
+
       {/* Hero Section - Simplified */}
       <section className="hero-new hero-section">
         <div className="decorative-shape shape-1"></div>
