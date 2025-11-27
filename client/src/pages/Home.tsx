@@ -331,85 +331,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About Us Section */}
-      <section id="about" className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-background to-muted/20">
-        <div className="container px-4 sm:px-6">
-          <div className="max-w-4xl mx-auto">
-            {/* Header */}
-            <div className="text-center mb-8 sm:mb-10 md:mb-12">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4">
-                🇸🇦 من المملكة... للعالم العربي
-              </h2>
-              <p className="text-lg sm:text-xl md:text-2xl font-semibold text-primary mb-2 sm:mb-3">
-                نحول أفكارك إلى برومبتات احترافية
-              </p>
-            </div>
-
-            {/* Main Content */}
-            <div className="space-y-4 sm:space-y-5 md:space-y-6 text-sm sm:text-base md:text-lg leading-relaxed">
-              {/* Intro */}
-              <p className="text-muted-foreground">
-                <span className="font-semibold text-foreground">رقيم AI 966</span> هي منصة سعودية متخصصة في هندسة البرومبتات والذكاء الاصطناعي.
-              </p>
-
-              {/* Story */}
-              <div className="bg-card border border-primary/10 rounded-lg p-4 sm:p-5 md:p-6">
-                <p className="text-muted-foreground">
-                  ولدت الفكرة من تحدٍ بسيط: كيف نجعل التعامل مع الذكاء الاصطناعي سهلاً، احترافياً، وفعالاً لكل مستخدم عربي؟
-                </p>
-              </div>
-
-              {/* What We Do */}
-              <div>
-                <p className="font-semibold text-foreground mb-3">اليوم، نخدم آلاف المستخدمين في:</p>
-                <ul className="space-y-2 text-muted-foreground">
-                  <li className="flex gap-2 items-start">
-                    <span className="text-primary font-bold mt-0.5">✓</span>
-                    <span>إنشاء برومبتات احترافية خلال ثوانٍ</span>
-                  </li>
-                  <li className="flex gap-2 items-start">
-                    <span className="text-primary font-bold mt-0.5">✓</span>
-                    <span>تحليل وتحسين جودة البرومبتات</span>
-                  </li>
-                  <li className="flex gap-2 items-start">
-                    <span className="text-primary font-bold mt-0.5">✓</span>
-                    <span>الوصول لمكتبة قوالب جاهزة ومتجددة</span>
-                  </li>
-                  <li className="flex gap-2 items-start">
-                    <span className="text-primary font-bold mt-0.5">✓</span>
-                    <span>التعلم من أوراق العمل التعليمية</span>
-                  </li>
-                </ul>
-              </div>
-
-              {/* Mission */}
-              <div className="bg-gradient-to-r from-primary/5 to-primary/10 rounded-lg p-4 sm:p-5 md:p-6 border border-primary/20">
-                <p className="text-foreground font-semibold mb-2">رقيم 966 ليست مجرد أداة...</p>
-                <p className="text-muted-foreground">
-                  إنها شريكك في رحلتك مع الذكاء الاصطناعي.
-                </p>
-              </div>
-
-              {/* Vision & Values */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                <div className="bg-card border border-border/50 rounded-lg p-4">
-                  <p className="font-semibold text-foreground text-center">🎯 رؤيتنا</p>
-                  <p className="text-xs sm:text-sm text-muted-foreground text-center mt-2">
-                    أن نكون المرجع العربي الأول في هندسة البرومبتات
-                  </p>
-                </div>
-                <div className="bg-card border border-border/50 rounded-lg p-4">
-                  <p className="font-semibold text-foreground text-center">💚 مبدأنا</p>
-                  <p className="text-xs sm:text-sm text-muted-foreground text-center mt-2">
-                    مجاني 100% وسيبقى كذلك
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Generator Section with Tabs */}
       <section id="generator" className="py-16 bg-card/30 prompt-generator">
         <div className="container">
