@@ -1,0 +1,469 @@
+شرح مفصل للميزات الثلاث 📚
+1️⃣ نظام النسخ والمشاركة 📋
+ما هي هذه الميزة؟
+نظام يسمح للمستخدمين بنسخ البرومبت بسهولة ومشاركته مع الآخرين.
+لماذا مهمة؟
+✅ سهولة الاستخدام: نسخ بضغطة زر واحدة
+✅ Viral Growth: كل مشاركة = إعلان مجاني لموقعك
+✅ تجربة مستخدم أفضل: بدلاً من التحديد والنسخ يدوياً
+كيف تعمل؟
+أ. زر النسخ
+import { Copy, Check } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
+
+function CopyButton({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      toast.success("تم نسخ البرومبت بنجاح! ✅");
+      
+      // إعادة الحالة بعد ثانيتين
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      toast.error("فشل النسخ، حاول مرة أخرى");
+    }
+  };
+
+  return (
+    <button
+      onClick={handleCopy}
+      className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90"
+    >
+      {copied ? (
+        <>
+          <Check className="w-4 h-4" />
+          تم النسخ
+        </>
+      ) : (
+        <>
+          <Copy className="w-4 h-4" />
+          نسخ البرومبت
+        </>
+      )}
+    </button>
+  );
+}
+ب. أزرار المشاركة
+import { Share2, MessageCircle } from "lucide-react";
+
+function ShareButtons({ promptText, promptTitle }: { 
+  promptText: string; 
+  promptTitle: string;
+}) {
+  const currentUrl = window.location.href;
+  const shareText = `شاهد هذا البرومبت الرائع من رقيم AI 966:\n\n"${promptTitle}"\n\n${currentUrl}`;
+
+  // مشاركة على Twitter/X
+  const shareOnTwitter = () => {
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
+    window.open(url, '_blank');
+  };
+
+  // مشاركة على WhatsApp
+  const shareOnWhatsApp = () => {
+    const url = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+    window.open(url, '_blank');
+  };
+
+  // مشاركة على Telegram
+  const shareOnTelegram = () => {
+    const url = `https://t.me/share/url?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(promptTitle)}`;
+    window.open(url, '_blank');
+  };
+
+  // Web Share API (للموبايل)
+  const handleNativeShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: promptTitle,
+          text: promptText,
+          url: currentUrl,
+        });
+      } catch (err) {
+        console.log('المشاركة ملغاة');
+      }
+    }
+  };
+
+  return (
+    <div className="flex gap-2">
+      {/* زر مشاركة عام */}
+      {navigator.share && (
+        <button onClick={handleNativeShare} className="btn-share">
+          <Share2 className="w-4 h-4" />
+          مشاركة
+        </button>
+      )}
+
+      {/* Twitter */}
+      <button onClick={shareOnTwitter} className="btn-twitter">
+        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+      </button>
+
+      {/* WhatsApp */}
+      <button onClick={shareOnWhatsApp} className="btn-whatsapp">
+        <MessageCircle className="w-4 h-4" />
+      </button>
+
+      {/* Telegram */}
+      <button onClick={shareOnTelegram} className="btn-telegram">
+        <Send className="w-4 h-4" />
+      </button>
+    </div>
+  );
+}
+ج. نظام الروابط المشتركة
+// توليد رابط فريد لكل برومبت
+function generateShareableLink(promptId: string) {
+  const baseUrl = 'https://raqim966.com';
+  return `${baseUrl}/prompt/${promptId}`;
+}
+
+// حفظ البرومبت مع ID فريد
+const promptId = nanoid(); // مكتبة nanoid موجودة في مشروعك
+const shareUrl = generateShareableLink(promptId);
+2️⃣ حفظ البرومبتات في localStorage 💾
+ما هي هذه الميزة؟
+حفظ البرومبتات المفضلة والسابقة في متصفح المستخدم (بدون حاجة لحساب).
+لماذا مهمة؟
+✅ سريع: لا حاجة لـ database أو backend
+✅ خصوصية: البيانات تبقى في جهاز المستخدم
+✅ بدون تسجيل دخول: يعمل فوراً
+✅ Offline: يعمل حتى بدون إنترنت
+كيف تعمل؟
+أ. نظام حفظ البرومبتات
+// types.ts
+interface SavedPrompt {
+  id: string;
+  title: string;
+  content: string;
+  category: string;
+  createdAt: string;
+  isFavorite: boolean;
+}
+
+// useLocalStorage.ts - Hook مخصص
+import { useState, useEffect } from 'react';
+
+function useLocalStorage<T>(key: string, initialValue: T) {
+  // قراءة القيمة المحفوظة
+  const [storedValue, setStoredValue] = useState<T>(() => {
+    try {
+      const item = window.localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
+    } catch (error) {
+      console.error(error);
+      return initialValue;
+    }
+  });
+
+  // حفظ القيمة الجديدة
+  const setValue = (value: T | ((val: T) => T)) => {
+    try {
+      const valueToStore = value instanceof Function ? value(storedValue) : value;
+      setStoredValue(valueToStore);
+      window.localStorage.setItem(key, JSON.stringify(valueToStore));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return [storedValue, setValue] as const;
+}
+
+// استخدام في المكون
+function PromptManager() {
+  const [savedPrompts, setSavedPrompts] = useLocalStorage<SavedPrompt[]>('raqim-prompts', []);
+
+  // حفظ برومبت جديد
+  const savePrompt = (prompt: Omit<SavedPrompt, 'id' | 'createdAt'>) => {
+    const newPrompt: SavedPrompt = {
+      ...prompt,
+      id: nanoid(),
+      createdAt: new Date().toISOString(),
+    };
+    setSavedPrompts([...savedPrompts, newPrompt]);
+    toast.success('تم حفظ البرومبت! ⭐');
+  };
+
+  // حذف برومبت
+  const deletePrompt = (id: string) => {
+    setSavedPrompts(savedPrompts.filter(p => p.id !== id));
+    toast.success('تم حذف البرومبت');
+  };
+
+  // تحديث برومبت
+  const updatePrompt = (id: string, updates: Partial<SavedPrompt>) => {
+    setSavedPrompts(savedPrompts.map(p => 
+      p.id === id ? { ...p, ...updates } : p
+    ));
+  };
+
+  // إضافة/إزالة من المفضلة
+  const toggleFavorite = (id: string) => {
+    updatePrompt(id, { 
+      isFavorite: !savedPrompts.find(p => p.id === id)?.isFavorite 
+    });
+  };
+
+  return {
+    savedPrompts,
+    savePrompt,
+    deletePrompt,
+    updatePrompt,
+    toggleFavorite,
+  };
+}
+ب. واجهة عرض البرومبتات المحفوظة
+import { Heart, Trash2, Edit } from "lucide-react";
+
+function SavedPromptsList() {
+  const { savedPrompts, deletePrompt, toggleFavorite } = usePromptManager();
+  const [filter, setFilter] = useState<'all' | 'favorites'>('all');
+
+  const filteredPrompts = savedPrompts.filter(p => 
+    filter === 'all' ? true : p.isFavorite
+  );
+
+  return (
+    <div className="space-y-4">
+      {/* فلاتر */}
+      <div className="flex gap-2">
+        <button 
+          onClick={() => setFilter('all')}
+          className={filter === 'all' ? 'active' : ''}
+        >
+          الكل ({savedPrompts.length})
+        </button>
+        <button 
+          onClick={() => setFilter('favorites')}
+          className={filter === 'favorites' ? 'active' : ''}
+        >
+          المفضلة ({savedPrompts.filter(p => p.isFavorite).length})
+        </button>
+      </div>
+
+      {/* قائمة البرومبتات */}
+      {filteredPrompts.map(prompt => (
+        <div key={prompt.id} className="card">
+          <div className="flex justify-between">
+            <div>
+              <h3>{prompt.title}</h3>
+              <p className="text-sm text-muted">{prompt.category}</p>
+            </div>
+            <div className="flex gap-2">
+              {/* مفضلة */}
+              <button onClick={() => toggleFavorite(prompt.id)}>
+                <Heart 
+                  className={prompt.isFavorite ? 'fill-red-500 text-red-500' : ''} 
+                />
+              </button>
+              {/* حذف */}
+              <button onClick={() => deletePrompt(prompt.id)}>
+                <Trash2 className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+          <p className="mt-2">{prompt.content}</p>
+          <CopyButton text={prompt.content} />
+        </div>
+      ))}
+    </div>
+  );
+}
+ج. تصدير/استيراد البرومبتات
+function ExportImport() {
+  const { savedPrompts, setSavedPrompts } = usePromptManager();
+
+  // تصدير إلى JSON
+  const exportPrompts = () => {
+    const dataStr = JSON.stringify(savedPrompts, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `raqim-prompts-${new Date().toISOString().split('T')[0]}.json`;
+    link.click();
+  };
+
+  // استيراد من JSON
+  const importPrompts = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const imported = JSON.parse(e.target?.result as string);
+        setSavedPrompts([...savedPrompts, ...imported]);
+        toast.success(`تم استيراد ${imported.length} برومبت`);
+      } catch (err) {
+        toast.error('خطأ في قراءة الملف');
+      }
+    };
+    reader.readAsText(file);
+  };
+
+  return (
+    <div className="flex gap-2">
+      <button onClick={exportPrompts}>
+        تصدير البرومبتات
+      </button>
+      <label className="btn">
+        استيراد
+        <input type="file" accept=".json" onChange={importPrompts} hidden />
+      </label>
+    </div>
+  );
+}
+3️⃣ تحسين SEO 🔍
+ما هو SEO؟
+Search Engine Optimization - تحسين محركات البحث لظهور موقعك في نتائج Google.
+لماذا مهم؟
+✅ زيادة الزوار: 90% من الزوار يأتون من Google
+✅ مجاني: بدلاً من الإعلانات المدفوعة
+✅ مستدام: نتائج طويلة المدى
+✅ مصداقية: الظهور في الصفحة الأولى = ثقة
+كيف نحسّن SEO؟
+أ. Meta Tags الأساسية
+// client/index.html أو في كل صفحة
+<head>
+  {/* العنوان - أهم عنصر SEO */}
+  <title>رقيم AI 966 - مولد برومبتات احترافي للذكاء الاصطناعي | مجاناً</title>
+  
+  {/* الوصف - يظهر في نتائج البحث */}
+  <meta name="description" content="مولد برومبتات احترافي بالذكاء الاصطناعي. أنشئ برومبتات فعالة لـ ChatGPT و Claude و Gemini مجاناً. أداة سعودية 100% بواجهة عربية كاملة." />
+  
+  {/* الكلمات المفتاحية */}
+  <meta name="keywords" content="برومبتات, ذكاء اصطناعي, ChatGPT, Claude, Gemini, مولد برومبتات, AI prompts, برومبت هندسة, سعودي, عربي" />
+  
+  {/* اللغة */}
+  <meta name="language" content="Arabic" />
+  <html lang="ar" dir="rtl">
+  
+  {/* المؤلف */}
+  <meta name="author" content="رقيم AI 966" />
+  
+  {/* Canonical URL - لتجنب المحتوى المكرر */}
+  <link rel="canonical" href="https://raqim966.com" />
+</head>
+ب. Open Graph (للمشاركة على السوشيال ميديا)
+<head>
+  {/* Facebook / WhatsApp */}
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://raqim966.com/" />
+  <meta property="og:title" content="رقيم AI 966 - مولد برومبتات احترافي" />
+  <meta property="og:description" content="أنشئ برومبتات احترافية للذكاء الاصطناعي مجاناً" />
+  <meta property="og:image" content="https://raqim966.com/og-image.jpg" />
+  <meta property="og:locale" content="ar_SA" />
+  <meta property="og:site_name" content="رقيم AI 966" />
+
+  {/* Twitter / X */}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://raqim966.com/" />
+  <meta name="twitter:title" content="رقيم AI 966" />
+  <meta name="twitter:description" content="مولد برومبتات احترافي للذكاء الاصطناعي" />
+  <meta name="twitter:image" content="https://raqim966.com/twitter-image.jpg" />
+  <meta name="twitter:creator" content="@hzbr_al" />
+</head>
+ج. Structured Data (Schema.org)
+// في client/index.html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "رقيم AI 966",
+  "alternateName": "Raqim AI 966",
+  "url": "https://raqim966.com",
+  "description": "مولد برومبتات احترافي بالذكاء الاصطناعي",
+  "applicationCategory": "WebApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "SAR"
+  },
+  "inLanguage": "ar",
+  "keywords": "برومبتات, ذكاء اصطناعي, ChatGPT",
+  "author": {
+    "@type": "Organization",
+    "name": "رقيم AI 966",
+    "url": "https://raqim966.com"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "reviewCount": "150"
+  }
+}
+</script>
+د. Sitemap.xml
+<!-- public/sitemap.xml -->
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://raqim966.com/</loc>
+    <lastmod>2025-01-27</lastmod>
+    <priority>1.0</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://raqim966.com/analyzer</loc>
+    <lastmod>2025-01-27</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://raqim966.com/worksheets</loc>
+    <lastmod>2025-01-27</lastmod>
+    <priority>0.8</priority>
+  </url>
+</urlset>
+هـ. robots.txt
+# public/robots.txt
+User-agent: *
+Allow: /
+Sitemap: https://raqim966.com/sitemap.xml
+
+# منع الصفحات الإدارية (إن وجدت)
+Disallow: /admin/
+Disallow: /api/
+و. أداء الموقع (Core Web Vitals)
+// تحسينات للسرعة
+// 1. Lazy Loading للصور
+<img 
+  src="/image.jpg" 
+  loading="lazy" 
+  alt="وصف الصورة" 
+/>
+
+// 2. Code Splitting
+const AnalyzerPage = lazy(() => import('./pages/Analyzer'));
+
+// 3. Optimize Images
+// استخدم WebP بدلاً من JPG/PNG
+// ضغط الصور قبل الرفع
+
+// 4. Minify CSS/JS (يحدث تلقائياً في Vite)
+ز. Mobile-Friendly
+// viewport meta tag (موجود بالفعل)
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+// اختبار responsive
+// استخدم Chrome DevTools > Toggle Device Toolbar
+📊 ملخص المقارنة
+الميزة	الوقت المطلوب	التأثير	الأولوية
+نظام النسخ والمشاركة	يوم واحد	عالي جداً	🔥🔥🔥
+حفظ في localStorage	2-3 أيام	عالي	🔥🔥
+تحسين SEO	يوم واحد	متوسط/طويل المدى	🔥🔥
+🎯 الخطوة التالية
+هل تريد أن أبدأ بتطبيق أي من هذه الميزات في مشروعك الآن؟ أنصح بالترتيب التالي:
+نظام النسخ (30 دقيقة) ← أسرع قيمة
+تحسين SEO (ساعتين) ← للنمو طويل المدى
+حفظ البرومبتات (يوم) ← لتحسين تجربة المستخدم
