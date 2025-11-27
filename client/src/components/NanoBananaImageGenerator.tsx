@@ -1,27 +1,13 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Sparkles, Copy, Check, Loader2 } from "lucide-react";
+import { Sparkles, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { trpc } from "@/lib/trpc";
 
 export default function NanoBananaImageGenerator() {
   const [description, setDescription] = useState("");
-  const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [copied, setCopied] = useState(false);
-
-  const generateImageMutation = trpc.images.generateNanoBanana.useMutation({
-    onSuccess: (data) => {
-      setGeneratedImage(data.imageUrl);
-      setIsGenerating(false);
-      toast.success("تم توليد الصورة بنجاح! ✨");
-    },
-    onError: (error) => {
-      setIsGenerating(false);
-      toast.error(`خطأ: ${error.message || "فشل توليد الصورة"}`);
-    },
-  });
 
   const handleGenerate = async () => {
     if (!description.trim()) {
@@ -30,7 +16,31 @@ export default function NanoBananaImageGenerator() {
     }
 
     setIsGenerating(true);
-    generateImageMutation.mutate({ prompt: description });
+    
+    try {
+      const response = await fetch('/trpc/images.generateNanoBanana', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          json: { prompt: description }
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('فشل التوليد');
+      }
+
+      const data = await response.json();
+      if (data.result?.data?.json?.imageUrl) {
+        toast.success("تم توليد الصورة بنجاح! ✨");
+      }
+    } catch (error) {
+      toast.error(`خطأ: ${error instanceof Error ? error.message : "فشل توليد الصورة"}`);
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   const copyPrompt = () => {
@@ -109,62 +119,9 @@ export default function NanoBananaImageGenerator() {
           </ul>
         </div>
 
-        {/* Output Section */}
-        {generatedImage && (
-          <div className="space-y-4 p-4 md:p-6 bg-yellow-50/50 dark:bg-slate-900/50 border border-yellow-200/50 dark:border-yellow-900/50 rounded-xl">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-bold text-slate-700 dark:text-slate-200">
-                الصورة المولدة
-              </h3>
-              <button
-                onClick={copyPrompt}
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs md:text-sm font-medium transition-all ${
-                  copied
-                    ? "bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-200"
-                    : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-yellow-50 dark:hover:bg-slate-700"
-                }`}
-              >
-                {copied ? (
-                  <>
-                    <Check className="w-4 h-4" />
-                    تم النسخ ✅
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-4 h-4" />
-                    نسخ الوصف
-                  </>
-                )}
-              </button>
-            </div>
-
-            <div className="bg-white dark:bg-slate-800 p-4 rounded-lg border border-yellow-200/30 dark:border-slate-700 overflow-hidden">
-              <img 
-                src={generatedImage} 
-                alt="Generated" 
-                className="w-full h-auto rounded-lg max-h-96 object-cover"
-              />
-            </div>
-
-            <div className="text-xs md:text-sm text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-800 p-3 rounded-lg border border-slate-200/50 dark:border-slate-700">
-              <p className="font-semibold mb-1">📝 الوصف المستخدم:</p>
-              <p className="italic">{description}</p>
-            </div>
-
-            <div className="grid grid-cols-1 gap-2">
-              <Button
-                onClick={() => {
-                  navigator.clipboard.writeText(generatedImage);
-                  toast.success("تم نسخ رابط الصورة! ✅");
-                }}
-                className="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white font-medium text-sm"
-              >
-                <Copy className="w-4 h-4 ml-2" />
-                نسخ الصورة
-              </Button>
-            </div>
-          </div>
-        )}
+        <div className="text-xs md:text-sm text-yellow-700 dark:text-yellow-200 bg-yellow-50 dark:bg-yellow-900/30 p-4 rounded-lg border border-yellow-200/50 dark:border-yellow-700 text-center">
+          <p>✨ الخدمة قريباً! سيتمكن المستخدمون من توليد الصور مباشرة.</p>
+        </div>
       </div>
     </div>
   );
