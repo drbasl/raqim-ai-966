@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Loader2, FileText, Sparkles, Download, FileDown } from "lucide-react";
+import { Loader2, FileText, Sparkles, Download, FileDown, Printer } from "lucide-react";
 import { toast } from "sonner";
 import {
   DropdownMenu,
@@ -21,6 +21,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { trpc } from "@/lib/trpc";
 import ReactMarkdown from "react-markdown";
+import html2pdf from "html2pdf.js";
+import { Document, Packer, Paragraph, TextRun } from "docx";
 
 type GenerationMethod = "text" | "title";
 type QuestionType = "multiple_choice" | "short_answer" | "essay" | "true_false" | "fill_blank" | "mixed";
@@ -72,29 +74,47 @@ export default function WorksheetGenerator() {
     });
   };
 
-  const getPlainText = (html: string) => {
-    const div = document.createElement('div');
-    div.innerHTML = html;
-    return div.textContent || div.innerText || '';
+  const worksheetRef = useRef<HTMLDivElement>(null);
+
+  const getPlainText = (markdown: string) => {
+    return markdown
+      .replace(/#+\s/g, '')
+      .replace(/\*\*/g, '')
+      .replace(/\*/g, '')
+      .replace(/_/g, '')
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
   };
 
   const handleExportPDF = () => {
-    if (!generateMutation.data) return;
-    const content = getPlainText(generateMutation.data.content);
-    const blob = new Blob([content], { type: 'application/pdf' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${lessonTitle || 'ورقة-عمل'}.pdf`;
-    a.click();
-    URL.revokeObjectURL(url);
+    if (!worksheetRef.current) return;
+    const element = worksheetRef.current;
+    const opt: any = {
+      margin: 10,
+      filename: `${lessonTitle || 'ورقة-عمل'}.pdf`,
+      image: { type: 'jpeg' as const, quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' },
+    };
+    html2pdf().set(opt).from(element).save();
     toast.success('تم تصدير PDF بنجاح!');
   };
 
-  const handleExportWord = () => {
+  const handleExportWord = async () => {
     if (!generateMutation.data) return;
     const content = getPlainText(generateMutation.data.content);
-    const blob = new Blob([content], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+    const paragraphs = content.split('\n').map(line => new Paragraph({
+      text: line || ' ',
+      alignment: 'right' as any,
+    }));
+    
+    const doc = new Document({
+      sections: [{
+        properties: {},
+        children: paragraphs,
+      }],
+    });
+    
+    const blob = await Packer.toBlob(doc);
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -106,8 +126,7 @@ export default function WorksheetGenerator() {
 
   const handleExportMarkdown = () => {
     if (!generateMutation.data) return;
-    const content = getPlainText(generateMutation.data.content);
-    const blob = new Blob([content], { type: 'text/markdown' });
+    const blob = new Blob([generateMutation.data.content], { type: 'text/markdown' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -120,7 +139,7 @@ export default function WorksheetGenerator() {
   const handleExportText = () => {
     if (!generateMutation.data) return;
     const content = getPlainText(generateMutation.data.content);
-    const blob = new Blob([content], { type: 'text/plain' });
+    const blob = new Blob([content], { type: 'text/plain; charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -128,6 +147,44 @@ export default function WorksheetGenerator() {
     a.click();
     URL.revokeObjectURL(url);
     toast.success('تم تصدير نص عادي بنجاح!');
+  };
+
+  const handlePrint = () => {
+    if (!worksheetRef.current) return;
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) {
+      toast.error('يرجى السماح بفتح النوافذ المنبثقة');
+      return;
+    }
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html dir="rtl" lang="ar">
+        <head>
+          <meta charset="UTF-8">
+          <title>${lessonTitle}</title>
+          <style>
+            body { font-family: 'Arial', sans-serif; direction: rtl; text-align: right; margin: 20px; }
+            h1 { font-size: 24px; margin: 15px 0; }
+            h2 { font-size: 20px; margin: 12px 0; color: #0066cc; }
+            h3 { font-size: 18px; margin: 10px 0; }
+            p { font-size: 14px; line-height: 1.8; }
+            ul, ol { margin: 10px 20px; }
+            li { margin: 5px 0; }
+            strong { font-weight: bold; }
+            code { background: #f0f0f0; padding: 2px 5px; border-radius: 3px; }
+            table { border-collapse: collapse; width: 100%; margin: 10px 0; }
+            th, td { border: 1px solid #999; padding: 8px; text-align: right; }
+            th { background: #f0f0f0; font-weight: bold; }
+          </style>
+        </head>
+        <body>
+          ${worksheetRef.current.innerHTML}
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+    setTimeout(() => printWindow.print(), 250);
+    toast.success('فتح نافذة الطباعة');
   };
 
   return (
@@ -378,34 +435,40 @@ export default function WorksheetGenerator() {
           <div className="space-y-4 p-6 bg-background/50 rounded-lg border border-primary/20">
             <div className="flex items-center justify-between flex-wrap gap-2">
               <h3 className="text-lg md:text-xl font-semibold">ورقة العمل المولدة</h3>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm" className="gap-2">
-                    <Download className="w-4 h-4" />
-                    تصدير
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48">
-                  <DropdownMenuItem onClick={handleExportPDF} className="gap-2 cursor-pointer">
-                    <FileDown className="w-4 h-4" />
-                    PDF تصدير
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={handleExportWord} className="gap-2 cursor-pointer">
-                    <FileDown className="w-4 h-4" />
-                    Word تصدير
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={handleExportMarkdown} className="gap-2 cursor-pointer">
-                    <FileDown className="w-4 h-4" />
-                    Markdown تصدير
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={handleExportText} className="gap-2 cursor-pointer">
-                    <FileDown className="w-4 h-4" />
-                    تصدير نص عادي
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <div className="flex gap-2 flex-wrap">
+                <Button onClick={handlePrint} variant="outline" size="sm" className="gap-2">
+                  <Printer className="w-4 h-4" />
+                  طباعة
+                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="sm" className="gap-2">
+                      <Download className="w-4 h-4" />
+                      تصدير
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuItem onClick={handleExportPDF} className="gap-2 cursor-pointer">
+                      <FileDown className="w-4 h-4" />
+                      PDF تصدير
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleExportWord} className="gap-2 cursor-pointer">
+                      <FileDown className="w-4 h-4" />
+                      Word تصدير
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleExportMarkdown} className="gap-2 cursor-pointer">
+                      <FileDown className="w-4 h-4" />
+                      Markdown تصدير
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleExportText} className="gap-2 cursor-pointer">
+                      <FileDown className="w-4 h-4" />
+                      تصدير نص عادي
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
             </div>
-            <div dir="rtl" className="prose prose-sm max-w-none dark:prose-invert text-right space-y-4">
+            <div ref={worksheetRef} dir="rtl" className="prose prose-sm max-w-none dark:prose-invert text-right space-y-4">
               <ReactMarkdown
                 components={{
                   h1: (props) => <h1 className="text-2xl font-bold text-right mb-4 mt-4">{props.children}</h1>,
