@@ -1,7 +1,7 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
+import { Route, Switch, useLocation } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { NotificationProvider } from "./contexts/NotificationContext";
@@ -19,8 +19,21 @@ import Popular from "./pages/Popular";
 import WorksheetTemplates from "./pages/WorksheetTemplates";
 import ProfessionalPrompts from "./pages/ProfessionalPrompts";
 import ImageGenerator from "./pages/ImageGenerator";
+import { useEffect } from "react";
+import ReactGA from "react-ga4";
 
 function Router() {
+  const [location] = useLocation();
+
+  useEffect(() => {
+    // تتبع كل صفحة عند تغييرها
+    ReactGA.send({ 
+      hitType: "pageview", 
+      page: location, 
+      title: document.title 
+    });
+  }, [location]);
+
   // make sure to consider if you need authentication for certain routes
   return (
     <Switch>

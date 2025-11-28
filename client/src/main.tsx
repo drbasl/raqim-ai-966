@@ -9,6 +9,13 @@ import { getLoginUrl } from "./const";
 import "./index.css";
 import "./hero-styles.css";
 import "./i18n";
+import ReactGA from "react-ga4";
+
+// تهيئة Google Analytics
+ReactGA.initialize("G-L84RQE6NJV");
+
+// تتبع صفحة البداية
+ReactGA.send({ hitType: "pageview", page: window.location.pathname, title: document.title });
 
 const queryClient = new QueryClient();
 
