@@ -15,6 +15,10 @@ import LanguageToggle from "@/components/LanguageToggle";
 import { useTranslation } from 'react-i18next';
 import MobileBottomNav from "@/components/MobileBottomNav";
 import { toast } from "sonner";
+import PromptBuilder from "@/components/PromptBuilder";
+import SaudiDialectToggle from "@/components/SaudiDialectToggle";
+import AIPlatformLinks from "@/components/AIPlatformLinks";
+import WhyItWorksTooltip from "@/components/WhyItWorksTooltip";
 
 export default function Home() {
   const { t } = useTranslation();
@@ -22,6 +26,8 @@ export default function Home() {
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
   const [generatorKey, setGeneratorKey] = useState(0);
   const [activeTab, setActiveTab] = useState("generator");
+  const [isSaudiDialectEnabled, setIsSaudiDialectEnabled] = useState(false);
+  const [lastGeneratedPrompt, setLastGeneratedPrompt] = useState("");
 
   const scrollToGenerator = () => {
     const element = document.getElementById('generator');

@@ -1,0 +1,215 @@
+أكواد الميزات الجديدة لمشروع "رقيم 966"
+
+هذه الملفات جاهزة للإضافة مباشرة إلى مجلد src/components في مشروعك.
+
+1. باني البرومبتات (PromptBuilder.tsx)
+
+هذا المكون يتيح للمستخدم تركيب البرومبت عبر القوائم.
+
+أنشئ ملفاً جديداً باسم: src/components/PromptBuilder.tsx
+ضع فيه الكود التالي:
+
+import React, { useState } from 'react';
+import { Copy } from 'lucide-react';
+
+export default function PromptBuilder() {
+  const [role, setRole] = useState('خبير تسويق');
+  const [task, setTask] = useState('كتابة محتوى');
+  const [tone, setTone] = useState('إبداعي');
+  const [dialect, setDialect] = useState('سعودي عامي');
+  const [generatedPrompt, setGeneratedPrompt] = useState('');
+
+  const generate = () => {
+    const prompt = `تصرف كـ ${role}. قم بـ ${task} بأسلوب ${tone}. اللهجة المطلوبة: ${dialect}. تأكد أن المحتوى مناسب للسوق السعودي والخليجي.`;
+    setGeneratedPrompt(prompt);
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(generatedPrompt);
+    alert('تم نسخ البرومبت!');
+  };
+
+  return (
+    <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100 my-8">
+      <h2 className="text-2xl font-bold mb-6 text-gray-800 text-right">🛠️ ابني البرومبت الخاص بك</h2>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div className="space-y-2 text-right">
+          <label className="text-sm font-medium text-gray-600">الدور (مين اللي يتكلم؟)</label>
+          <select value={role} onChange={(e) => setRole(e.target.value)} className="w-full p-3 bg-gray-50 rounded-lg border focus:ring-2 focus:ring-blue-500 outline-none text-right">
+            <option>خبير تسويق رقمي</option>
+            <option>مبرمج محترف</option>
+            <option>مستشار قانوني سعودي</option>
+            <option>كاتب محتوى إبداعي</option>
+            <option>أخصائي موارد بشرية</option>
+          </select>
+        </div>
+
+        <div className="space-y-2 text-right">
+          <label className="text-sm font-medium text-gray-600">المهمة (وش المطلوب؟)</label>
+          <select value={task} onChange={(e) => setTask(e.target.value)} className="w-full p-3 bg-gray-50 rounded-lg border focus:ring-2 focus:ring-blue-500 outline-none text-right">
+            <option>كتابة تغريدة فيرال</option>
+            <option>تلخيص مستند معقد</option>
+            <option>كتابة إيميل رسمي</option>
+            <option>تحليل بيانات</option>
+            <option>اقتراح أفكار فيديو</option>
+          </select>
+        </div>
+
+        <div className="space-y-2 text-right">
+          <label className="text-sm font-medium text-gray-600">النبرة (الأسلوب)</label>
+          <select value={tone} onChange={(e) => setTone(e.target.value)} className="w-full p-3 bg-gray-50 rounded-lg border focus:ring-2 focus:ring-blue-500 outline-none text-right">
+            <option>إبداعي وجذاب</option>
+            <option>رسمي ومهني</option>
+            <option>فكاهي وخفيف</option>
+            <option>حماسي وتحفيزي</option>
+          </select>
+        </div>
+
+        <div className="space-y-2 text-right">
+          <label className="text-sm font-medium text-gray-600">اللهجة</label>
+          <select value={dialect} onChange={(e) => setDialect(e.target.value)} className="w-full p-3 bg-gray-50 rounded-lg border focus:ring-2 focus:ring-blue-500 outline-none text-right">
+            <option>سعودية (بيضاء)</option>
+            <option>سعودية (نجدية عامية)</option>
+            <option>فصحى مبسطة</option>
+            <option>خليجية عامة</option>
+          </select>
+        </div>
+      </div>
+
+      <button onClick={generate} className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-colors mb-6">
+        ✨ إنشاء البرومبت
+      </button>
+
+      {generatedPrompt && (
+        <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 relative text-right">
+          <p className="text-gray-700 leading-relaxed pl-10">{generatedPrompt}</p>
+          <button onClick={copyToClipboard} className="absolute top-4 left-4 text-gray-400 hover:text-blue-600 transition-colors">
+            <Copy size={20} />
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+
+2. ميزة "تفعيل اللهجة السعودية" (SaudiDialectToggle.tsx)
+
+زر تبديل بسيط يضيف تعليمات اللهجة.
+
+أنشئ ملفاً جديداً باسم: src/components/SaudiDialectToggle.tsx
+ضع فيه الكود التالي:
+
+import React from 'react';
+
+interface Props {
+  isEnabled: boolean;
+  onToggle: (checked: boolean) => void;
+}
+
+export default function SaudiDialectToggle({ isEnabled, onToggle }: Props) {
+  return (
+    <div className="flex items-center justify-end space-x-3 space-x-reverse mb-4 p-3 bg-green-50 border border-green-100 rounded-lg">
+      <span className="text-sm font-bold text-green-800">🇸🇦 تفعيل اللهجة السعودية الذكية</span>
+      <label className="relative inline-flex items-center cursor-pointer">
+        <input 
+          type="checkbox" 
+          className="sr-only peer"
+          checked={isEnabled}
+          onChange={(e) => onToggle(e.target.checked)}
+        />
+        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
+      </label>
+    </div>
+  );
+}
+
+
+3. روابط مباشرة للأدوات (AIPlatformLinks.tsx)
+
+أزرار لفتح ChatGPT و Gemini مع النص المنسوخ (يُفضل وضعه تحت نتائج التوليد).
+
+أنشئ ملفاً جديداً باسم: src/components/AIPlatformLinks.tsx
+ضع فيه الكود التالي:
+
+import React from 'react';
+import { ExternalLink } from 'lucide-react';
+
+interface Props {
+  promptText: string;
+}
+
+export default function AIPlatformLinks({ promptText }: Props) {
+  const openLink = (url: string) => {
+    // نقوم بنسخ النص أولاً للمستخدم لضمان الراحة
+    navigator.clipboard.writeText(promptText);
+    window.open(url, '_blank');
+  };
+
+  return (
+    <div className="flex gap-2 mt-3 justify-end">
+      <button 
+        onClick={() => openLink('[https://chatgpt.com](https://chatgpt.com)')}
+        className="flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors border border-gray-200"
+      >
+        فتح في ChatGPT
+        <ExternalLink size={12} />
+      </button>
+
+      <button 
+        onClick={() => openLink('[https://gemini.google.com](https://gemini.google.com)')}
+        className="flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors border border-gray-200"
+      >
+        فتح في Gemini
+        <ExternalLink size={12} />
+      </button>
+    </div>
+  );
+}
+
+
+4. ميزة "لماذا هذا فعال؟" (WhyItWorksTooltip.tsx)
+
+مكون تعليمي يوضع داخل كرت البرومبت.
+
+أنشئ ملفاً جديداً باسم: src/components/WhyItWorksTooltip.tsx
+ضع فيه الكود التالي:
+
+import React from 'react';
+import { Lightbulb } from 'lucide-react';
+
+interface Props {
+  reason: string;
+}
+
+export default function WhyItWorksTooltip({ reason }: Props) {
+  return (
+    <div className="relative group inline-block mt-2">
+      <button className="flex items-center gap-1 text-xs text-yellow-600 hover:text-yellow-700 cursor-help font-medium">
+        <Lightbulb size={14} />
+        ليش هذا البرومبت رهيب؟
+      </button>
+      
+      <div className="absolute z-10 invisible group-hover:visible w-64 p-3 mt-2 -right-2 text-sm text-gray-100 bg-gray-800 rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <p className="text-right leading-relaxed">{reason}</p>
+        <div className="absolute -top-1 right-6 w-2 h-2 bg-gray-800 transform rotate-45"></div>
+      </div>
+    </div>
+  );
+}
+
+
+كيفية توجيه Replit لتنفيذ هذا:
+
+بعد نسخ الأكواد أعلاه، اذهب إلى Replit Chat واكتب له الأمر التالي ليقوم بدمجها في صفحتك الرئيسية:
+
+"لقد قمت بتجهيز 4 مكونات (Components) جديدة لتحسين الموقع. أريدك أن تنشئ الملفات التالية وتلصق فيها الأكواد التي سأعطيك إياها، ثم تقوم باستيرادها وعرضها في ملف الصفحة الرئيسية (App.tsx أو Home.tsx):
+
+PromptBuilder.tsx: ضعه في أعلى الصفحة الرئيسية كأداة رئيسية.
+
+SaudiDialectToggle.tsx: ضعه بجانب زر 'توليد' أو فوقه.
+
+AIPlatformLinks.tsx: ضعه أسفل أي مربع يعرض نتيجة البرومبت.
+
+WhyItWorksTooltip.tsx: أضفه داخل بطاقات البرومبتات (Prompt Cards) مع نص افتراضي حالياً."
