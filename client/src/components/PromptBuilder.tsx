@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Copy, Wand2, Check } from 'lucide-react';
+import { Copy, Wand2, Check, ExternalLink } from 'lucide-react';
 
 export default function PromptBuilder() {
   const [topic, setTopic] = useState('');
@@ -11,7 +11,7 @@ export default function PromptBuilder() {
   const [copied, setCopied] = useState(false);
 
   const generate = () => {
-    // منطق التوليد الاحترافي (Prompt Engineering)
+    // منطق توليد البرومبت الاحترافي (Prompt Engineering)
     const refinedPrompt = `
 🔴 **الدور:** أنت ${role} محترف وتمتلك خبرة واسعة في السوق السعودي.
 🎯 **المهمة:** ${task} حول موضوع: "${topic || '[أضف موضوعك هنا]'}"
@@ -36,8 +36,20 @@ export default function PromptBuilder() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const openAIPlatform = (url: string) => {
+    // 1. نسخ النص تلقائياً للحافظة قبل فتح الموقع
+    navigator.clipboard.writeText(generatedPrompt);
+    
+    // 2. إشعار المستخدم بالنسخ
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+
+    // 3. فتح الموقع الجديد
+    window.open(url, '_blank');
+  };
+
   return (
-    <div className="w-full max-w-4xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-xl border border-indigo-50 my-8">
+    <div className="w-full max-w-4xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-xl border border-indigo-50 my-12" id="prompt-builder">
       
       {/* الرأس */}
       <div className="flex items-center justify-between mb-8 border-b border-gray-100 pb-4">
@@ -129,15 +141,37 @@ export default function PromptBuilder() {
       {generatedPrompt && (
         <div className="mt-8 animate-fadeIn">
           <div className="bg-gray-900 rounded-xl overflow-hidden shadow-2xl border border-gray-700">
-            <div className="bg-gray-800 px-4 py-2 flex items-center justify-between border-b border-gray-700">
+            
+            {/* شريط الأدوات */}
+            <div className="bg-gray-800 px-4 py-3 flex flex-wrap items-center justify-between gap-3 border-b border-gray-700">
+              
+              <div className="flex gap-2">
+                <button 
+                  onClick={() => openAIPlatform('https://chatgpt.com')}
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-700 hover:bg-green-600 text-gray-200 text-xs font-medium rounded-md transition-colors border border-gray-600"
+                  title="نسخ النص وفتح ChatGPT"
+                >
+                  <ExternalLink size={14} />
+                  ChatGPT
+                </button>
+                <button 
+                  onClick={() => openAIPlatform('https://gemini.google.com')}
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-700 hover:bg-blue-600 text-gray-200 text-xs font-medium rounded-md transition-colors border border-gray-600"
+                  title="نسخ النص وفتح Gemini"
+                >
+                  <ExternalLink size={14} />
+                  Gemini
+                </button>
+              </div>
+
               <button 
                 onClick={copyToClipboard} 
                 className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${copied ? 'bg-green-500 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
               >
                 {copied ? <><Check size={14} /> تم النسخ</> : <><Copy size={14} /> نسخ النص</>}
               </button>
-              <span className="text-xs text-gray-400 font-mono">PROMPT PREVIEW</span>
             </div>
+
             <div className="p-6 relative">
               <pre className="text-right text-gray-100 font-sans whitespace-pre-wrap leading-relaxed text-sm md:text-base">
                 {generatedPrompt}
@@ -146,7 +180,7 @@ export default function PromptBuilder() {
           </div>
           
           <p className="text-center text-xs text-gray-400 mt-3">
-            💡 نصيحة: انسخ هذا النص وضعه في ChatGPT أو Claude للحصول على أفضل نتيجة.
+            💡 نصيحة: اضغط على زر ChatGPT أو Gemini وسيتم نسخ النص وفتح الموقع تلقائياً.
           </p>
         </div>
       )}
