@@ -313,13 +313,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PromptBuilder Section - NEW */}
-      <section id="prompt-builder" className="py-12 bg-gradient-to-b from-background via-background to-indigo-50/10">
-        <div className="container max-w-5xl">
-          <PromptBuilder />
-        </div>
-      </section>
-
       {/* Quick Access Section */}
       <section id="quick-access" className="py-8 md:py-12 bg-gradient-to-b from-background to-muted/30">
         <div className="container px-3 md:px-4">
@@ -458,6 +451,12 @@ export default function Home() {
         </div>
       </section>
 
+      {/* PromptBuilder Section - Moved to Bottom */}
+      <section id="prompt-builder" className="py-12 bg-gradient-to-b from-background via-background to-indigo-50/10">
+        <div className="container max-w-5xl">
+          <PromptBuilder />
+        </div>
+      </section>
 
       {/* Footer */}
       <footer className="border-t border-border/50 py-12 bg-muted/20">
