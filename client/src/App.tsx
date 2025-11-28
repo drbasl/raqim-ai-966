@@ -63,6 +63,16 @@ function Router() {
 // - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
 
 function App() {
+  // Initialize Google Analytics once when app loads
+  useEffect(() => {
+    ReactGA.initialize("G-L84RQE6NJV");
+    // Track initial page view
+    ReactGA.send({ 
+      hitType: "pageview", 
+      page: window.location.pathname, 
+      title: document.title 
+    });
+  }, []); // Empty dependency array = runs only once on mount
 
   return (
     <ErrorBoundary>
