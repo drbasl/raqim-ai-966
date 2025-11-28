@@ -91,7 +91,7 @@ export default function Home() {
               <a href="#generator" className="text-sm hover:text-primary transition-colors">
                 {t('nav.generator')}
               </a>
-              <a href="#image-generator" className="text-sm hover:text-primary transition-colors">
+              <a href="/image-generator" className="text-sm hover:text-primary transition-colors">
                 برومبتات الصور
               </a>
               <a href="/worksheets" className="text-sm hover:text-primary transition-colors">
@@ -128,7 +128,7 @@ export default function Home() {
                     <a href="#generator" className="text-base hover:text-primary transition-colors py-2">
                       {t('nav.generator')}
                     </a>
-                    <a href="#image-generator" className="text-base hover:text-primary transition-colors py-2">
+                    <a href="/image-generator" className="text-base hover:text-primary transition-colors py-2">
                       برومبتات الصور
                     </a>
                     <a href="/worksheets" className="text-base hover:text-primary transition-colors py-2">
@@ -173,7 +173,7 @@ export default function Home() {
             >
               مولّد البرومبتات
             </Button>
-            <a href="#image-generator">
+            <a href="/image-generator">
               <Button 
                 variant="ghost"
                 className="text-sm md:text-base rounded-none border-b-2 border-b-transparent hover:border-b-primary/50 px-3 md:px-6 py-2 md:py-3 whitespace-nowrap"
