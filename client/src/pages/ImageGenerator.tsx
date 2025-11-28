@@ -21,26 +21,6 @@ export default function ImageGenerator() {
   const maxLength = 500;
   const charCount = description.length;
 
-  // أمثلة سريعة
-  const quickExamples = [
-    {
-      title: '🏙️ مدينة مستقبلية',
-      description: 'مدينة الرياض في عام 2050 بتصميم مستقبلي'
-    },
-    {
-      title: '🌅 منظر طبيعي',
-      description: 'غروب الشمس في صحراء الربع الخالي'
-    },
-    {
-      title: '🕌 معماري',
-      description: 'مسجد بتصميم إسلامي حديث'
-    },
-    {
-      title: '🎨 فني',
-      description: 'لوحة فنية تعبر عن التراث السعودي'
-    }
-  ];
-
   // قوالب الأنماط مع الإيموجي
   const styleTemplates = {
     realistic: {
@@ -188,11 +168,6 @@ export default function ImageGenerator() {
     } catch (error) {
       toast.error('فشل النسخ');
     }
-  };
-
-  // دالة تطبيق مثال سريع
-  const applyExample = (example: typeof quickExamples[0]) => {
-    setDescription(example.description);
   };
 
   // دالة إعادة التعيين
@@ -416,32 +391,8 @@ export default function ImageGenerator() {
           )}
         </div>
 
-        {/* القسم الجانبي - الأمثلة */}
+        {/* القسم الجانبي */}
         <div className="space-y-6">
-          <Card className="shadow-lg">
-            <CardHeader>
-              <CardTitle className="text-lg">⚡ أمثلة سريعة</CardTitle>
-              <CardDescription>اضغط لتطبيق المثال</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {quickExamples.map((example, index) => (
-                <Button
-                  key={index}
-                  variant="outline"
-                  className="w-full justify-start h-auto py-3 px-4 text-right"
-                  onClick={() => applyExample(example)}
-                >
-                  <div className="flex flex-col items-start w-full">
-                    <span className="font-semibold">{example.title}</span>
-                    <span className="text-xs text-muted-foreground">
-                      {example.description}
-                    </span>
-                  </div>
-                </Button>
-              ))}
-            </CardContent>
-          </Card>
-
           {/* معلومات إضافية */}
           <Card className="shadow-lg bg-gradient-to-br from-purple-50 to-indigo-50">
             <CardHeader>
