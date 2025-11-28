@@ -96,6 +96,9 @@ export default function Home() {
               <a href="#generator" className="text-sm hover:text-primary transition-colors">
                 {t('nav.generator')}
               </a>
+              <a href="#prompt-builder" className="text-sm hover:text-primary transition-colors font-semibold text-primary/80 hover:text-primary">
+                🛠️ ابني البرومبت الخاص بك
+              </a>
               <a href="/image-generator" className="text-sm hover:text-primary transition-colors">
                 برومبتات الصور
               </a>
@@ -132,6 +135,9 @@ export default function Home() {
                   <nav className="flex flex-col gap-4 mt-8">
                     <a href="#generator" className="text-base hover:text-primary transition-colors py-2">
                       {t('nav.generator')}
+                    </a>
+                    <a href="#prompt-builder" className="text-base hover:text-primary transition-colors py-2 font-semibold text-primary/80 hover:text-primary">
+                      🛠️ ابني البرومبت الخاص بك
                     </a>
                     <a href="/image-generator" className="text-base hover:text-primary transition-colors py-2">
                       برومبتات الصور
@@ -308,7 +314,7 @@ export default function Home() {
       </section>
 
       {/* PromptBuilder Section - NEW */}
-      <section className="py-12 bg-gradient-to-b from-background via-background to-indigo-50/10">
+      <section id="prompt-builder" className="py-12 bg-gradient-to-b from-background via-background to-indigo-50/10">
         <div className="container max-w-5xl">
           <PromptBuilder />
         </div>
