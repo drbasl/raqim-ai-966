@@ -4,10 +4,12 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Copy, Wand2, Sparkles, Image as ImageIcon, Check } from 'lucide-react';
+import { Copy, Wand2, Sparkles, Image as ImageIcon, Check, ArrowRight } from 'lucide-react';
 import { toast } from 'sonner';
+import { useLocation } from 'wouter';
 
 export default function ImageGenerator() {
+  const [, navigate] = useLocation();
   const [description, setDescription] = useState('');
   const [generatedPrompt, setGeneratedPrompt] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
@@ -135,14 +137,24 @@ export default function ImageGenerator() {
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       {/* Header */}
       <div className="text-center mb-12 animate-fadeIn">
-        <div className="flex items-center justify-center gap-3 mb-4">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg">
+        <button 
+          onClick={() => navigate('/')}
+          className="inline-flex items-center gap-3 mb-6 hover:opacity-80 transition-opacity group"
+        >
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow">
             <ImageIcon className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-4xl font-extrabold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-            مولد صور الذكاء الاصطناعي
-          </h1>
-        </div>
+          <div className="flex flex-col items-start">
+            <h1 className="text-4xl font-extrabold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              مولد صور الذكاء الاصطناعي
+            </h1>
+            <span className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
+              العودة للصفحة الرئيسية
+              <ArrowRight className="w-3 h-3" />
+            </span>
+          </div>
+        </button>
+        <div className="mb-6" />
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
           حوّل أفكارك إلى صور احترافية بدقة متناهية! صف ما تريد، واحصل على برومبت محسّن جاهز للاستخدام.
         </p>
