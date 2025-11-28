@@ -1,22 +1,25 @@
 import React, { useState } from 'react';
-import { Copy, Image as ImageIcon, Check, ExternalLink, Palette, Banana } from 'lucide-react';
+import { Copy, Check, ExternalLink, Palette, Banana } from 'lucide-react';
 
 export default function ImagePromptBuilder() {
   const [subject, setSubject] = useState('');
-  const [style, setStyle] = useState('Realistic, Photorealistic');
+  const [style, setStyle] = useState('Photorealistic');
   const [lighting, setLighting] = useState('Cinematic Lighting');
   const [camera, setCamera] = useState('Wide Angle Shot');
-  const [quality, setQuality] = useState('8k Resolution, Highly Detailed');
+  const [quality, setQuality] = useState('8k Resolution');
   const [generatedPrompt, setGeneratedPrompt] = useState('');
   const [copied, setCopied] = useState(false);
 
   const generate = () => {
-    // Gemini يفضل الوصف المباشر بدون أوامر تقنية معقدة مثل Midjourney
-    // سنقوم بصياغة جملة وصفية قوية
-    const basePrompt = subject.trim() || '[Insert Subject Here]';
+    const baseSubject = subject.trim() || '[Insert Subject]';
     
-    // تركيبة تناسب Gemini و DALL-E 3
-    const refinedPrompt = `Create an image of ${basePrompt}. The style should be ${style}. Use ${lighting} and ${camera}. The image must be ${quality}.`;
+    // 🔥 التحديث الهندسـي للبرومبت 🔥
+    // تحويله من جمل مفككة إلى وصف فني متكامل
+    const refinedPrompt = `
+A breathtaking ${style} masterpiece featuring ${baseSubject}. 
+The scene is illuminated by ${lighting} to create a dramatic atmosphere, captured with a ${camera} for a perfect perspective. 
+Overall quality is ${quality}, with intricate details, hyper-realistic textures, and vivid colors. trending on artstation.
+    `.trim().replace(/\s+/g, ' '); // إزالة الأسطر الزائدة وجعلها سطراً واحداً
     
     setGeneratedPrompt(refinedPrompt);
   };
@@ -71,17 +74,16 @@ export default function ImagePromptBuilder() {
           <div className="space-y-2 text-right">
             <label className="text-sm font-medium text-gray-600">الستايل الفني</label>
             <select 
-              value={style}
               onChange={(e) => setStyle(e.target.value)} 
               className="w-full p-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none text-right cursor-pointer hover:border-purple-300 transition-colors"
             >
-              <option value="Realistic, Photorealistic">واقعي جداً (Photorealistic)</option>
-              <option value="Cinematic, Movie Scene">سينمائي (Cinematic)</option>
-              <option value="3D Render, Unreal Engine 5">ثلاثي الأبعاد (3D Render)</option>
-              <option value="Oil Painting, Classic Art">رسم زيتي (Oil Painting)</option>
-              <option value="Anime Style, Studio Ghibli">أنمي (Anime)</option>
-              <option value="Cyberpunk, Neon, Future">سايبر بانك (Cyberpunk)</option>
-              <option value="Isometric, 3D Icon">أيقونة ثلاثية الأبعاد (Isometric)</option>
+              <option value="Photorealistic">واقعي جداً (Photorealistic)</option>
+              <option value="Cinematic">سينمائي (Cinematic)</option>
+              <option value="3D Render">ثلاثي الأبعاد (3D Render)</option>
+              <option value="Oil Painting">رسم زيتي (Oil Painting)</option>
+              <option value="Anime Style">أنمي (Anime)</option>
+              <option value="Cyberpunk">سايبر بانك (Cyberpunk)</option>
+              <option value="Isometric 3D">أيقونة ثلاثية الأبعاد (Isometric)</option>
             </select>
           </div>
 
@@ -89,16 +91,15 @@ export default function ImagePromptBuilder() {
           <div className="space-y-2 text-right">
             <label className="text-sm font-medium text-gray-600">الإضاءة</label>
             <select 
-              value={lighting}
               onChange={(e) => setLighting(e.target.value)} 
               className="w-full p-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none text-right cursor-pointer hover:border-purple-300 transition-colors"
             >
               <option value="Cinematic Lighting">إضاءة سينمائية</option>
-              <option value="Natural Sunlight, Golden Hour">ضوء الشمس (ساعة ذهبية)</option>
-              <option value="Neon Lights, Glowing">أضواء نيون ساطعة</option>
-              <option value="Studio Lighting, Softbox">إضاءة استوديو ناعمة</option>
-              <option value="Dark & Moody, Low Key">غامض ومظلم (Moody)</option>
-              <option value="Volumetric Lighting, God Rays">أشعة الشمس (Volumetric)</option>
+              <option value="Golden Hour">ضوء الشمس (ساعة ذهبية)</option>
+              <option value="Neon Lights">أضواء نيون ساطعة</option>
+              <option value="Studio Softbox">إضاءة استوديو ناعمة</option>
+              <option value="Moody Low-Key">غامض ومظلم (Moody)</option>
+              <option value="Volumetric Lighting">أشعة الشمس (Volumetric)</option>
             </select>
           </div>
 
@@ -106,15 +107,14 @@ export default function ImagePromptBuilder() {
           <div className="space-y-2 text-right">
             <label className="text-sm font-medium text-gray-600">زاوية الكاميرا</label>
             <select 
-              value={camera}
               onChange={(e) => setCamera(e.target.value)} 
               className="w-full p-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none text-right cursor-pointer hover:border-purple-300 transition-colors"
             >
               <option value="Wide Angle Shot">لقطة واسعة (Wide Angle)</option>
-              <option value="Close-up, Macro Lens">لقطة قريبة جداً (Macro)</option>
-              <option value="Drone View, Bird's Eye View">تصحير جوي (Drone View)</option>
+              <option value="Macro Lens">لقطة قريبة جداً (Macro)</option>
+              <option value="Drone View">تصوير جوي (Drone View)</option>
               <option value="Eye Level Shot">مستوى العين (Eye Level)</option>
-              <option value="Low Angle, Heroic View">زاوية منخفضة (Low Angle)</option>
+              <option value="Low Angle">زاوية منخفضة (Low Angle)</option>
               <option value="Fish-eye Lens">عدسة عين السمكة (Fish-eye)</option>
             </select>
           </div>
@@ -123,14 +123,13 @@ export default function ImagePromptBuilder() {
           <div className="space-y-2 text-right">
             <label className="text-sm font-medium text-gray-600">الجودة والدقة</label>
             <select 
-              value={quality}
               onChange={(e) => setQuality(e.target.value)} 
               className="w-full p-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none text-right cursor-pointer hover:border-purple-300 transition-colors"
             >
-              <option value="8k Resolution, Highly Detailed">عالية جداً (8k Resolution)</option>
-              <option value="4k, Professional Photography">احترافية (4k)</option>
-              <option value="HDR, Sharp Focus">HDR وتركيز حاد</option>
-              <option value="Black and White, Monochrome">أبيض وأسود فاخر</option>
+              <option value="8k Resolution">عالية جداً (8k Resolution)</option>
+              <option value="4k Photography">احترافية (4k)</option>
+              <option value="HDR">HDR وتركيز حاد</option>
+              <option value="Black and White">أبيض وأسود فاخر</option>
             </select>
           </div>
         </div>
@@ -154,7 +153,6 @@ export default function ImagePromptBuilder() {
             <div className="bg-gray-800 px-4 py-3 flex flex-wrap items-center justify-between gap-3 border-b border-gray-700">
               
               <div className="flex gap-2">
-                {/* زر Gemini Banana المخصص */}
                 <button 
                   onClick={() => openPlatform('https://gemini.google.com')}
                   className="flex items-center gap-1.5 px-3 py-1.5 bg-yellow-500 hover:bg-yellow-400 text-black text-xs font-bold rounded-md transition-colors shadow-sm"
@@ -183,14 +181,18 @@ export default function ImagePromptBuilder() {
             </div>
 
             <div className="p-6 relative">
-              <pre className="text-left text-gray-100 font-mono whitespace-pre-wrap leading-relaxed text-sm md:text-base dir-ltr">
+              {/* التحديث: إضافة dir="ltr" لضمان ظهور النص الإنجليزي بشكل مرتب وصحيح */}
+              <pre 
+                dir="ltr" 
+                className="text-left text-gray-100 font-mono whitespace-pre-wrap leading-relaxed text-sm md:text-base"
+              >
                 {generatedPrompt}
               </pre>
             </div>
           </div>
           
           <p className="text-center text-xs text-gray-400 mt-3">
-            💡 نصيحة: تم تحسين البرومبت ليعمل بشكل ممتاز مع Gemini و DALL-E 3.
+            💡 نصيحة: تم تحسين البرومبت ليصبح "وصفاً فنياً" يفهمه Gemini و DALL-E بأفضل شكل.
           </p>
         </div>
       )}
