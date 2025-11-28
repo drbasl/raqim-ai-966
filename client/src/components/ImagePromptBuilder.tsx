@@ -44,7 +44,7 @@ Overall quality is ${quality}, with intricate details, hyper-realistic textures,
       <div className="flex items-center justify-between mb-8 border-b border-gray-100 pb-4">
         <div className="text-right w-full">
           <h2 className="text-2xl font-bold text-gray-800 flex items-center justify-end gap-2">
-            🎨 باني برومبت الصور
+            🍌 هندسة برومبت الصورة لـ Gemini Banana
           </h2>
           <p className="text-gray-500 text-sm mt-1">حول خيالك إلى صور مذهلة باستخدام مصطلحات دقيقة</p>
         </div>
