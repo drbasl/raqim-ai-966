@@ -18,6 +18,7 @@ import Templates from "./pages/Templates";
 import Popular from "./pages/Popular";
 import WorksheetTemplates from "./pages/WorksheetTemplates";
 import ProfessionalPrompts from "./pages/ProfessionalPrompts";
+import ImageGenerator from "./pages/ImageGenerator";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -35,6 +36,7 @@ function Router() {
       <Route path="/templates" component={Templates} />
       <Route path="/popular" component={Popular} />
       <Route path="/worksheet-templates" component={WorksheetTemplates} />
+      <Route path="/image-generator" component={ImageGenerator} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
