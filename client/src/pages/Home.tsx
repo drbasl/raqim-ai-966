@@ -405,7 +405,7 @@ export default function Home() {
 
             {/* Tabs */}
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-3 mb-8 h-auto p-1">
+              <TabsList className="grid w-full grid-cols-4 mb-8 h-auto p-1">
                 <TabsTrigger value="generator" className="flex items-center gap-2 py-3">
                   <Wand2 className="w-4 h-4" />
                   <span className="hidden sm:inline">مولد مخصص</span>
@@ -420,6 +420,11 @@ export default function Home() {
                   <Target className="w-4 h-4" />
                   <span className="hidden sm:inline">قوالب متخصصة</span>
                   <span className="sm:hidden">متخصصة</span>
+                </TabsTrigger>
+                <TabsTrigger value="builder" className="flex items-center gap-2 py-3">
+                  <span>🛠️</span>
+                  <span className="hidden sm:inline">بناء البرومبت</span>
+                  <span className="sm:hidden">بناء</span>
                 </TabsTrigger>
               </TabsList>
 
@@ -439,6 +444,10 @@ export default function Home() {
               <TabsContent value="specialized" className="mt-0">
                 <SpecializedTemplates onSelectTemplate={handleSpecializedTemplateSelect} />
               </TabsContent>
+
+              <TabsContent value="builder" className="mt-0">
+                <PromptBuilder />
+              </TabsContent>
             </Tabs>
           </div>
         </div>
@@ -448,13 +457,6 @@ export default function Home() {
       <section id="faq" className="py-16">
         <div className="container max-w-4xl">
           <FAQ />
-        </div>
-      </section>
-
-      {/* PromptBuilder Section - Moved to Bottom */}
-      <section id="prompt-builder" className="py-12 bg-gradient-to-b from-background via-background to-indigo-50/10">
-        <div className="container max-w-5xl">
-          <PromptBuilder />
         </div>
       </section>
 
