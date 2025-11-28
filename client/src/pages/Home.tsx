@@ -192,6 +192,15 @@ export default function Home() {
                 برومبتات الصور
               </Button>
             </a>
+            <button
+              onClick={() => {
+                setActiveTab("builder");
+                scrollToGenerator();
+              }}
+              className="text-sm md:text-base rounded-none border-b-2 border-b-transparent hover:border-b-primary/50 px-3 md:px-6 py-2 md:py-3 whitespace-nowrap font-semibold text-primary/80 hover:text-primary transition-colors"
+            >
+              🛠️ ابني البرومبت الخاص بك
+            </button>
             <a href="/templates">
               <Button 
                 variant="ghost"
