@@ -20,6 +20,8 @@ import ShareWebsiteButton from "./ShareWebsiteButton";
 import ShareButtons from "./ShareButtons";
 import { useEffect } from "react";
 import { useTranslation } from 'react-i18next';
+import SaudiDialectToggle from "./SaudiDialectToggle";
+import AIPlatformLinks from "./AIPlatformLinks";
 
 interface PromptGeneratorProps {
   initialPrompt?: string;
@@ -49,6 +51,7 @@ export default function PromptGenerator({
     engaging: false,
   });
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isSaudiDialectEnabled, setIsSaudiDialectEnabled] = useState(false);
 
   // Update state when props change
   useEffect(() => {
@@ -357,6 +360,9 @@ export default function PromptGenerator({
           </div>
         </div>
 
+        {/* Saudi Dialect Toggle */}
+        <SaudiDialectToggle isEnabled={isSaudiDialectEnabled} onToggle={setIsSaudiDialectEnabled} />
+
         {/* Generate Button */}
         <Button
           size="lg"
@@ -442,6 +448,9 @@ export default function PromptGenerator({
                   promptTitle={basePrompt.slice(0, 50)}
                   promptText={generateMutation.data.enhancedPrompt}
                 />
+
+                {/* AI Platform Links */}
+                <AIPlatformLinks promptText={generateMutation.data.enhancedPrompt} />
               </div>
             </div>
           </div>

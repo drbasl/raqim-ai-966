@@ -24,6 +24,7 @@ import {
 import { useState } from "react";
 import { toast } from "sonner";
 import TemplateRating from "./TemplateRating";
+import WhyItWorksTooltip from "./WhyItWorksTooltip";
 
 interface Template {
   id: string;
@@ -646,6 +647,9 @@ export default function TemplateLibrary({ onSelectTemplate, compact = false }: T
                   templateTitle={template.title}
                 />
               </div>
+
+              {/* Why It Works Tooltip */}
+              <WhyItWorksTooltip reason={`هذا القالب "${template.title}" مصمم بعناية لتحسين جودة برومبتك بإضافة السياق والتفاصيل المهمة. يساعدك على الحصول على نتائج أفضل من أدوات الذكاء الاصطناعي.`} />
             </div>
           </Card>
         ))}
