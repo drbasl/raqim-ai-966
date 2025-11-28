@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import MobileBottomNav from "@/components/MobileBottomNav";
 import { toast } from "sonner";
 import PromptBuilder from "@/components/PromptBuilder";
+import ImagePromptBuilder from "@/components/ImagePromptBuilder";
 import SaudiDialectToggle from "@/components/SaudiDialectToggle";
 import AIPlatformLinks from "@/components/AIPlatformLinks";
 import WhyItWorksTooltip from "@/components/WhyItWorksTooltip";
@@ -466,6 +467,32 @@ export default function Home() {
       <section id="faq" className="py-16">
         <div className="container max-w-4xl">
           <FAQ />
+        </div>
+      </section>
+
+      {/* Image Prompt Builder & Prompt Builder Section */}
+      <section id="prompt-builder" className="py-16 bg-gradient-to-b from-background to-muted/30">
+        <div className="container">
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                أدوات متقدمة لهندسة البرومبتات
+              </h2>
+              <p className="text-muted-foreground text-lg">
+                أنشئ برومبتات احترافية للصور والهويات البصرية بسهولة
+              </p>
+            </div>
+
+            {/* Image Prompt Builder */}
+            <div className="flex justify-center mb-8">
+              <ImagePromptBuilder />
+            </div>
+
+            {/* Prompt Builder */}
+            <div className="flex justify-center">
+              <PromptBuilder />
+            </div>
+          </div>
         </div>
       </section>
 

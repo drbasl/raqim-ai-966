@@ -1,27 +1,29 @@
 import React, { useState } from 'react';
-import { Copy, Check, ExternalLink, Palette, Banana } from 'lucide-react';
+import { Copy, Check, ExternalLink, Palette, Banana, Briefcase, Layout } from 'lucide-react';
 
 export default function ImagePromptBuilder() {
+  const [isBrandingMode, setIsBrandingMode] = useState(false);
   const [subject, setSubject] = useState('');
   const [style, setStyle] = useState('Photorealistic');
   const [lighting, setLighting] = useState('Cinematic Lighting');
   const [camera, setCamera] = useState('Wide Angle Shot');
   const [quality, setQuality] = useState('8k Resolution');
+  const [brandName, setBrandName] = useState('');
+  const [brandStyle, setBrandStyle] = useState('Modern & Minimalist in Arabic');
+  const [brandLayout, setBrandLayout] = useState('9-Panel Grid Layout');
   const [generatedPrompt, setGeneratedPrompt] = useState('');
   const [copied, setCopied] = useState(false);
 
   const generate = () => {
-    const baseSubject = subject.trim() || '[Insert Subject]';
-    
-    // 🔥 التحديث الهندسـي للبرومبت 🔥
-    // تحويله من جمل مفككة إلى وصف فني متكامل
-    const refinedPrompt = `
-A breathtaking ${style} masterpiece featuring ${baseSubject}. 
-The scene is illuminated by ${lighting} to create a dramatic atmosphere, captured with a ${camera} for a perfect perspective. 
-Overall quality is ${quality}, with intricate details, hyper-realistic textures, and vivid colors. trending on artstation.
-    `.trim().replace(/\s+/g, ' '); // إزالة الأسطر الزائدة وجعلها سطراً واحداً
-    
-    setGeneratedPrompt(refinedPrompt);
+    if (isBrandingMode) {
+      const name = brandName.trim() || '[Brand Name]';
+      const refinedPrompt = `Create a complete professional branding kit presentation for "${name}". Style and Language: ${brandStyle}. Layout Presentation: ${brandLayout}. Include logo variations, color palette with hex codes, typography hierarchy, business cards, letterhead, and social media application mockups.`.trim().replace(/\s+/g, ' ');
+      setGeneratedPrompt(refinedPrompt);
+    } else {
+      const baseSubject = subject.trim() || '[Insert Subject]';
+      const refinedPrompt = `A breathtaking ${style} masterpiece featuring ${baseSubject}. The scene is illuminated by ${lighting} to create a dramatic atmosphere, captured with a ${camera} for a perfect perspective. Overall quality is ${quality}, with intricate details, hyper-realistic textures, and vivid colors.`.trim().replace(/\s+/g, ' ');
+      setGeneratedPrompt(refinedPrompt);
+    }
   };
 
   const copyToClipboard = () => {
@@ -38,162 +40,123 @@ Overall quality is ${quality}, with intricate details, hyper-realistic textures,
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-xl border border-purple-50 my-12" id="image-prompt-builder">
-      
-      {/* الرأس */}
-      <div className="flex items-center justify-between mb-8 border-b border-gray-100 pb-4">
-        <div className="text-right w-full">
-          <h2 className="text-2xl font-bold text-gray-800 flex items-center justify-end gap-2">
-            🍌 هندسة برومبت الصورة لـ Gemini Banana
-          </h2>
-          <p className="text-gray-500 text-sm mt-1">حول خيالك إلى صور مذهلة باستخدام مصطلحات دقيقة</p>
+    <div className="w-full max-w-4xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-xl border border-purple-50 my-12">
+      <div className="mb-8 border-b border-gray-100 pb-4">
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+          <div className="flex bg-gray-100 p-1 rounded-lg">
+            <button onClick={() => setIsBrandingMode(false)} className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all ${!isBrandingMode ? 'bg-white shadow-sm text-purple-700' : 'text-gray-600'}`}>
+              <Palette size={18} /> صور فنية
+            </button>
+            <button onClick={() => setIsBrandingMode(true)} className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all ${isBrandingMode ? 'bg-white shadow-sm text-purple-700' : 'text-gray-600'}`}>
+              <Briefcase size={18} /> هوية بصرية
+            </button>
+          </div>
+          <div className="text-right">
+            <h2 className="text-2xl font-bold text-gray-800">🍌 هندسة برومبت الصورة</h2>
+            <p className="text-gray-500 text-sm mt-1">{isBrandingMode ? 'صمم هوية بصرية' : 'صور فنية مذهلة'}</p>
+          </div>
         </div>
       </div>
-      
-      {/* نموذج المدخلات */}
+
       <div className="space-y-6">
-        
-        {/* خانة وصف الصورة */}
-        <div className="text-right">
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            📸 وصف الصورة (ايش اللي ببالك؟)
-          </label>
-          <input 
-            type="text" 
-            value={subject}
-            onChange={(e) => setSubject(e.target.value)}
-            placeholder="مثال: قطة رائد فضاء في المريخ، سيارة طائرة في الرياض 2050..."
-            className="w-full p-4 bg-purple-50 border border-purple-100 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none text-right placeholder-gray-400 transition-all"
-          />
-        </div>
+        {!isBrandingMode ? (
+          <>
+            <div className="text-right">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">📸 وصف الصورة</label>
+              <input type="text" value={subject} onChange={(e) => setSubject(e.target.value)} placeholder="قطة رائد فضاء في المريخ..." className="w-full p-4 bg-purple-50 border border-purple-100 rounded-xl text-right" />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="space-y-2 text-right">
+                <label className="text-sm font-medium text-gray-600">الستايل</label>
+                <select value={style} onChange={(e) => setStyle(e.target.value)} className="w-full p-3 bg-white border border-gray-200 rounded-lg text-right">
+                  <option value="Photorealistic">واقعي</option>
+                  <option value="Cinematic">سينمائي</option>
+                  <option value="3D Render">3D</option>
+                  <option value="Anime Style">أنمي</option>
+                </select>
+              </div>
+              <div className="space-y-2 text-right">
+                <label className="text-sm font-medium text-gray-600">الإضاءة</label>
+                <select value={lighting} onChange={(e) => setLighting(e.target.value)} className="w-full p-3 bg-white border border-gray-200 rounded-lg text-right">
+                  <option value="Cinematic Lighting">سينمائية</option>
+                  <option value="Golden Hour">ذهبية</option>
+                  <option value="Neon Lights">نيون</option>
+                </select>
+              </div>
+              <div className="space-y-2 text-right">
+                <label className="text-sm font-medium text-gray-600">الكاميرا</label>
+                <select value={camera} onChange={(e) => setCamera(e.target.value)} className="w-full p-3 bg-white border border-gray-200 rounded-lg text-right">
+                  <option value="Wide Angle Shot">عريضة</option>
+                  <option value="Macro Lens">قريبة</option>
+                  <option value="Drone View">جوية</option>
+                </select>
+              </div>
+              <div className="space-y-2 text-right">
+                <label className="text-sm font-medium text-gray-600">الجودة</label>
+                <select value={quality} onChange={(e) => setQuality(e.target.value)} className="w-full p-3 bg-white border border-gray-200 rounded-lg text-right">
+                  <option value="8k Resolution">8k</option>
+                  <option value="4k Photography">4k</option>
+                  <option value="HDR">HDR</option>
+                </select>
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="text-right">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">🏷️ اسم البراند</label>
+              <input type="text" value={brandName} onChange={(e) => setBrandName(e.target.value)} placeholder="kinza, رقيم..." className="w-full p-4 bg-blue-50 border border-blue-100 rounded-xl text-right" />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="space-y-2 text-right">
+                <label className="text-sm font-medium text-gray-600">الستايل</label>
+                <select value={brandStyle} onChange={(e) => setBrandStyle(e.target.value)} className="w-full p-3 bg-white border border-gray-200 rounded-lg text-right">
+                  <option value="Modern & Minimalist in Arabic">عصري بسيط</option>
+                  <option value="Luxury & Elegant in Arabic">فاخر</option>
+                  <option value="Traditional Saudi Pattern">تراثي</option>
+                </select>
+              </div>
+              <div className="space-y-2 text-right">
+                <label className="text-sm font-medium text-gray-600">طريقة العرض</label>
+                <select value={brandLayout} onChange={(e) => setBrandLayout(e.target.value)} className="w-full p-3 bg-white border border-gray-200 rounded-lg text-right">
+                  <option value="9-Panel Grid Layout">شبكة 9</option>
+                  <option value="Brand Book Style Pages">كتيب</option>
+                  <option value="Flat Lay Desk items">عرض مسطح</option>
+                </select>
+              </div>
+            </div>
+          </>
+        )}
 
-        {/* شبكة الخيارات */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          
-          {/* الستايل الفني */}
-          <div className="space-y-2 text-right">
-            <label className="text-sm font-medium text-gray-600">الستايل الفني</label>
-            <select 
-              onChange={(e) => setStyle(e.target.value)} 
-              className="w-full p-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none text-right cursor-pointer hover:border-purple-300 transition-colors"
-            >
-              <option value="Photorealistic">واقعي جداً (Photorealistic)</option>
-              <option value="Cinematic">سينمائي (Cinematic)</option>
-              <option value="3D Render">ثلاثي الأبعاد (3D Render)</option>
-              <option value="Oil Painting">رسم زيتي (Oil Painting)</option>
-              <option value="Anime Style">أنمي (Anime)</option>
-              <option value="Cyberpunk">سايبر بانك (Cyberpunk)</option>
-              <option value="Isometric 3D">أيقونة ثلاثية الأبعاد (Isometric)</option>
-            </select>
-          </div>
-
-          {/* الإضاءة */}
-          <div className="space-y-2 text-right">
-            <label className="text-sm font-medium text-gray-600">الإضاءة</label>
-            <select 
-              onChange={(e) => setLighting(e.target.value)} 
-              className="w-full p-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none text-right cursor-pointer hover:border-purple-300 transition-colors"
-            >
-              <option value="Cinematic Lighting">إضاءة سينمائية</option>
-              <option value="Golden Hour">ضوء الشمس (ساعة ذهبية)</option>
-              <option value="Neon Lights">أضواء نيون ساطعة</option>
-              <option value="Studio Softbox">إضاءة استوديو ناعمة</option>
-              <option value="Moody Low-Key">غامض ومظلم (Moody)</option>
-              <option value="Volumetric Lighting">أشعة الشمس (Volumetric)</option>
-            </select>
-          </div>
-
-          {/* زاوية الكاميرا */}
-          <div className="space-y-2 text-right">
-            <label className="text-sm font-medium text-gray-600">زاوية الكاميرا</label>
-            <select 
-              onChange={(e) => setCamera(e.target.value)} 
-              className="w-full p-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none text-right cursor-pointer hover:border-purple-300 transition-colors"
-            >
-              <option value="Wide Angle Shot">لقطة واسعة (Wide Angle)</option>
-              <option value="Macro Lens">لقطة قريبة جداً (Macro)</option>
-              <option value="Drone View">تصوير جوي (Drone View)</option>
-              <option value="Eye Level Shot">مستوى العين (Eye Level)</option>
-              <option value="Low Angle">زاوية منخفضة (Low Angle)</option>
-              <option value="Fish-eye Lens">عدسة عين السمكة (Fish-eye)</option>
-            </select>
-          </div>
-
-          {/* الدقة والجودة */}
-          <div className="space-y-2 text-right">
-            <label className="text-sm font-medium text-gray-600">الجودة والدقة</label>
-            <select 
-              onChange={(e) => setQuality(e.target.value)} 
-              className="w-full p-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none text-right cursor-pointer hover:border-purple-300 transition-colors"
-            >
-              <option value="8k Resolution">عالية جداً (8k Resolution)</option>
-              <option value="4k Photography">احترافية (4k)</option>
-              <option value="HDR">HDR وتركيز حاد</option>
-              <option value="Black and White">أبيض وأسود فاخر</option>
-            </select>
-          </div>
-        </div>
-
-        {/* زر التوليد */}
-        <button 
-          onClick={generate} 
-          className="w-full py-4 bg-gradient-to-l from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold rounded-xl shadow-lg transform hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2"
-        >
-          <Palette size={20} />
-          هندسة برومبت الصورة لـ Gemini Banana
+        <button onClick={generate} className={`w-full py-4 text-white font-bold rounded-xl shadow-lg flex items-center justify-center gap-2 ${isBrandingMode ? 'bg-gradient-to-l from-blue-600 to-cyan-600' : 'bg-gradient-to-l from-purple-600 to-pink-600'}`}>
+          {isBrandingMode ? <Briefcase size={20} /> : <Palette size={20} />}
+          توليد البرومبت
         </button>
       </div>
 
-      {/* منطقة النتائج */}
       {generatedPrompt && (
-        <div className="mt-8 animate-fadeIn">
+        <div className="mt-8">
           <div className="bg-gray-900 rounded-xl overflow-hidden shadow-2xl border border-gray-700">
-            
-            {/* شريط الأدوات */}
             <div className="bg-gray-800 px-4 py-3 flex flex-wrap items-center justify-between gap-3 border-b border-gray-700">
-              
               <div className="flex gap-2">
-                <button 
-                  onClick={() => openPlatform('https://gemini.google.com')}
-                  className="flex items-center gap-1.5 px-3 py-1.5 bg-yellow-500 hover:bg-yellow-400 text-black text-xs font-bold rounded-md transition-colors shadow-sm"
-                  title="نسخ وفتح Gemini Banana"
-                >
-                  <Banana size={16} className="text-black" />
-                  Gemini Banana
+                <button onClick={() => openPlatform('https://gemini.google.com')} className="flex items-center gap-1.5 px-3 py-1.5 bg-yellow-500 text-black text-xs font-bold rounded-md">
+                  <Banana size={16} /> Gemini
                 </button>
-
-                <button 
-                  onClick={() => openPlatform('https://discord.com/app')} 
-                  className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium rounded-md transition-colors"
-                  title="نسخ وفتح Discord (Midjourney)"
-                >
-                  <ExternalLink size={14} />
-                  Midjourney
+                <button onClick={() => openPlatform('https://discord.com')} className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 text-white text-xs font-medium rounded-md">
+                  <ExternalLink size={14} /> Midjourney
                 </button>
               </div>
-
-              <button 
-                onClick={copyToClipboard} 
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${copied ? 'bg-green-500 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
-              >
-                {copied ? <><Check size={14} /> تم النسخ</> : <><Copy size={14} /> نسخ النص</>}
+              <button onClick={copyToClipboard} className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs ${copied ? 'bg-green-500 text-white' : 'bg-gray-700 text-gray-300'}`}>
+                {copied ? <><Check size={14} /> تم</> : <><Copy size={14} /> نسخ</>}
               </button>
             </div>
-
-            <div className="p-6 relative">
-              {/* التحديث: إضافة dir="ltr" لضمان ظهور النص الإنجليزي بشكل مرتب وصحيح */}
-              <pre 
-                dir="ltr" 
-                className="text-left text-gray-100 font-mono whitespace-pre-wrap leading-relaxed text-sm md:text-base"
-              >
+            <div className="p-6">
+              <pre dir="ltr" className="text-left text-gray-100 font-mono text-sm whitespace-pre-wrap">
                 {generatedPrompt}
               </pre>
             </div>
           </div>
-          
-          <p className="text-center text-xs text-gray-400 mt-3">
-            💡 نصيحة: تم تحسين البرومبت ليصبح "وصفاً فنياً" يفهمه Gemini و DALL-E بأفضل شكل.
-          </p>
+          <p className="text-center text-xs text-gray-400 mt-3">💡 برومبت محسّن لـ Gemini و DALL-E</p>
         </div>
       )}
     </div>
