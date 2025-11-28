@@ -4,12 +4,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Copy, Wand2, Sparkles, Image as ImageIcon, Check, RotateCcw, BookOpen, ArrowRight } from 'lucide-react';
+import { Copy, Wand2, Sparkles, Image as ImageIcon, Check, RotateCcw, BookOpen } from 'lucide-react';
 import { toast } from 'sonner';
-import { useLocation } from 'wouter';
 
-export default function ImageGenerator() {
-  const [, navigate] = useLocation();
+export default function ImageGeneratorWithTemplates() {
   const [description, setDescription] = useState('');
   const [generatedPrompt, setGeneratedPrompt] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
@@ -198,6 +196,7 @@ export default function ImageGenerator() {
     { id: 'saudi', name: 'سعودي', icon: '🇸🇦', count: 2 }
   ];
 
+  // دمج القوالب حسب الفئة
   const getFilteredTemplates = () => {
     if (selectedCategory === 'all') {
       return Object.values(imageTemplates).flat();
@@ -205,6 +204,7 @@ export default function ImageGenerator() {
     return imageTemplates[selectedCategory as keyof typeof imageTemplates] || [];
   };
 
+  // قاموس ترجمة
   const arabicToEnglishDict: Record<string, string> = {
     'الرياض': 'Riyadh', 'جدة': 'Jeddah', 'مكة': 'Mecca', 'المدينة': 'Medina',
     'مدينة': 'city', 'مستقبلي': 'futuristic', 'حديث': 'modern', 'جميل': 'beautiful',
@@ -294,25 +294,16 @@ export default function ImageGenerator() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
+      {/* Header */}
       <div className="text-center mb-12">
-        <button 
-          onClick={() => navigate('/')}
-          className="inline-flex items-center gap-3 mb-6 hover:opacity-80 transition-opacity group"
-        >
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow">
+        <div className="flex items-center justify-center gap-3 mb-4">
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg">
             <ImageIcon className="w-8 h-8 text-white" />
           </div>
-          <div className="flex flex-col items-start">
-            <h1 className="text-4xl font-extrabold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-              مولد صور الذكاء الاصطناعي
-            </h1>
-            <span className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
-              العودة للصفحة الرئيسية
-              <ArrowRight className="w-3 h-3" />
-            </span>
-          </div>
-        </button>
-        <div className="mb-6" />
+          <h1 className="text-4xl font-extrabold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            مولد صور الذكاء الاصطناعي
+          </h1>
+        </div>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
           اختر من 25 قالب احترافي جاهز، أو صمم برومبتك الخاص!
         </p>
@@ -324,6 +315,7 @@ export default function ImageGenerator() {
       </div>
 
       <div className="grid lg:grid-cols-3 gap-8">
+        {/* القسم الرئيسي */}
         <div className="lg:col-span-2 space-y-6">
           <Card className="shadow-xl border-2">
             <CardHeader>
@@ -401,6 +393,7 @@ export default function ImageGenerator() {
           )}
         </div>
 
+        {/* القسم الجانبي - مكتبة القوالب */}
         <div className="space-y-6">
           <Card className="shadow-lg">
             <CardHeader>
@@ -408,6 +401,7 @@ export default function ImageGenerator() {
               <CardDescription>اختر فئة ثم قالباً جاهزاً</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
+              {/* الفئات */}
               <div className="grid grid-cols-2 gap-2">
                 {categories.map(cat => (
                   <Button key={cat.id} variant={selectedCategory === cat.id ? "default" : "outline"} onClick={() => setSelectedCategory(cat.id)} className="h-auto py-2 text-sm">
@@ -416,6 +410,7 @@ export default function ImageGenerator() {
                 ))}
               </div>
 
+              {/* القوالب */}
               <div className="space-y-2 max-h-[600px] overflow-y-auto">
                 {getFilteredTemplates().map(template => (
                   <Button key={template.id} variant="outline" className="w-full h-auto py-3 px-3 text-right justify-start" onClick={() => applyTemplate(template)}>
