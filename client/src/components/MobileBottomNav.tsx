@@ -6,10 +6,10 @@ export default function MobileBottomNav() {
   const [location] = useLocation();
 
   const navItems = [
-    { icon: Home, label: "الرئيسية", href: "/" },
-    { icon: Sparkles, label: "قوالب", href: "/templates" },
-    { icon: BookOpen, label: "أوراق العمل", href: "/worksheets" },
-    { icon: TrendingUp, label: "شعبي", href: "/popular" },
+    { icon: Home, label: "مولّد البرومبتات", href: "/" },
+    { icon: Sparkles, label: "برومبتات الصور", href: "/image-generator" },
+    { icon: BookOpen, label: "🛠️ ابني البرومبت", href: "#prompt-builder" },
+    { icon: TrendingUp, label: "مولد أوراق العمل", href: "/worksheets" },
   ];
 
   return (

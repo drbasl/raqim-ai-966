@@ -21,8 +21,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { trpc } from "@/lib/trpc";
 import ReactMarkdown from "react-markdown";
-import html2pdf from "html2pdf.js";
-import { Document, Packer, Paragraph, TextRun } from "docx";
 
 type GenerationMethod = "text" | "title";
 type QuestionType = "multiple_choice" | "short_answer" | "essay" | "true_false" | "fill_blank" | "mixed";
@@ -87,34 +85,45 @@ export default function WorksheetGenerator() {
 
   const handleExportPDF = () => {
     if (!worksheetRef.current) return;
-    const element = worksheetRef.current;
-    const opt: any = {
-      margin: 10,
-      filename: `${lessonTitle || 'ورقة-عمل'}.pdf`,
-      image: { type: 'jpeg' as const, quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true },
-      jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' },
-    };
-    html2pdf().set(opt).from(element).save();
-    toast.success('تم تصدير PDF بنجاح!');
+    const element = worksheetRef.current.cloneNode(true) as HTMLElement;
+    const html = `
+      <!DOCTYPE html>
+      <html dir="rtl" lang="ar">
+        <head>
+          <meta charset="UTF-8">
+          <style>
+            * { margin: 0; padding: 0; }
+            body { font-family: Arial, sans-serif; direction: rtl; text-align: right; padding: 20px; }
+            h1 { font-size: 24px; margin: 15px 0; }
+            h2 { font-size: 20px; margin: 12px 0; color: #0066cc; }
+            h3 { font-size: 18px; margin: 10px 0; }
+            p { font-size: 14px; line-height: 1.8; margin: 5px 0; }
+            ul, ol { margin: 10px 20px; }
+            li { margin: 5px 0; }
+            table { border-collapse: collapse; width: 100%; margin: 10px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: right; }
+            th { background: #f0f0f0; }
+            strong { font-weight: bold; }
+            em { font-style: italic; }
+          </style>
+        </head>
+        <body>${element.innerHTML}</body>
+      </html>
+    `;
+    const blob = new Blob([html], { type: 'text/html; charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${lessonTitle || 'ورقة-عمل'}.html`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success('تم تصدير HTML بنجاح! (فتح الملف في المتصفح واضغط Ctrl+P للطباعة كـ PDF)');
   };
 
-  const handleExportWord = async () => {
+  const handleExportWord = () => {
     if (!generateMutation.data) return;
     const content = getPlainText(generateMutation.data.content);
-    const paragraphs = content.split('\n').map(line => new Paragraph({
-      text: line || ' ',
-      alignment: 'right' as any,
-    }));
-    
-    const doc = new Document({
-      sections: [{
-        properties: {},
-        children: paragraphs,
-      }],
-    });
-    
-    const blob = await Packer.toBlob(doc);
+    const blob = new Blob([content], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document; charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
