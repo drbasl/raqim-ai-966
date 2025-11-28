@@ -20,6 +20,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { trpc } from "@/lib/trpc";
+import ReactMarkdown from "react-markdown";
 
 type GenerationMethod = "text" | "title";
 type QuestionType = "multiple_choice" | "short_answer" | "essay" | "true_false" | "fill_blank" | "mixed";
@@ -64,8 +65,6 @@ export default function WorksheetGenerator() {
       questionCount,
       language,
       gradeLevel,
-      subject,
-      difficultyLevel,
       lessonTitle,
       teacherName: teacherName || undefined,
       schoolName: schoolName || undefined,
@@ -406,11 +405,33 @@ export default function WorksheetGenerator() {
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
-            <div className="prose prose-sm max-w-none dark:prose-invert">
-              <div
-                className="whitespace-pre-wrap"
-                dangerouslySetInnerHTML={{ __html: generateMutation.data.content }}
-              />
+            <div dir="rtl" className="prose prose-sm max-w-none dark:prose-invert text-right space-y-4">
+              <ReactMarkdown
+                components={{
+                  h1: (props) => <h1 className="text-2xl font-bold text-right mb-4 mt-4">{props.children}</h1>,
+                  h2: (props) => <h2 className="text-xl font-bold text-right mb-3 mt-3 text-primary">{props.children}</h2>,
+                  h3: (props) => <h3 className="text-lg font-bold text-right mb-2 mt-2 text-primary/80">{props.children}</h3>,
+                  p: (props) => <p className="text-base text-right leading-8 mb-2">{props.children}</p>,
+                  strong: (props) => <strong className="font-bold">{props.children}</strong>,
+                  em: (props) => <em className="italic">{props.children}</em>,
+                  ul: (props) => <ul className="list-disc list-inside text-right mb-3">{props.children}</ul>,
+                  ol: (props) => <ol className="list-decimal list-inside text-right mb-3">{props.children}</ol>,
+                  li: (props) => <li className="text-base mb-1 text-right">{props.children}</li>,
+                  blockquote: (props) => <blockquote className="border-r-4 border-primary pr-4 text-right italic text-gray-600 dark:text-gray-400 my-3">{props.children}</blockquote>,
+                  code: (props: any) => 
+                    props.inline ? (
+                      <code className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm font-mono">{props.children}</code>
+                    ) : (
+                      <code className="bg-gray-100 dark:bg-gray-800 p-3 rounded-lg block text-sm font-mono overflow-auto text-left mb-3">{props.children}</code>
+                    ),
+                  table: (props) => <table className="table-auto border-collapse border border-gray-300 dark:border-gray-700 w-full text-right mb-3">{props.children}</table>,
+                  th: (props) => <th className="border border-gray-300 dark:border-gray-700 bg-primary/10 p-2 font-bold text-right">{props.children}</th>,
+                  td: (props) => <td className="border border-gray-300 dark:border-gray-700 p-2 text-right">{props.children}</td>,
+                  hr: () => <hr className="my-4 border-t-2 border-primary/30" />,
+                }}
+              >
+                {generateMutation.data.content}
+              </ReactMarkdown>
             </div>
           </div>
         )}
