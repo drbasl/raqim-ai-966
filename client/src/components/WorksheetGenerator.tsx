@@ -30,6 +30,8 @@ export default function WorksheetGenerator() {
   const [questionCount, setQuestionCount] = useState<number>(7);
   const [language, setLanguage] = useState<string>("ar");
   const [gradeLevel, setGradeLevel] = useState<string>("elementary");
+  const [subject, setSubject] = useState<string>("arabic");
+  const [difficultyLevel, setDifficultyLevel] = useState<string>("medium");
   const [lessonTitle, setLessonTitle] = useState<string>("");
   const [teacherName, setTeacherName] = useState<string>("");
   const [schoolName, setSchoolName] = useState<string>("");
@@ -62,6 +64,8 @@ export default function WorksheetGenerator() {
       questionCount,
       language,
       gradeLevel,
+      subject,
+      difficultyLevel,
       lessonTitle,
       teacherName: teacherName || undefined,
       schoolName: schoolName || undefined,
@@ -218,7 +222,7 @@ export default function WorksheetGenerator() {
               onClick={() => setQuestionType("fill_blank")}
               size="sm"
             >
-              أهل الفراغات
+              أكمل الفراغات
             </Button>
             <Button
               variant={questionType === "mixed" ? "default" : "outline"}
@@ -261,7 +265,7 @@ export default function WorksheetGenerator() {
           </div>
         </div>
 
-        {/* Grade Level & Lesson Title */}
+        {/* Grade Level & Subject */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="grade-level" className="text-sm md:text-base">المرحلة الدراسية</Label>
@@ -279,6 +283,42 @@ export default function WorksheetGenerator() {
           </div>
 
           <div className="space-y-2">
+            <Label htmlFor="subject" className="text-sm md:text-base">المادة</Label>
+            <Select value={subject} onValueChange={setSubject}>
+              <SelectTrigger id="subject">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="arabic">لغة عربية</SelectItem>
+                <SelectItem value="islamic">تربية إسلامية</SelectItem>
+                <SelectItem value="math">رياضيات</SelectItem>
+                <SelectItem value="science">علوم</SelectItem>
+                <SelectItem value="english">لغة إنجليزية</SelectItem>
+                <SelectItem value="social">اجتماعيات</SelectItem>
+                <SelectItem value="computer">حاسب آلي</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        {/* Difficulty Level & Lesson Title */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="difficulty" className="text-sm md:text-base">مستوى الصعوبة</Label>
+            <Select value={difficultyLevel} onValueChange={setDifficultyLevel}>
+              <SelectTrigger id="difficulty">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="easy">سهل</SelectItem>
+                <SelectItem value="medium">متوسط</SelectItem>
+                <SelectItem value="hard">صعب</SelectItem>
+                <SelectItem value="advanced">للمتفوقين</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
             <Label htmlFor="lesson-title" className="text-sm md:text-base">
               عنوان الدرس <span className="text-destructive">*</span>
             </Label>
@@ -286,7 +326,7 @@ export default function WorksheetGenerator() {
               id="lesson-title"
               value={lessonTitle}
               onChange={(e) => setLessonTitle(e.target.value)}
-              placeholder="اكتب عنوان الدرس أو عنوان الدرس"
+              placeholder="اكتب عنوان الدرس"
             />
           </div>
         </div>
