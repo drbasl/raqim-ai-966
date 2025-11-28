@@ -96,6 +96,9 @@ export default function Home() {
               <a href="#generator" className="text-sm hover:text-primary transition-colors">
                 {t('nav.generator')}
               </a>
+              <a href="#prompt-builder" className="text-sm hover:text-primary transition-colors font-semibold text-primary/80 hover:text-primary">
+                🛠️ ابني البرومبت الخاص بك
+              </a>
               <a href="/image-generator" className="text-sm hover:text-primary transition-colors">
                 برومبتات الصور
               </a>
@@ -132,6 +135,9 @@ export default function Home() {
                   <nav className="flex flex-col gap-4 mt-8">
                     <a href="#generator" className="text-base hover:text-primary transition-colors py-2">
                       {t('nav.generator')}
+                    </a>
+                    <a href="#prompt-builder" className="text-base hover:text-primary transition-colors py-2 font-semibold text-primary/80 hover:text-primary">
+                      🛠️ ابني البرومبت الخاص بك
                     </a>
                     <a href="/image-generator" className="text-base hover:text-primary transition-colors py-2">
                       برومبتات الصور
@@ -545,19 +551,6 @@ export default function Home() {
               <a href="/analyzer" className="hover:text-primary transition-colors">محلل البرومبتات</a>
               <span>•</span>
               <a href="/worksheets" className="hover:text-primary transition-colors">أوراق العمل</a>
-            </div>
-
-            {/* CTA Button - Build Your Prompt */}
-            <div className="py-6">
-              <a href="#prompt-builder" className="inline-block">
-                <Button
-                  size="lg"
-                  className="gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold px-8 py-3 rounded-lg transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
-                >
-                  <Sparkles className="w-5 h-5" />
-                  🛠️ ابني البرومبت الخاص بك
-                </Button>
-              </a>
             </div>
 
             {/* Social Links */}
