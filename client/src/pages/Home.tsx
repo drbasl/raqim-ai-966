@@ -8,7 +8,6 @@ import PromptGenerator from "@/components/PromptGenerator";
 import TemplateLibrary, { Template } from "@/components/TemplateLibrary";
 import SpecializedTemplates from "@/components/SpecializedTemplates";
 import FAQ from "@/components/FAQ";
-import ProfessionalExamples from "@/components/ProfessionalExamples";
 import OnboardingTour, { RestartTourButton } from "@/components/OnboardingTour";
 import { useTheme } from "@/contexts/ThemeContext";
 import { trpc } from "@/lib/trpc";
@@ -456,12 +455,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Professional Examples Section */}
-      <section id="professional-examples" className="py-16 bg-muted/30">
-        <div className="container">
-          <ProfessionalExamples />
-        </div>
-      </section>
 
       {/* Footer */}
       <footer className="border-t border-border/50 py-12 bg-muted/20">
