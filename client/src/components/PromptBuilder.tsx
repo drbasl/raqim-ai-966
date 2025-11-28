@@ -1,78 +1,153 @@
 import React, { useState } from 'react';
-import { Copy, Sparkles } from 'lucide-react';
-import { toast } from 'sonner';
+import { Copy, Wand2, Check } from 'lucide-react';
 
 export default function PromptBuilder() {
+  const [topic, setTopic] = useState('');
   const [role, setRole] = useState('خبير تسويق رقمي');
   const [task, setTask] = useState('كتابة تغريدة فيرال');
   const [tone, setTone] = useState('إبداعي وجذاب');
   const [dialect, setDialect] = useState('سعودية (بيضاء)');
   const [generatedPrompt, setGeneratedPrompt] = useState('');
-
-  const roles = ['خبير تسويق رقمي', 'مبرمج محترف', 'مستشار قانوني سعودي', 'كاتب محتوى إبداعي', 'أخصائي موارد بشرية'];
-  const tasks = ['كتابة تغريدة فيرال', 'تلخيص مستند معقد', 'كتابة إيميل رسمي', 'تحليل بيانات', 'اقتراح أفكار فيديو'];
-  const tones = ['إبداعي وجذاب', 'رسمي ومهني', 'فكاهي وخفيف', 'حماسي وتحفيزي'];
-  const dialects = ['سعودية (بيضاء)', 'سعودية (نجدية عامية)', 'فصحى مبسطة', 'خليجية عامة'];
+  const [copied, setCopied] = useState(false);
 
   const generate = () => {
-    const prompt = `تصرف كـ ${role}. قم بـ ${task} بأسلوب ${tone}. اللهجة المطلوبة: ${dialect}. تأكد أن المحتوى مناسب للسوق السعودي والخليجي.`;
-    setGeneratedPrompt(prompt);
-    toast.success('✨ تم إنشاء البرومبت!');
+    // منطق التوليد الاحترافي (Prompt Engineering)
+    const refinedPrompt = `
+🔴 **الدور:** أنت ${role} محترف وتمتلك خبرة واسعة في السوق السعودي.
+🎯 **المهمة:** ${task} حول موضوع: "${topic || '[أضف موضوعك هنا]'}"
+🎨 **الأسلوب:** ${tone}
+🗣️ **اللهجة:** ${dialect}
+
+⚙️ **شروط التنفيذ:**
+1. استخدم كلمات مفتاحية قوية تجذب الانتباه من أول جملة.
+2. تأكد أن المحتوى يلامس اهتمامات الجمهور السعودي والخليجي.
+3. تجنب الحشو والتكرار، وركز على القيمة المضافة.
+4. إذا كان هناك حاجة، استخدم إيموجي مناسب للسياق.
+
+النتيجة المطلوبة هي نص جاهز للنشر فوراً.
+    `.trim();
+    
+    setGeneratedPrompt(refinedPrompt);
   };
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(generatedPrompt);
-    toast.success('تم نسخ البرومبت!');
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <div className="bg-gradient-to-br from-indigo-50 to-purple-50 p-8 rounded-2xl shadow-lg border-2 border-indigo-100 my-8">
-      <h2 className="text-3xl font-bold mb-6 text-right text-indigo-900 flex items-center justify-end gap-3">
-        <span>🛠️ ابني البرومبت الخاص بك</span>
-        <Sparkles className="w-8 h-8 text-indigo-600" />
-      </h2>
+    <div className="w-full max-w-4xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-xl border border-indigo-50 my-8">
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        <div className="space-y-2 text-right">
-          <label className="text-sm font-semibold text-indigo-900">الدور (مين اللي يتكلم؟)</label>
-          <select value={role} onChange={(e) => setRole(e.target.value)} className="w-full p-3 bg-white rounded-lg border-2 border-indigo-200 focus:ring-2 focus:ring-indigo-500 outline-none text-right shadow-sm hover:border-indigo-300 transition">
-            {roles.map(r => <option key={r}>{r}</option>)}
-          </select>
-        </div>
-
-        <div className="space-y-2 text-right">
-          <label className="text-sm font-semibold text-indigo-900">المهمة (وش المطلوب؟)</label>
-          <select value={task} onChange={(e) => setTask(e.target.value)} className="w-full p-3 bg-white rounded-lg border-2 border-indigo-200 focus:ring-2 focus:ring-indigo-500 outline-none text-right shadow-sm hover:border-indigo-300 transition">
-            {tasks.map(t => <option key={t}>{t}</option>)}
-          </select>
-        </div>
-
-        <div className="space-y-2 text-right">
-          <label className="text-sm font-semibold text-indigo-900">النبرة (الأسلوب)</label>
-          <select value={tone} onChange={(e) => setTone(e.target.value)} className="w-full p-3 bg-white rounded-lg border-2 border-indigo-200 focus:ring-2 focus:ring-indigo-500 outline-none text-right shadow-sm hover:border-indigo-300 transition">
-            {tones.map(t => <option key={t}>{t}</option>)}
-          </select>
-        </div>
-
-        <div className="space-y-2 text-right">
-          <label className="text-sm font-semibold text-indigo-900">اللهجة</label>
-          <select value={dialect} onChange={(e) => setDialect(e.target.value)} className="w-full p-3 bg-white rounded-lg border-2 border-indigo-200 focus:ring-2 focus:ring-indigo-500 outline-none text-right shadow-sm hover:border-indigo-300 transition">
-            {dialects.map(d => <option key={d}>{d}</option>)}
-          </select>
+      {/* الرأس */}
+      <div className="flex items-center justify-between mb-8 border-b border-gray-100 pb-4">
+        <div className="text-right w-full">
+          <h2 className="text-2xl font-bold text-gray-800 flex items-center justify-end gap-2">
+            🛠️ ابني البرومبت الخاص بك
+          </h2>
+          <p className="text-gray-500 text-sm mt-1">صمم أوامر ذكية تناسب احتياجك بدقة</p>
         </div>
       </div>
+      
+      {/* نموذج المدخلات */}
+      <div className="space-y-6">
+        
+        {/* خانة الموضوع - الأهم */}
+        <div className="text-right">
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            💡 الموضوع (عن ايش تبي تتكلم؟)
+          </label>
+          <input 
+            type="text" 
+            value={topic}
+            onChange={(e) => setTopic(e.target.value)}
+            placeholder="مثال: القهوة المختصة، اليوم الوطني، خصومات نهاية العام..."
+            className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none text-right placeholder-gray-400 transition-all"
+          />
+        </div>
 
-      <button onClick={generate} className="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold rounded-lg transition-all shadow-lg hover:shadow-xl transform hover:scale-105 mb-6 flex items-center justify-center gap-2 text-lg">
-        <Sparkles className="w-5 h-5" />
-        ✨ إنشاء البرومبت
-      </button>
+        {/* شبكة الخيارات */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="space-y-2 text-right">
+            <label className="text-sm font-medium text-gray-600">الدور (مين اللي يتكلم؟)</label>
+            <select value={role} onChange={(e) => setRole(e.target.value)} className="w-full p-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-right cursor-pointer hover:border-indigo-300 transition-colors">
+              <option>خبير تسويق رقمي</option>
+              <option>مبرمج محترف</option>
+              <option>مستشار قانوني سعودي</option>
+              <option>كاتب محتوى إبداعي</option>
+              <option>أخصائي موارد بشرية</option>
+              <option>مدير مشاريع</option>
+            </select>
+          </div>
 
+          <div className="space-y-2 text-right">
+            <label className="text-sm font-medium text-gray-600">المهمة (وش المطلوب؟)</label>
+            <select value={task} onChange={(e) => setTask(e.target.value)} className="w-full p-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-right cursor-pointer hover:border-indigo-300 transition-colors">
+              <option>كتابة تغريدة فيرال</option>
+              <option>تلخيص مستند معقد</option>
+              <option>كتابة إيميل رسمي</option>
+              <option>تحليل بيانات</option>
+              <option>اقتراح أفكار فيديو تيك توك</option>
+              <option>كتابة وصف منتج لمتجر إلكتروني</option>
+            </select>
+          </div>
+
+          <div className="space-y-2 text-right">
+            <label className="text-sm font-medium text-gray-600">النبرة (الأسلوب)</label>
+            <select value={tone} onChange={(e) => setTone(e.target.value)} className="w-full p-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-right cursor-pointer hover:border-indigo-300 transition-colors">
+              <option>إبداعي وجذاب</option>
+              <option>رسمي ومهني</option>
+              <option>فكاهي وخفيف</option>
+              <option>حماسي وتحفيزي</option>
+              <option>عاطفي وقصصي</option>
+            </select>
+          </div>
+
+          <div className="space-y-2 text-right">
+            <label className="text-sm font-medium text-gray-600">اللهجة</label>
+            <select value={dialect} onChange={(e) => setDialect(e.target.value)} className="w-full p-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-right cursor-pointer hover:border-indigo-300 transition-colors">
+              <option>سعودية (بيضاء)</option>
+              <option>سعودية (نجدية عامية)</option>
+              <option>سعودية (حجازية)</option>
+              <option>فصحى مبسطة</option>
+              <option>خليجية عامة</option>
+            </select>
+          </div>
+        </div>
+
+        {/* زر التوليد */}
+        <button 
+          onClick={generate} 
+          className="w-full py-4 bg-gradient-to-l from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-xl shadow-lg transform hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2"
+        >
+          <Wand2 size={20} />
+          إنشاء البرومبت الاحترافي
+        </button>
+      </div>
+
+      {/* منطقة النتائج */}
       {generatedPrompt && (
-        <div className="bg-white p-5 rounded-xl border-2 border-emerald-200 relative shadow-md">
-          <p className="text-gray-800 leading-relaxed text-right pr-10">{generatedPrompt}</p>
-          <button onClick={copyToClipboard} className="absolute top-4 left-4 text-indigo-500 hover:text-indigo-700 transition-colors p-2 hover:bg-indigo-50 rounded-lg">
-            <Copy size={20} />
-          </button>
+        <div className="mt-8 animate-fadeIn">
+          <div className="bg-gray-900 rounded-xl overflow-hidden shadow-2xl border border-gray-700">
+            <div className="bg-gray-800 px-4 py-2 flex items-center justify-between border-b border-gray-700">
+              <button 
+                onClick={copyToClipboard} 
+                className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${copied ? 'bg-green-500 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
+              >
+                {copied ? <><Check size={14} /> تم النسخ</> : <><Copy size={14} /> نسخ النص</>}
+              </button>
+              <span className="text-xs text-gray-400 font-mono">PROMPT PREVIEW</span>
+            </div>
+            <div className="p-6 relative">
+              <pre className="text-right text-gray-100 font-sans whitespace-pre-wrap leading-relaxed text-sm md:text-base">
+                {generatedPrompt}
+              </pre>
+            </div>
+          </div>
+          
+          <p className="text-center text-xs text-gray-400 mt-3">
+            💡 نصيحة: انسخ هذا النص وضعه في ChatGPT أو Claude للحصول على أفضل نتيجة.
+          </p>
         </div>
       )}
     </div>
