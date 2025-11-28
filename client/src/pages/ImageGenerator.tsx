@@ -16,6 +16,7 @@ export default function ImageGenerator() {
   const [copied, setCopied] = useState(false);
   const [selectedStyle, setSelectedStyle] = useState('realistic');
   const [selectedRatio, setSelectedRatio] = useState('1:1');
+  const [promptRating, setPromptRating] = useState<{ stars: number; message: string } | null>(null);
 
   const maxLength = 500;
   const charCount = description.length;
@@ -40,38 +41,103 @@ export default function ImageGenerator() {
     }
   ];
 
-  // قوالب الأنماط
+  // قوالب الأنماط مع الإيموجي
   const styleTemplates = {
     realistic: {
-      name: 'واقعي',
+      name: '📸 واقعي',
       suffix: 'photorealistic, 8k uhd, high quality, detailed, professional photography, cinematic lighting'
     },
     artistic: {
-      name: 'فني',
+      name: '🎨 فني',
       suffix: 'artistic, creative, vibrant colors, masterpiece, highly detailed, digital art'
     },
     cartoon: {
-      name: 'كرتوني',
+      name: '🎭 كرتوني',
       suffix: 'cartoon style, animated, colorful, playful, illustration, digital art'
     },
     '3d': {
-      name: '3D',
+      name: '🎲 3D',
       suffix: '3d render, octane render, unreal engine, highly detailed, volumetric lighting'
     },
     painting: {
-      name: 'لوحة',
+      name: '🖼️ لوحة',
       suffix: 'oil painting, canvas, artistic brush strokes, masterpiece, museum quality'
     }
   };
 
+  // نسب الأبعاد مع الرموز
+  const ratioOptions = [
+    { ratio: '1:1', symbol: '◻️', label: 'مربع' },
+    { ratio: '16:9', symbol: '▭', label: 'عريض' },
+    { ratio: '9:16', symbol: '▯', label: 'عمودي' }
+  ];
+
+  // دالة تقييم البرومبت
+  const ratePrompt = (text: string): { stars: number; message: string } => {
+    const length = text.length;
+    if (length > 100) {
+      return { stars: 5, message: '⭐⭐⭐⭐⭐ برومبت ممتاز!' };
+    } else if (length >= 50) {
+      return { stars: 4, message: '⭐⭐⭐⭐ برومبت جيد جداً' };
+    } else {
+      return { stars: 3, message: '⭐⭐⭐ برومبت مقبول - أضف تفاصيل أكثر' };
+    }
+  };
+
+  // دالة ترجمة بسيطة - قاموس عربي إنجليزي
+  const translateArabicToEnglish = (text: string): string => {
+    // قاموس ترجمة سريع للكلمات الشائعة
+    const dictionary: { [key: string]: string } = {
+      'مدينة': 'city',
+      'الرياض': 'Riyadh',
+      'مستقبلية': 'futuristic',
+      'غروب': 'sunset',
+      'شمس': 'sun',
+      'صحراء': 'desert',
+      'الربع': 'quarter',
+      'الخالي': 'empty',
+      'مسجد': 'mosque',
+      'إسلامي': 'Islamic',
+      'حديث': 'modern',
+      'لوحة': 'painting',
+      'فنية': 'artistic',
+      'تراث': 'heritage',
+      'سعودي': 'Saudi',
+      'طائرات': 'aircraft',
+      'طائرة': 'flying',
+      'سماء': 'sky',
+      'إضاءة': 'lighting',
+      'ذهبية': 'golden',
+      'مشهد': 'scene',
+      'خيالي': 'fantastical',
+      'بناطحات': 'skyscrapers',
+      'سحاب': 'clouds',
+      'متلألئة': 'glowing',
+      'بتصميم': 'designed',
+      'في': 'in',
+      'عام': 'year',
+      '2050': '2050'
+    };
+
+    let result = text;
+    
+    // استبدال الكلمات من القاموس
+    for (const [arabic, english] of Object.entries(dictionary)) {
+      const regex = new RegExp(`\\b${arabic}\\b`, 'g');
+      result = result.replace(regex, english);
+    }
+
+    return result;
+  };
+
   // دالة توليد البرومبت المحسّن
-  const generateEnhancedPrompt = (input: string, style: string, ratio: string) => {
+  const generateEnhancedPrompt = (input: string, style: string, ratio: string): string => {
     const styleConfig = styleTemplates[style as keyof typeof styleTemplates];
     
-    // ترجمة بسيطة أو تحسين الوصف
-    // في الإنتاج، يمكن استخدام API للترجمة أو LLM
+    // ترجمة الوصف
+    const translatedDescription = translateArabicToEnglish(input);
     
-    const basePrompt = `A detailed and stunning image of: ${input}`;
+    const basePrompt = `A detailed and stunning image of: ${translatedDescription}`;
     
     const ratioText = ratio === '16:9' ? 'wide cinematic composition' :
                      ratio === '9:16' ? 'vertical portrait composition' :
@@ -92,13 +158,17 @@ export default function ImageGenerator() {
     setIsGenerating(true);
     
     try {
+      // تقييم البرومبت قبل التوليد
+      const rating = ratePrompt(description);
+      setPromptRating(rating);
+
       // محاكاة تأخير API (1.5 ثانية)
       await new Promise(resolve => setTimeout(resolve, 1500));
       
       const prompt = generateEnhancedPrompt(description, selectedStyle, selectedRatio);
       setGeneratedPrompt(prompt);
       
-      toast.success('تم إنشاء البرومبت بنجاح!');
+      toast.success('✅ تم إنشاء البرومبت بنجاح! جاهز للاستخدام');
     } catch (error) {
       toast.error('حدث خطأ في التوليد');
       console.error(error);
@@ -112,7 +182,7 @@ export default function ImageGenerator() {
     try {
       await navigator.clipboard.writeText(generatedPrompt);
       setCopied(true);
-      toast.success('تم نسخ البرومبت!');
+      toast.success('✨ تم نسخ البرومبت!');
       
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
@@ -131,6 +201,7 @@ export default function ImageGenerator() {
     setGeneratedPrompt('');
     setSelectedStyle('realistic');
     setSelectedRatio('1:1');
+    setPromptRating(null);
   };
 
   return (
@@ -161,15 +232,15 @@ export default function ImageGenerator() {
         <div className="flex justify-center gap-3 mt-6 flex-wrap">
           <Badge variant="secondary" className="px-4 py-2 text-sm">
             <Sparkles className="w-4 h-4 ml-2" />
-            برومبتات احترافية
+            🎨 برومبتات احترافية
           </Badge>
           <Badge variant="secondary" className="px-4 py-2 text-sm">
             <Wand2 className="w-4 h-4 ml-2" />
-            5 أنماط فنية
+            ✨ 5 أنماط فنية
           </Badge>
           <Badge variant="secondary" className="px-4 py-2 text-sm">
             <ImageIcon className="w-4 h-4 ml-2" />
-            جودة عالية
+            ⚡ جودة عالية
           </Badge>
         </div>
       </div>
@@ -226,19 +297,20 @@ export default function ImageGenerator() {
                 
                 <TabsContent value="ratio" className="space-y-3">
                   <div className="grid grid-cols-3 gap-3">
-                    {['1:1', '16:9', '9:16'].map((ratio) => (
+                    {ratioOptions.map((option) => (
                       <Button
-                        key={ratio}
-                        variant={selectedRatio === ratio ? "default" : "outline"}
-                        onClick={() => setSelectedRatio(ratio)}
-                        className="h-auto py-3"
+                        key={option.ratio}
+                        variant={selectedRatio === option.ratio ? "default" : "outline"}
+                        onClick={() => setSelectedRatio(option.ratio)}
+                        className="h-auto py-3 flex flex-col gap-1"
                       >
-                        {ratio}
+                        <span className="text-xl">{option.symbol}</span>
+                        <span className="text-xs">{option.ratio}</span>
                       </Button>
                     ))}
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    1:1 = مربع • 16:9 = عريض • 9:16 = عمودي
+                    ◻️ مربع • ▭ عريض • ▯ عمودي
                   </p>
                 </TabsContent>
               </Tabs>
@@ -253,7 +325,7 @@ export default function ImageGenerator() {
                   {isGenerating ? (
                     <>
                       <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin ml-2" />
-                      جاري التوليد...
+                      🎨 جاري إنشاء البرومبت المثالي...
                     </>
                   ) : (
                     <>
@@ -267,7 +339,7 @@ export default function ImageGenerator() {
                   variant="outline"
                   className="h-12"
                 >
-                  إعادة
+                  إعادة تعيين
                 </Button>
               </div>
             </CardContent>
@@ -277,7 +349,7 @@ export default function ImageGenerator() {
           {generatedPrompt && (
             <Card className="shadow-xl border-2 border-emerald-200 bg-gradient-to-br from-emerald-50/50 to-teal-50/50 animate-slideUp">
               <CardHeader>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between flex-wrap gap-2">
                   <CardTitle className="flex items-center gap-2 text-emerald-700">
                     <Check className="w-5 h-5" />
                     البرومبت المُحسّن
@@ -305,7 +377,17 @@ export default function ImageGenerator() {
                   استخدم هذا البرومبت مع Midjourney أو DALL-E أو Stable Diffusion
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="space-y-4">
+                {/* تقييم البرومبت */}
+                {promptRating && (
+                  <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                    <p className="font-semibold text-yellow-900">
+                      {promptRating.message}
+                    </p>
+                  </div>
+                )}
+
+                {/* البرومبت المحسّن */}
                 <div className="bg-white rounded-lg p-4 border-2 border-emerald-200">
                   <p className="text-sm font-mono leading-relaxed" dir="ltr">
                     {generatedPrompt}
@@ -314,12 +396,20 @@ export default function ImageGenerator() {
                 
                 {/* نصائح الاستخدام */}
                 <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                  <h4 className="font-semibold text-blue-900 mb-2">💡 نصائح الاستخدام:</h4>
-                  <ul className="text-sm text-blue-800 space-y-1">
+                  <h4 className="font-semibold text-blue-900 mb-3">💡 نصائح الاستخدام:</h4>
+                  <ul className="text-sm text-blue-800 space-y-2 mb-4">
                     <li>• انسخ البرومبت والصقه في Midjourney أو DALL-E</li>
                     <li>• يمكنك تعديل البرومبت حسب حاجتك</li>
                     <li>• جرّب أنماط وأبعاد مختلفة للنتائج الأفضل</li>
                   </ul>
+
+                  {/* مثال على برومبت ناجح */}
+                  <div className="pt-3 border-t border-blue-200">
+                    <h5 className="font-semibold text-blue-900 mb-2">📌 مثال على برومبت ناجح:</h5>
+                    <p className="text-xs bg-white p-2 rounded border border-blue-100 font-mono leading-relaxed text-gray-800 dir-ltr">
+                      "A photorealistic image of futuristic Riyadh city in 2050, towering glass skyscrapers, flying cars in the sky, golden sunset lighting, 8k uhd, highly detailed, cinematic"
+                    </p>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -359,19 +449,19 @@ export default function ImageGenerator() {
             </CardHeader>
             <CardContent className="space-y-3 text-sm">
               <div>
-                <h4 className="font-semibold mb-1">1. اكتب الوصف</h4>
+                <h4 className="font-semibold mb-1">1. ✍️ اكتب الوصف</h4>
                 <p className="text-muted-foreground">صف الصورة بالتفصيل بالعربية</p>
               </div>
               <div>
-                <h4 className="font-semibold mb-1">2. اختر الأسلوب</h4>
+                <h4 className="font-semibold mb-1">2. 🎨 اختر الأسلوب</h4>
                 <p className="text-muted-foreground">حدد النمط الفني المناسب</p>
               </div>
               <div>
-                <h4 className="font-semibold mb-1">3. اختر الأبعاد</h4>
+                <h4 className="font-semibold mb-1">3. 📐 اختر الأبعاد</h4>
                 <p className="text-muted-foreground">حدد نسبة أبعاد الصورة</p>
               </div>
               <div>
-                <h4 className="font-semibold mb-1">4. ولّد وانسخ</h4>
+                <h4 className="font-semibold mb-1">4. ⚡ ولّد وانسخ</h4>
                 <p className="text-muted-foreground">احصل على البرومبت المحسّن</p>
               </div>
             </CardContent>
