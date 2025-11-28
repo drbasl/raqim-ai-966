@@ -185,14 +185,6 @@ export default function Home() {
                 variant="ghost"
                 className="text-sm md:text-base rounded-none border-b-2 border-b-transparent hover:border-b-primary/50 px-3 md:px-6 py-2 md:py-3 whitespace-nowrap"
               >
-                كيف يعمل؟
-              </Button>
-            </a>
-            <a href="/templates">
-              <Button 
-                variant="ghost"
-                className="text-sm md:text-base rounded-none border-b-2 border-b-transparent hover:border-b-primary/50 px-3 md:px-6 py-2 md:py-3 whitespace-nowrap"
-              >
                 مكتبة القوالب
               </Button>
             </a>
