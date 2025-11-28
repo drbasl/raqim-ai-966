@@ -184,18 +184,81 @@ export default function ImageGenerator() {
         title: '🏙️ الرياض 2050',
         description: 'مدينة الرياض المستقبلية مع ناطحات سحاب خضراء',
         prompt: 'Futuristic Riyadh city in 2050 with green eco-friendly skyscrapers, flying cars, sustainable urban design, Saudi Vision 2030 concept, photorealistic'
+      },
+      {
+        id: 26,
+        title: '🌃 رؤية المستقبل',
+        description: 'منظر جوي ليلي لمدينة الرياض بأسلوب مستقبلي، ناطحات سحاب بتصاميم إسلامية',
+        prompt: 'Futuristic Riyadh city skyline at night, aerial view, skyscrapers with glowing geometric Islamic patterns, flying cars, neon lights, 8k resolution, hyper-realistic, cyberpunk arabia style, cinematic lighting.'
+      },
+      {
+        id: 27,
+        title: '☕ القهوة والتراث',
+        description: 'دلة قهوة عربية فضية على رمال الصحراء وقت الغروب',
+        prompt: 'Silver Arabic coffee pot (Dallah) with intricate engraving resting on golden desert sands at sunset, warm cinematic lighting, realistic steam rising from the cup, macro photography, 8k, detailed texture.'
+      },
+      {
+        id: 28,
+        title: '👔 الأزياء العصرية',
+        description: 'رجل أعمال سعودي بثوب عصري في مكتب زجاجي حديث',
+        prompt: 'Saudi businessman wearing a modern tailored Thobe and smart glasses, standing in a high-tech glass office overlooking Qiddiya project cliffs, professional portrait, depth of field, natural lighting, confident pose.'
+      }
+    ],
+    content: [
+      {
+        id: 29,
+        title: '🎬 غلاف يوتيوب',
+        description: 'شخصية كرتونية 3D مندهشة تشير لمساحة فارغة',
+        prompt: '3D Pixar style character with a shocked facial expression pointing finger at empty space on the right, high contrast gradient background, vivid colors, 4k, 3d render, soft shading.'
+      },
+      {
+        id: 30,
+        title: '🎙️ استوديو بودكاست',
+        description: 'غرفة استوديو بودكاست عصرية، إضاءة نيون وميكروفون احترافي',
+        prompt: 'Modern podcast studio room interior, neon purple and blue lighting strips, professional microphone on a wooden table, acoustic foam on walls, cozy atmosphere, blurry background, high quality.'
+      }
+    ],
+    ecommerce: [
+      {
+        id: 31,
+        title: '🛍️ منصة المنتجات',
+        description: 'منصة عرض بيضاء للمنتجات محاطة بأوراق شجر',
+        prompt: 'Clean white cylindrical product podium surrounded by green tropical monsterra leaves, natural sunlight, soft shadows, minimalist product display background, high resolution, commercial photography.'
+      },
+      {
+        id: 32,
+        title: '🎁 تغليف فاخر',
+        description: 'علبة تغليف سوداء مع شريط ذهبي على سطح رخامي',
+        prompt: 'Luxury matte black packaging box with a gold ribbon, placed on a white marble surface, focused studio lighting, elegant, premium product photography, close-up shot.'
+      }
+    ],
+    interior: [
+      {
+        id: 33,
+        title: '🏠 المجلس الحديث',
+        description: 'تصميم داخلي لمجلس عربي مودرن، ألوان بيج وذهبي',
+        prompt: 'Modern Islamic interior design for a living room (Majlis), beige and gold color palette, high ceiling with hidden led lighting, luxury Persian carpet, photorealistic, architectural digest style, 8k.'
+      },
+      {
+        id: 34,
+        title: '📚 ركن القراءة',
+        description: 'ركن قراءة مريح بجانب نافذة ممطرة، إضاءة خافتة',
+        prompt: 'Cozy reading corner next to a large rainy window, comfortable velvet armchair, wooden bookshelves, steaming coffee cup, warm lo-fi lighting, hygge atmosphere, detailed, realistic.'
       }
     ]
   };
 
   const categories = [
-    { id: 'all', name: 'الكل', icon: '📚', count: 25 },
+    { id: 'all', name: 'الكل', icon: '📚', count: 34 },
     { id: 'innovation', name: 'الابتكار', icon: '🧠', count: 5 },
     { id: 'productivity', name: 'الإنتاجية', icon: '⚡', count: 5 },
     { id: 'marketing', name: 'التسويق', icon: '📱', count: 5 },
     { id: 'technical', name: 'التقني', icon: '💻', count: 4 },
     { id: 'personal', name: 'الشخصي', icon: '🎯', count: 4 },
-    { id: 'saudi', name: 'سعودي', icon: '🇸🇦', count: 2 }
+    { id: 'saudi', name: 'سعودي', icon: '🇸🇦', count: 5 },
+    { id: 'content', name: 'المحتوى', icon: '🎬', count: 2 },
+    { id: 'ecommerce', name: 'تجارة', icon: '🛍️', count: 2 },
+    { id: 'interior', name: 'تصميم', icon: '🏠', count: 2 }
   ];
 
   const getFilteredTemplates = () => {

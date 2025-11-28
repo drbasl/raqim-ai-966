@@ -1,0 +1,63 @@
+const newTemplates = [
+  // --- Category: SA Saudi (SA سعودي) ---
+  {
+    category: "SA سعودي",
+    title: "رؤية المستقبل",
+    description: "منظر جوي ليلي لمدينة الرياض بأسلوب مستقبلي، ناطحات سحاب بتصاميم إسلامية، جودة عالية.",
+    prompt: "Futuristic Riyadh city skyline at night, aerial view, skyscrapers with glowing geometric Islamic patterns, flying cars, neon lights, 8k resolution, hyper-realistic, cyberpunk arabia style, cinematic lighting."
+  },
+  {
+    category: "SA سعودي",
+    title: "القهوة والتراث",
+    description: "دلة قهوة عربية فضية على رمال الصحراء وقت الغروب، إضاءة سينمائية.",
+    prompt: "Silver Arabic coffee pot (Dallah) with intricate engraving resting on golden desert sands at sunset, warm cinematic lighting, realistic steam rising from the cup, macro photography, 8k, detailed texture."
+  },
+  {
+    category: "SA سعودي",
+    title: "الأزياء العصرية",
+    description: "رجل أعمال سعودي بثوب عصري في مكتب زجاجي حديث يطل على مشروع القدية.",
+    prompt: "Saudi businessman wearing a modern tailored Thobe and smart glasses, standing in a high-tech glass office overlooking Qiddiya project cliffs, professional portrait, depth of field, natural lighting, confident pose."
+  },
+
+  // --- Category: Content Creation (صناعة المحتوى) ---
+  {
+    category: "صناعة المحتوى",
+    title: "غلاف يوتيوب",
+    description: "شخصية كرتونية 3D مندهشة تشير لمساحة فارغة، خلفية ملونة.",
+    prompt: "3D Pixar style character with a shocked facial expression pointing finger at empty space on the right, high contrast gradient background, vivid colors, 4k, 3d render, soft shading."
+  },
+  {
+    category: "صناعة المحتوى",
+    title: "استوديو بودكاست",
+    description: "غرفة استوديو بودكاست عصرية، إضاءة نيون وميكروفون احترافي.",
+    prompt: "Modern podcast studio room interior, neon purple and blue lighting strips, professional microphone on a wooden table, acoustic foam on walls, cozy atmosphere, blurry background, high quality."
+  },
+
+  // --- Category: E-commerce (تجارة إلكترونية) ---
+  {
+    category: "تجارة إلكترونية",
+    title: "منصة المنتجات",
+    description: "منصة عرض بيضاء للمنتجات محاطة بأوراق شجر، إضاءة طبيعية.",
+    prompt: "Clean white cylindrical product podium surrounded by green tropical monsterra leaves, natural sunlight, soft shadows, minimalist product display background, high resolution, commercial photography."
+  },
+  {
+    category: "تجارة إلكترونية",
+    title: "تغليف فاخر",
+    description: "علبة تغليف سوداء مع شريط ذهبي على سطح رخامي.",
+    prompt: "Luxury matte black packaging box with a gold ribbon, placed on a white marble surface, focused studio lighting, elegant, premium product photography, close-up shot."
+  },
+
+  // --- Category: Interior Design (تصميم داخلي) ---
+  {
+    category: "تصميم داخلي",
+    title: "المجلس الحديث",
+    description: "تصميم داخلي لمجلس عربي مودرن، ألوان بيج وذهبي، سقف مرتفع.",
+    prompt: "Modern Islamic interior design for a living room (Majlis), beige and gold color palette, high ceiling with hidden led lighting, luxury Persian carpet, photorealistic, architectural digest style, 8k."
+  },
+  {
+    category: "تصميم داخلي",
+    title: "ركن القراءة",
+    description: "ركن قراءة مريح بجانب نافذة ممطرة، إضاءة خافتة وجو دافئ.",
+    prompt: "Cozy reading corner next to a large rainy window, comfortable velvet armchair, wooden bookshelves, steaming coffee cup, warm lo-fi lighting, hygge atmosphere, detailed, realistic."
+  }
+];
