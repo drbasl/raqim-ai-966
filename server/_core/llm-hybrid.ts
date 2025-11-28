@@ -243,13 +243,13 @@ export class HybridLLMSystem {
   private selectByQuality(providers: Array<{ provider: LLMProvider; config: LLMConfig }>, taskType: TaskType): LLMProvider {
     // نماذج معينة أفضل لمهام معينة
     const taskPreferences: Record<TaskType, LLMProvider[]> = {
-      generate_prompt: ['claude', 'gpt4', 'gemini'],
-      analyze_prompt: ['claude', 'gpt4', 'gemini'],
-      translate: ['gpt4', 'gemini', 'humain'],
-      summarize: ['claude', 'gemini', 'gpt4'],
-      creative_writing: ['gpt4', 'claude', 'gemini'],
-      code_generation: ['gpt4', 'deepseek', 'claude'],
-      general: ['gemini', 'claude', 'gpt4']
+      generate_prompt: ['deepseek', 'claude', 'gpt4'],
+      analyze_prompt: ['deepseek', 'claude', 'gpt4'],
+      translate: ['deepseek', 'gpt4', 'humain'],
+      summarize: ['deepseek', 'claude', 'gpt4'],
+      creative_writing: ['gpt4', 'deepseek', 'claude'],
+      code_generation: ['deepseek', 'gpt4', 'claude'],
+      general: ['deepseek', 'claude', 'gpt4']
     };
 
     const preferred = taskPreferences[taskType] || taskPreferences.general;
@@ -479,7 +479,7 @@ export class HybridLLMSystem {
    * الحصول على نموذج بديل
    */
   private getFallbackProvider(failedProvider: LLMProvider): LLMProvider | null {
-    const fallbackOrder: LLMProvider[] = ['gemini', 'deepseek', 'claude', 'gpt4', 'humain'];
+    const fallbackOrder: LLMProvider[] = ['deepseek', 'claude', 'gpt4', 'gemini', 'humain'];
     const available = fallbackOrder.filter(p => 
       p !== failedProvider && this.configs.get(p)?.enabled
     );
