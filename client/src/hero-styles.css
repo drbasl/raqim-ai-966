@@ -234,13 +234,50 @@
 /* ═══════════════════════════════════════════════════════════
  * Responsive
  * ═══════════════════════════════════════════════════════════ */
-@media (max-width: 768px) {
+@media (max-width: 480px) {
     .hero-new {
-        padding: 2rem 1rem;
+        padding: 1rem 0.5rem;
+        min-height: auto;
     }
 
     .hero-new h1 {
-        font-size: 2.5rem;
+        font-size: 1.5rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .subtitle-new {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .description-new {
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .btn-new {
+        padding: 0.6rem 1.5rem;
+        font-size: 0.9rem;
+    }
+
+    .feature-badge {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    .logo-badge {
+        padding: 0.4rem 1rem;
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-new {
+        padding: 1.5rem 1rem;
+    }
+
+    .hero-new h1 {
+        font-size: 2rem;
     }
 
     .subtitle-new {

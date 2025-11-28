@@ -229,24 +229,24 @@ export default function Home() {
 
         <div className="hero-content-new">
           {/* شعار الهوية البصرية الجديد */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '2rem' }}>
-            <img src="/raqim-logo-animated.svg" alt="raqim logo" style={{ maxWidth: 220, width: '100%', height: 'auto', marginBottom: '0.5rem' }} />
-            <div className="logo-text" style={{ fontWeight: 'bold', fontSize: '1.3rem', color: '#0099FF', marginTop: '0.5rem' }}>رقيم AI 966</div>
-            <div className="version" style={{ fontSize: '0.9rem', color: '#888' }}>v1.0 الإصدار</div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 'clamp(1rem, 5vw, 2rem)' }}>
+            <img src="/raqim-logo-animated.svg" alt="raqim logo" style={{ maxWidth: 'clamp(150px, 40vw, 220px)', width: '100%', height: 'auto', marginBottom: '0.5rem' }} />
+            <div className="logo-text" style={{ fontWeight: 'bold', fontSize: 'clamp(1rem, 3vw, 1.3rem)', color: '#0099FF', marginTop: '0.3rem' }}>رقيم AI 966</div>
+            <div className="version" style={{ fontSize: 'clamp(0.75rem, 2vw, 0.9rem)', color: '#888' }}>v1.0 الإصدار</div>
           </div>
 
           {/* العنوان الرئيسي */}
-          <h1 style={{ fontSize: 'clamp(1.5rem, 5vw, 2.1rem)', fontWeight: 800, lineHeight: 1.2, textAlign: 'center', marginBottom: '0.5rem' }}>
+          <h1 style={{ fontSize: 'clamp(1.3rem, 5vw, 2.1rem)', fontWeight: 800, lineHeight: 1.2, textAlign: 'center', marginBottom: 'clamp(0.5rem, 2vw, 1rem)' }}>
             حوّل أفكارك إلى <span className="highlight">برومبتات احترافية</span>
           </h1>
 
           {/* الوصف المختصر */}
-          <p className="description-new text-sm md:text-base">
+          <p className="description-new text-xs sm:text-sm md:text-base" style={{ marginBottom: 'clamp(1rem, 4vw, 1.5rem)' }}>
             أداة ذكية تساعدك على إنشاء برومبتات فعّالة لـ ChatGPT و Claude و Gemini وغيرها
           </p>
 
           {/* إحصائية سريعة */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 my-6 text-xs sm:text-sm text-muted-foreground">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 my-3 sm:my-6 text-xs sm:text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <span className="text-lg sm:text-2xl font-bold text-primary">+10K</span>
               <span>برومبت تم إنشاؤه</span>

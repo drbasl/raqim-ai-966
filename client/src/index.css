@@ -234,6 +234,19 @@
     direction: rtl;
     font-family: 'Tajawal', 'Cairo', sans-serif;
     scroll-behavior: smooth;
+    font-size: 14px;
+  }
+
+  @media (min-width: 480px) {
+    html {
+      font-size: 15px;
+    }
+  }
+
+  @media (min-width: 640px) {
+    html {
+      font-size: 16px;
+    }
   }
   
   body {
@@ -278,13 +291,20 @@
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
   }
 
   .flex {
     min-height: 0;
     min-width: 0;
+  }
+
+  @media (min-width: 480px) {
+    .container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
   }
 
   @media (min-width: 640px) {
@@ -476,5 +496,58 @@
   /* Smooth Transitions */
   .transition-smooth {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Mobile-First Typography & Spacing */
+  @media (max-width: 640px) {
+    h1 {
+      @apply text-xl md:text-2xl;
+    }
+
+    h2 {
+      @apply text-lg md:text-xl;
+    }
+
+    h3 {
+      @apply text-base md:text-lg;
+    }
+
+    p {
+      @apply text-sm;
+      line-height: 1.6;
+    }
+
+    .gap-6 {
+      gap: 1rem;
+    }
+
+    .gap-8 {
+      gap: 1.5rem;
+    }
+
+    .py-6 {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+
+    .py-8 {
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
+    }
+
+    .px-6 {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    .my-6 {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .my-8 {
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
   }
 }
